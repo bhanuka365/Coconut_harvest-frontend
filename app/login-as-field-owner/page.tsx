@@ -13,7 +13,7 @@ const Login = () => {
     <div className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-green-200 to-green-700 font-sans text-gray-900 text-sm p-5">
       <div className="font-bold w-full text-4xl flex flex-row gap-2 justify-start items-center text-green-400">
         <PiEggThin/>
-        Coconut
+        CocoHarvest
       </div>
       <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-white/40 p-5 rounded-xl">
         <h1 className="font-bold w-full text-left text-2xl">
@@ -67,7 +67,7 @@ const Login = () => {
           <BsArrowLeft /> Back to main
         </Link>
       </div>
-      <label className="w-full text-center">@2026 Coconut Inc.</label>
+      <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
     </div>
   );
 };
