@@ -19,7 +19,7 @@ const Register = () => {
   const [textVisual2, setTextVisual2] = useState(false);
   return (
     <div className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-green-200 to-green-700 font-sans text-gray-900 text-sm p-5">
-      <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center text-green-400">
+      <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center text-green-500">
         <PiEggThin />
         CocoHarvest
       </div>
