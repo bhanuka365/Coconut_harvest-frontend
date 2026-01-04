@@ -11,10 +11,11 @@ const Typewriter = dynamic(
 import Link from "next/link";
 import { FiAnchor, FiCopy, FiMail } from "react-icons/fi";
 import { PiEggThin } from "react-icons/pi";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-100 to-green-300 font-sans text-gray-900 p-5 gap-10 text-sm">
+    <div className="flex flex-col min-h-screen bg-white font-sans text-gray-900 p-5 gap-10 text-sm">
       <div className="flex flex-row justify-between items-center w-full">
         <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center text-green-500">
           <PiEggThin />
@@ -22,10 +23,10 @@ export default function Home() {
         </div>
         <div className="flex flex-row items-center gap-5">
           <Link href="/">Home</Link>
-          <Link href="/benifits">Benifits</Link>
-          <Link href="/about">About us</Link>
+          <Link href="#benifits">Benifits</Link>
+          <Link href="#about">About us</Link>
           <Link
-            href="/contact"
+            href="#contact"
             className="bg-gradient-to-r from-green-400 to-green-700 p-2 rounded-lg text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
           >
             Contact
@@ -65,13 +66,19 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="w-1/2 bg-green-500 h-full"></div>
+        <Image
+  src="/image1.jpg"
+  alt="image"
+  width={500}
+  height={500}
+  className="w-1/2 h-full"
+/>
       </div>
-      <div className="flex flex-col gap-5 justify-center items-center">
+      <div className="flex flex-col gap-5 justify-center items-center" id='benifits'>
         <h1 className="font-bold text-4xl text-left w-full">Benifits</h1>
         <div className="flex flex-row gap-5 w-full">
           <div className="flex flex-col gap-5 w-1/4 border-2 border-green-500 p-5 rounded-lg">
-            <div className="flex flex-row items-center justify-start gap-2 text-green-500 font-bold text-2xl">
+            <div className="flex flex-row items-center ju  stify-start gap-2 text-green-500 font-bold text-2xl">
               <FiAnchor />
               Benifits1
             </div>
@@ -108,10 +115,16 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-5 justify-center items-center">
+      <div className="flex flex-col gap-5 justify-center items-center" id='about'>
         <h1 className="font-bold text-4xl text-left w-full">About us</h1>
         <div className="flex flex-row w-full justify-center items-start gap-5 h-100">
-          <div className="w-1/2 bg-green-500 h-full"></div>
+                  <Image
+  src="/image2.jpg"
+  alt="image"
+  width={500}
+  height={500}
+  className="w-1/2 h-full"
+/>
           <div className="flex flex-col w-1/2 gap-5">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
@@ -129,7 +142,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="bg-white/40 w-full rounded-lg p-5 flex flex-col gap-5 justify-center items-center">
+      <div className="bg-green-300/40 w-full rounded-lg p-5 flex flex-col gap-5 justify-center items-center" id='contact'>
         <div className="flex flex-row justify-between">
           <div className="w-1/2 flex flex-col gap-5">
             <div className="font-bold text-4xl flex flex-row gap-2 justify-start items-center text-green-500 ">
@@ -149,10 +162,10 @@ export default function Home() {
           </div>
             <div className="flex flex-col items-center gap-5 font-bold">
           <Link href="/">Home</Link>
-          <Link href="/benifits">Benifits</Link>
-          <Link href="/about">About us</Link>
+          <Link href="#benifits">Benifits</Link>
+          <Link href="#about">About us</Link>
           <Link
-            href="/contact"
+            href="#contact"
           >
             Contact
           </Link>
