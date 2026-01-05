@@ -13,7 +13,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-white font-sans text-green-900 p-5 gap-10 text-sm">
       <div className="flex flex-row justify-between items-center w-full">
         <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
-          <Image src="/logo1.png" alt="image" width={50} height={50} />
+          <Image src="/logo2.png" alt="image" width={50} height={50} />
           CocoHarvest
         </div>
         <div className="flex flex-row items-center gap-5">
@@ -190,7 +190,7 @@ export default function Home() {
         <div className="flex flex-row justify-between">
           <div className="w-1/2 flex flex-col gap-5">
             <div className="font-bold text-5xl flex flex-row gap-2 justify-start items-center">
-              <Image src="/logo1.png" alt="image" width={100} height={100} />
+              <Image src="/logo2.png" alt="image" width={100} height={100} />
               CocoHarvest
             </div>
             <p>

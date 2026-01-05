@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import {
-    FiCamera,
+  FiCamera,
   FiEye,
   FiEyeOff,
   FiLock,
@@ -14,19 +14,13 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 
-
 const Register = () => {
   const [textVisual1, setTextVisual1] = useState(false);
   const [textVisual2, setTextVisual2] = useState(false);
   return (
     <div className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-green-200 to-green-600 font-sans text-green-900 text-sm p-5">
       <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
-        <Image
-                                          src="/logo1.png"
-                                          alt="image"
-                                          width={50}
-                                          height={50}
-                                        />
+        <Image src="/logo2.png" alt="image" width={50} height={50} />
         CocoHarvest
       </div>
       <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-white/40 p-5 rounded-xl">
@@ -34,11 +28,15 @@ const Register = () => {
           Sign up to your account
         </h1>
         <div className="flex flex-col justify-center items-center">
-        <div className="bg-white p-5 rounded-full"><FiCamera/></div>Add profile</div>
+          <div className="bg-white p-5 rounded-full">
+            <FiCamera />
+          </div>
+          Add profile
+        </div>
         <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
           <FiUser />
           <input
-          type="text"
+            type="text"
             placeholder="Enter the username"
             className="w-full focus:outline-none focus:ring-0 border-none"
           />
@@ -46,7 +44,7 @@ const Register = () => {
         <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
           <FiPhoneCall />
           <input
-          type="tel"
+            type="tel"
             placeholder="Enter the phone number"
             className="w-full focus:outline-none focus:ring-0 border-none"
           />
@@ -54,7 +52,7 @@ const Register = () => {
         <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
           <FiMail />
           <input
-          type="email"
+            type="email"
             placeholder="Enter the email"
             className="w-full focus:outline-none focus:ring-0 border-none"
           />
