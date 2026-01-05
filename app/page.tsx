@@ -69,13 +69,13 @@ export default function Home() {
           </p>
           <div className="flex flex-row gap-5">
             <Link
-              href="/login-as-harvester"
+              href="/harvester/login"
               className="p-2 rounded-full bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
             >
               continue as harvester
             </Link>
             <Link
-              href="/login-as-field-owner"
+              href="/field-owner/login"
               className="p-2 rounded-full border-2 border-green-500 text-green-500"
             >
               continue as field owner

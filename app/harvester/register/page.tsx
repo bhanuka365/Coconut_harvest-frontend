@@ -14,18 +14,19 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 
+
 const Register = () => {
   const [textVisual1, setTextVisual1] = useState(false);
   const [textVisual2, setTextVisual2] = useState(false);
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
+    <div className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-green-200 to-green-600 font-sans text-green-900 text-sm p-5">
       <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
-         <Image
-                                  src="/logo1.png"
-                                  alt="image"
-                                  width={50}
-                                  height={50}
-                                />
+        <Image
+                                          src="/logo1.png"
+                                          alt="image"
+                                          width={50}
+                                          height={50}
+                                        />
         CocoHarvest
       </div>
       <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-white/40 p-5 rounded-xl">
@@ -104,8 +105,8 @@ const Register = () => {
           SIGN UP
         </button>
         <Link
-          href="/login-as-field-owner"
-          className="w-full flex flex-row justify-center items-center gap-2 text-green-700 hover:underline transition duration-300 ease-in-out"
+          href="/harvester/login"
+          className="w-full flex flex-row justify-center items-center gap-2 text-green-600 hover:underline transition duration-300 ease-in-out"
         >
           <BsArrowLeft /> Back to login
         </Link>
