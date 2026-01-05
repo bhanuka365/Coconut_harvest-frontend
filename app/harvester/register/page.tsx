@@ -106,7 +106,7 @@ const Register = () => {
         </button>
         <Link
           href="/harvester/login"
-          className="w-full flex flex-row justify-center items-center gap-2 text-green-600 hover:underline transition duration-300 ease-in-out"
+          className="w-full flex flex-row justify-center items-center gap-2 text-green-700 hover:underline transition duration-300 ease-in-out"
         >
           <BsArrowLeft /> Back to login
         </Link>
