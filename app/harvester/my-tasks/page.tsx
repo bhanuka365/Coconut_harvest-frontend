@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import {
+  FiAward,
   FiCalendar,
+  FiCheck,
   FiCheckCircle,
   FiClipboard,
   FiDollarSign,
@@ -13,7 +15,6 @@ import {
   FiUser,
 } from "react-icons/fi";
 import Image from "next/image";
-import { LuClipboardPen } from "react-icons/lu";
 import { CgAssign } from "react-icons/cg";
 import { GiTreeBranch } from "react-icons/gi";
 import { useState } from "react";
@@ -28,7 +29,7 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "complete",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -39,7 +40,7 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "assigned",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -50,7 +51,7 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "complete",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -61,7 +62,7 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "complete",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -72,7 +73,7 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "assigned",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -83,7 +84,7 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "complete",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -94,48 +95,46 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "complete",
   },
 ];
 
-const Home = () => {
+const MyTasks = () => {
   const [searchTxt, setSearchTxt] = useState("");
+  const [categoryBtn0, setCategoryBtn0] = useState(true);
+  const [categoryBtn1, setCategoryBtn1] = useState(false);
+  const [categoryBtn2, setCategoryBtn2] = useState(false);
+  const [categoryTxt, setCategoryTxt] = useState("all");
   return (
     <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
       <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
         <Link
           href="/harvester/home"
-          className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
+          className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiHome
-            size={25}
-          />
+          <FiHome size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Home
           </span>
         </Link>
         <Link
           href="/harvester/my-tasks"
-          className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
+          className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiClipboard
-            size={25}
-          />
+          <FiClipboard size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             My tasks
           </span>
         </Link>
         <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out">
-          <FiLogOut
-            size={25}
-          />
+          <FiLogOut size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
           </span>
         </div>
       </div>
       <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5">
-        <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
+        <div className=" bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
             CocoHarvest
@@ -154,33 +153,7 @@ const Home = () => {
             </span>
           </div>
         </div>
-        <h1 className="text-6xl font-bold">
-          Hi, <span className="text-green-400">Nadeesha</span>
-        </h1>
-        <div className="flex flex-row gap-5">
-          <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
-            <div className="flex flex-row items-center gap-2">
-              <FiDollarSign className="text-2xl" />
-              <label className="font-bold text-2xl">Total earn</label>
-            </div>
-            <label>LKR 100,000</label>
-          </div>
-          <div className="bg-gradient-to-r from-orange-400 to-orange-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
-            <div className="flex flex-row items-center gap-2">
-              <FiCheckCircle className="text-2xl" />
-              <label className="font-bold text-2xl">Complete tasks</label>
-            </div>
-            <label>30</label>
-          </div>
-          <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
-            <div className="flex flex-row items-center gap-2">
-              <LuClipboardPen className="text-2xl" />
-              <label className="font-bold text-2xl">Active tasks</label>
-            </div>
-            <label>2</label>
-          </div>
-        </div>
-        <h1 className="text-2xl font-bold">Find the new tasks</h1>
+        <h1 className="text-2xl font-bold">My tasks</h1>
         <div className="flex flex-row gap-2">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
             <FiSearch size={20} />
@@ -197,16 +170,71 @@ const Home = () => {
             <FiMapPin />
             <span>Search Nearby</span>
           </div>
+          <div
+            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+              categoryBtn0
+                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                : "border-2 border-blue-400 text-blue-400"
+            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+            onClick={() => {
+              setCategoryTxt("all");
+              setCategoryBtn0(true);
+              setCategoryBtn1(false);
+              setCategoryBtn2(false);
+            }}
+          >
+            <span>All</span>
+          </div>
+          <div
+            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+              categoryBtn1
+                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                : "border-2 border-blue-400 text-blue-400"
+            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+            onClick={() => {
+              setCategoryTxt("assigned");
+              setCategoryBtn0(false);
+              setCategoryBtn1(true);
+              setCategoryBtn2(false);
+            }}
+          >
+            <span>assigned</span>
+          </div>
+          <div
+            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+              categoryBtn2
+                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                : "border-2 border-blue-400 text-blue-400"
+            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+            onClick={() => {
+              setCategoryTxt("complete");
+              setCategoryBtn0(false);
+              setCategoryBtn1(false);
+              setCategoryBtn2(true);
+            }}
+          >
+            <span>complete</span>
+          </div>
         </div>
         <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
           {bookingData
             .filter((e) => {
-              return e.location.toLowerCase().includes(searchTxt.toLowerCase());
+              const matchesSearch = e.location
+                ?.toLowerCase()
+                .includes(searchTxt.toLowerCase());
+
+              const matchesCategory =
+                categoryTxt === "all" || e.status === categoryTxt;
+
+              return matchesSearch && matchesCategory;
             })
+
             .map((e, index) => {
               return (
                 <div
-                  className="shadow-lg rounded-xl bg-white w-full flex flex-col gap-2 p-5 "
+                  className={`rounded-xl shadow-lg ${
+                    e.status === "assigned" ? "bg-blue-200" : "bg-green-200"
+                  } w-full flex flex-col gap-2 p-5`}
                   key={index}
                 >
                   <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
@@ -248,15 +276,31 @@ const Home = () => {
                     <span>Rs. {e.per_tree * e.tree_count}</span>
                   </div>
                   <div className="flex flex-row gap-2">
-                    <div
-                      className="flex items-center gap-2 p-2 rounded-lg font-bold
+                    {e.status === "assigned" ? (
+                      <div
+                        className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
+                      >
+                        <FiCheck />
+                        <span>Mark as Complete</span>
+                      </div>
+                    ) : (
+                      <div
+                        className="flex items-center gap-2 p-2 rounded-lg font-bold
+      bg-gradient-to-r from-gray-300 to-gray-400 text-white w-fit cursor-not-allowed"
+                      >
+                        <FiAward />
+                        <span>Done</span>
+                      </div>
+                    )}
+                    <label
+                      className={`${
+                        e.status === "assigned"
+                          ? "text-blue-600 bg-blue-100"
+                          : "text-green-600 bg-green-100"
+                      } p-2 rounded-lg font-bold`}
                     >
-                      <CgAssign />
-                      <span>Assign Task</span>
-                    </div>
-                    <label className="text-yellow-600 bg-yellow-100 p-2 rounded-lg font-bold">
                       {e.status}
                     </label>
                   </div>
@@ -269,4 +313,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MyTasks;
