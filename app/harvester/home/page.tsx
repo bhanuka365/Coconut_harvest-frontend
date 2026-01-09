@@ -186,7 +186,7 @@ const Home = () => {
             <label>2</label>
           </div>
         </div>
-        <h1 className="text-2xl font-bold">New Job Request</h1>
+        <h1 className="text-2xl font-bold">New Job Requests</h1>
         <div className="flex flex-row gap-2">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
             <FiSearch size={20} />
