@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
   FiCalendar,
+  FiCheck,
   FiCheckCircle,
   FiClipboard,
   FiDollarSign,
@@ -11,12 +12,13 @@ import {
   FiMapPin,
   FiSearch,
   FiUser,
+  FiX,
 } from "react-icons/fi";
 import Image from "next/image";
 import { LuClipboardPen } from "react-icons/lu";
-import { CgAssign } from "react-icons/cg";
 import { GiTreeBranch } from "react-icons/gi";
 import { useState } from "react";
+import { MdWork } from "react-icons/md";
 
 const bookingData = [
   {
@@ -28,7 +30,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -39,7 +42,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "JOB_POST",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -50,7 +54,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -61,7 +66,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -72,7 +78,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "JOB_POST",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -83,7 +90,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -94,7 +102,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "active",
+    status: "PENDING",
+    job_type: "JOB_POST",
   },
 ];
 
@@ -107,28 +116,22 @@ const Home = () => {
           href="/harvester/home"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiHome
-            size={25}
-          />
+          <FiHome size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Home
           </span>
         </Link>
         <Link
-          href="/harvester/my-tasks"
+          href="/harvester/my-jobs"
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiClipboard
-            size={25}
-          />
+          <FiClipboard size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            My tasks
+            My Jobs
           </span>
         </Link>
         <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out">
-          <FiLogOut
-            size={25}
-          />
+          <FiLogOut size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
           </span>
@@ -140,7 +143,10 @@ const Home = () => {
             <Image src="/logo2.png" alt="image" width={50} height={50} />
             CocoHarvest
           </div>
-          <div className="relative group cursor-pointer">
+          <Link
+            className="relative group cursor-pointer"
+            href="/harvester/profile"
+          >
             <Image
               width={50}
               height={50}
@@ -152,7 +158,7 @@ const Home = () => {
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
             </span>
-          </div>
+          </Link>
         </div>
         <h1 className="text-6xl font-bold">
           Hi, <span className="text-green-400">Nadeesha</span>
@@ -168,19 +174,19 @@ const Home = () => {
           <div className="bg-gradient-to-r from-orange-400 to-orange-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiCheckCircle className="text-2xl" />
-              <label className="font-bold text-2xl">Complete tasks</label>
+              <label className="font-bold text-2xl">Complete jobs</label>
             </div>
             <label>30</label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
-              <label className="font-bold text-2xl">Active tasks</label>
+              <label className="font-bold text-2xl">Progress jobs</label>
             </div>
             <label>2</label>
           </div>
         </div>
-        <h1 className="text-2xl font-bold">Find the new tasks</h1>
+        <h1 className="text-2xl font-bold">New Job Request</h1>
         <div className="flex flex-row gap-2">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
             <FiSearch size={20} />
@@ -248,14 +254,35 @@ const Home = () => {
                     <span>Rs. {e.per_tree * e.tree_count}</span>
                   </div>
                   <div className="flex flex-row gap-2">
-                    <div
-                      className="flex items-center gap-2 p-2 rounded-lg font-bold
+                    {e.job_type === "DIRECT" ? (
+                      <div className="flex flex-row gap-2">
+                        <div
+                          className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                    >
-                      <CgAssign />
-                      <span>Assign Task</span>
-                    </div>
+                        >
+                          <FiCheck />
+                          <span>Confirm</span>
+                        </div>
+                        <div
+                          className="flex items-center gap-2 p-2 rounded-lg font-bold
+      bg-gradient-to-r from-red-400 to-red-700 text-white w-fit
+      cursor-pointer transition duration-300 hover:from-red-500 hover:to-red-800"
+                        >
+                          <FiX />
+                          <span>Cancel</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className="flex items-center gap-2 p-2 rounded-lg font-bold
+      bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
+      cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
+                      >
+                        <MdWork />
+                        <span>Accept Job</span>
+                      </div>
+                    )}
                     <label className="text-yellow-600 bg-yellow-100 p-2 rounded-lg font-bold">
                       {e.status}
                     </label>

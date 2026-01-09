@@ -8,6 +8,9 @@ import Link from "next/link";
 import { FiAnchor, FiCopy, FiMail } from "react-icons/fi";
 import Image from "next/image";
 
+// JOB TYPE - DIRECT/ JOB_POST
+// STATUS - PENDING/ IN_PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans text-green-900 p-5 gap-10 text-sm">

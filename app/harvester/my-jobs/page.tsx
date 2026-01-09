@@ -5,7 +5,6 @@ import {
   FiAward,
   FiCalendar,
   FiCheck,
-  FiCheckCircle,
   FiClipboard,
   FiDollarSign,
   FiHome,
@@ -15,7 +14,6 @@ import {
   FiUser,
 } from "react-icons/fi";
 import Image from "next/image";
-import { CgAssign } from "react-icons/cg";
 import { GiTreeBranch } from "react-icons/gi";
 import { useState } from "react";
 
@@ -29,7 +27,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "complete",
+    status: "IN_PROGRESS",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -40,7 +39,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "assigned",
+    status: "COMPLETED",
+    job_type: "JOB_POST",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -51,7 +51,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "complete",
+    status: "IN_PROGRESS",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -62,7 +63,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "complete",
+    status: "COMPLETED",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -73,7 +75,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "assigned",
+    status: "IN_PROGRESS",
+    job_type: "JOB_POST",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -84,7 +87,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "complete",
+    status: "IN_PROGRESS",
+    job_type: "DIRECT",
   },
   {
     tittle: "Coconut Harvest Karannoo",
@@ -95,7 +99,8 @@ const bookingData = [
     Date: "2026/05/07",
     tree_count: 4,
     per_tree: 50,
-    status: "complete",
+    status: "COMPLETED",
+    job_type: "JOB_POST",
   },
 ];
 
@@ -118,12 +123,12 @@ const MyTasks = () => {
           </span>
         </Link>
         <Link
-          href="/harvester/my-tasks"
+          href="/harvester/my-jobs"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
           <FiClipboard size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            My tasks
+            My Jobs
           </span>
         </Link>
         <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out">
@@ -139,7 +144,7 @@ const MyTasks = () => {
             <Image src="/logo2.png" alt="image" width={50} height={50} />
             CocoHarvest
           </div>
-          <div className="relative group cursor-pointer">
+          <Link className="relative group cursor-pointer" href="/harvester/profile">
             <Image
               width={50}
               height={50}
@@ -151,7 +156,7 @@ const MyTasks = () => {
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
             </span>
-          </div>
+          </Link>
         </div>
         <h1 className="text-2xl font-bold">My tasks</h1>
         <div className="flex flex-row gap-2">
@@ -192,13 +197,13 @@ const MyTasks = () => {
                 : "border-2 border-blue-400 text-blue-400"
             } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
             onClick={() => {
-              setCategoryTxt("assigned");
+              setCategoryTxt("IN_PROGRESS");
               setCategoryBtn0(false);
               setCategoryBtn1(true);
               setCategoryBtn2(false);
             }}
           >
-            <span>assigned</span>
+            <span>progress</span>
           </div>
           <div
             className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
@@ -207,7 +212,7 @@ const MyTasks = () => {
                 : "border-2 border-blue-400 text-blue-400"
             } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
             onClick={() => {
-              setCategoryTxt("complete");
+              setCategoryTxt("COMPLETED");
               setCategoryBtn0(false);
               setCategoryBtn1(false);
               setCategoryBtn2(true);
@@ -233,7 +238,7 @@ const MyTasks = () => {
               return (
                 <div
                   className={`rounded-xl shadow-lg ${
-                    e.status === "assigned" ? "bg-blue-200" : "bg-green-200"
+                    e.status === "IN_PROGRESS" ? "bg-blue-200" : "bg-green-200"
                   } w-full flex flex-col gap-2 p-5`}
                   key={index}
                 >
@@ -276,7 +281,7 @@ const MyTasks = () => {
                     <span>Rs. {e.per_tree * e.tree_count}</span>
                   </div>
                   <div className="flex flex-row gap-2">
-                    {e.status === "assigned" ? (
+                    {e.status === "IN_PROGRESS" ? (
                       <div
                         className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
@@ -296,7 +301,7 @@ const MyTasks = () => {
                     )}
                     <label
                       className={`${
-                        e.status === "assigned"
+                        e.status === "IN_PROGRESS"
                           ? "text-blue-600 bg-blue-100"
                           : "text-green-600 bg-green-100"
                       } p-2 rounded-lg font-bold`}
