@@ -19,6 +19,10 @@ import { LuClipboardPen } from "react-icons/lu";
 import { GiTreeBranch } from "react-icons/gi";
 import { useState } from "react";
 import { MdWork } from "react-icons/md";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const bookingData = [
   {
@@ -130,7 +134,30 @@ const Home = () => {
             My Jobs
           </span>
         </Link>
-        <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out">
+        <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out" onClick={async ()=>{
+          
+            const result = await MySwal.fire({
+              title: "Confirm Logout",
+              text: "Are you sure you want to logout?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes",
+              cancelButtonText: "No",
+              confirmButtonColor: "#22c55e",
+              cancelButtonColor: "#ef4444",
+              customClass: {
+                popup: "rounded-lg p-5 text-center",
+                title: "text-xl font-bold",
+                confirmButton:
+                  "px-5 py-2 rounded bg-green-500 hover:bg-green-600 text-white",
+                cancelButton:
+                  "px-5 py-2 rounded bg-red-500 hover:bg-red-600 text-white",
+              },
+            });
+            result.isConfirmed
+              ? (window.location.href = "/field-owner/login")
+              : "";
+        }}>
           <FiLogOut size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout

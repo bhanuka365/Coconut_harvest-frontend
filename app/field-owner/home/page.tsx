@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import {
-  FiCalendar,
-  FiCheck,
   FiCheckCircle,
   FiClipboard,
   FiDollarSign,
@@ -14,14 +12,14 @@ import {
   FiPhoneCall,
   FiPlus,
   FiSearch,
-  FiUser,
-  FiX,
 } from "react-icons/fi";
 import Image from "next/image";
 import { LuClipboardPen } from "react-icons/lu";
-import { GiTreeBranch } from "react-icons/gi";
 import { useState } from "react";
-import { MdWork } from "react-icons/md";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const userData = [
   {
@@ -84,7 +82,33 @@ const Home = () => {
             My Bookings
           </span>
         </Link>
-        <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out">
+        <div
+          className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
+          onClick={async () => {
+
+            const result = await MySwal.fire({
+              title: "Confirm Logout",
+              text: "Are you sure you want to logout?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes",
+              cancelButtonText: "No",
+              confirmButtonColor: "#22c55e",
+              cancelButtonColor: "#ef4444",
+              customClass: {
+                popup: "rounded-lg p-5 text-center",
+                title: "text-xl font-bold",
+                confirmButton:
+                  "px-5 py-2 rounded bg-green-500 hover:bg-green-600 text-white",
+                cancelButton:
+                  "px-5 py-2 rounded bg-red-500 hover:bg-red-600 text-white",
+              },
+            });
+            result.isConfirmed
+              ? (window.location.href = "/field-owner/login")
+              : "";
+          }}
+        >
           <FiLogOut size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
@@ -157,7 +181,10 @@ const Home = () => {
             <FiMapPin />
             <span>Search Nearby</span>
           </div> */}
-           <Link href="/field-owner/harvester-booking" className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800">
+          <Link
+            href="/field-owner/harvester-booking"
+            className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800"
+          >
             <FiPlus />
             <span>Need Harvesting Today?</span>
           </Link>
@@ -184,15 +211,20 @@ const Home = () => {
                     <h1 className="text-lg text-2xl font-bold">{e.name}</h1>
                     <div className="flex items-center gap-2">
                       <FiMapPin className="text-red-500" />
-                      <span className="font-medium text-red-500">Location:</span>
+                      <span className="font-medium text-red-500">
+                        Location:
+                      </span>
                       <span>{e.location}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <FiPhoneCall className="text-blue-500" />
-                      <span className="font-medium text-blue-500">Phone Number:</span>
+                      <span className="font-medium text-blue-500">
+                        Phone Number:
+                      </span>
                       <span>{e.phone_number}</span>
                     </div>
-                    <Link href="/field-owner/harvester-profile"
+                    <Link
+                      href="/field-owner/harvester-profile"
                       className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"

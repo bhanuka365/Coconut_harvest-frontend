@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   FiAward,
   FiCalendar,
-  FiCheck,
   FiClipboard,
   FiDollarSign,
   FiHome,
@@ -18,7 +17,12 @@ import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
 import { useState } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import { CgCross } from "react-icons/cg";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { Dialog } from "@/components/Dialog";
+
+
+const MySwal = withReactContent(Swal);
 
 const bookingData = [
   {
@@ -143,7 +147,13 @@ const MyBooking = () => {
             My Booking
           </span>
         </Link>
-        <div className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out">
+        <div
+          className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
+          onClick={async () => {
+            const result = await Dialog("Confirm Logout","Are you sure you want to logout?","warning");
+            result ? (window.location.href = "/field-owner/login") : "";
+          }}
+        >
           <FiLogOut size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
