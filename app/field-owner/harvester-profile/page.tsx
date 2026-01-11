@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  FiCalendar
-} from "react-icons/fi";
+import { FiCalendar } from "react-icons/fi";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
 
@@ -21,10 +19,13 @@ const HarvesterProfile = () => {
           </Link>
           Saman Kumara
         </h1>
-       <Link href="/field-owner/harvester-booking" className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800">
-             <FiCalendar />
-            <span>Booking</span>
-          </Link>
+        <Link
+          href="/field-owner/harvester-booking"
+          className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800"
+        >
+          <FiCalendar />
+          <span>Booking</span>
+        </Link>
       </div>
       <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
     </div>

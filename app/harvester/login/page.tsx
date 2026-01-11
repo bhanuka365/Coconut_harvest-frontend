@@ -54,9 +54,12 @@ const Login = () => {
         >
           Forgot password?
         </Link>
-        <button className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800" onClick={()=>{
-          window.location.href = "/harvester/home"
-        }}>
+        <button
+          className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
+          onClick={() => {
+            window.location.href = "/harvester/home";
+          }}
+        >
           SIGN IN
         </button>
         <label className="w-full flex flex-row gap-1 justify-center items-center">

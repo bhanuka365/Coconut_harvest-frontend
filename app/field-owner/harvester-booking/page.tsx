@@ -8,7 +8,7 @@ import {
   FiFileText,
   FiHash,
   FiMapPin,
-  FiNavigation
+  FiNavigation,
 } from "react-icons/fi";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";

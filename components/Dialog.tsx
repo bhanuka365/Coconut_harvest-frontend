@@ -3,7 +3,7 @@ import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 
-export const Dialog = async (title: any,text: any,icon:any) => {
+export const Dialog = async (title: any,text: any,icon:any,confirmColor:any,cancelColor:any) => {
   const result = await MySwal.fire({
     title: title,
     text: text,
@@ -11,8 +11,8 @@ export const Dialog = async (title: any,text: any,icon:any) => {
     showCancelButton: true,
     confirmButtonText: "Yes",
     cancelButtonText: "No",
-    confirmButtonColor: "#22c55e",
-    cancelButtonColor: "#ef4444",
+    confirmButtonColor: confirmColor,
+    cancelButtonColor: cancelColor,
     customClass: {
       popup: "rounded-lg p-5 text-center",
       title: "text-xl font-bold",

@@ -21,7 +21,6 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Dialog } from "@/components/Dialog";
 
-
 const MySwal = withReactContent(Swal);
 
 const bookingData = [
@@ -150,7 +149,13 @@ const MyBooking = () => {
         <div
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
           onClick={async () => {
-            const result = await Dialog("Confirm Logout","Are you sure you want to logout?","warning");
+            const result = await Dialog(
+              "Confirm Logout",
+              "Are you sure you want to logout?",
+              "warning",
+              "#43ce76",
+              "#ef4444"
+            );
             result ? (window.location.href = "/field-owner/login") : "";
           }}
         >
@@ -402,7 +407,19 @@ const MyBooking = () => {
                       </label>
                     </div>
                     <div className="flex flex-row gap-2 items-center cursor-pointer">
-                      <CiTrash className="text-red-600" size={20} />
+                      <CiTrash
+                        className="text-red-600"
+                        size={20}
+                        onClick={async () => {
+                          const result = await Dialog(
+                            "Confirm Delete",
+                            "Are you sure you want to delete this booking",
+                            "warning",
+                            "#ef4444",
+                            "#43ce76"
+                          );
+                        }}
+                      />
                       {e.status === "PENDING" ? (
                         <Link href="/field-owner/update-booking">
                           <CiEdit className="text-green-600" size={20} />

@@ -18,6 +18,7 @@ import { LuClipboardPen } from "react-icons/lu";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { Dialog } from "@/components/Dialog";
 
 const MySwal = withReactContent(Swal);
 
@@ -85,28 +86,14 @@ const Home = () => {
         <div
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
           onClick={async () => {
-
-            const result = await MySwal.fire({
-              title: "Confirm Logout",
-              text: "Are you sure you want to logout?",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonText: "Yes",
-              cancelButtonText: "No",
-              confirmButtonColor: "#22c55e",
-              cancelButtonColor: "#ef4444",
-              customClass: {
-                popup: "rounded-lg p-5 text-center",
-                title: "text-xl font-bold",
-                confirmButton:
-                  "px-5 py-2 rounded bg-green-500 hover:bg-green-600 text-white",
-                cancelButton:
-                  "px-5 py-2 rounded bg-red-500 hover:bg-red-600 text-white",
-              },
-            });
-            result.isConfirmed
-              ? (window.location.href = "/field-owner/login")
-              : "";
+            const result = await Dialog(
+              "Confirm Logout",
+              "Are you sure you want to logout?",
+              "warning",
+              "#43ce76",
+              "#ef4444"
+            );
+            result ? (window.location.href = "/field-owner/login") : "";
           }}
         >
           <FiLogOut size={25} />
