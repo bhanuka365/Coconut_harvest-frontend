@@ -393,7 +393,13 @@ const MyBooking = () => {
                     </div>
                     <div className="flex flex-row gap-2 items-center cursor-pointer">
                       <CiTrash className="text-red-600" size={20} />
-                      <CiEdit className="text-green-600" size={20} />
+                      {e.status === "PENDING" ? (
+                        <Link href="/field-owner/update-booking">
+                          <CiEdit className="text-green-600" size={20} />
+                        </Link>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </div>

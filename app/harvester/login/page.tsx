@@ -10,7 +10,7 @@ const Login = () => {
   const [textVisual, setTextVisual] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
+    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
       <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
         <Image src="/logo2.png" alt="image" width={50} height={50} />
         CocoHarvest

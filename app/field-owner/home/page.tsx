@@ -153,14 +153,14 @@ const Home = () => {
               }}
             />
           </div>
-          <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
+          {/* <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
             <FiMapPin />
             <span>Search Nearby</span>
-          </div>
-           <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800">
+          </div> */}
+           <Link href="/field-owner/harvester-booking" className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800">
             <FiPlus />
             <span>Need Harvesting Today?</span>
-          </div>
+          </Link>
         </div>
         <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
           {userData
@@ -191,15 +191,15 @@ const Home = () => {
                       <FiPhoneCall className="text-blue-500" />
                       <span className="font-medium text-blue-500">Phone Number:</span>
                       <span>{e.phone_number}</span>
-                    </div>{" "}
-                    <div
+                    </div>
+                    <Link href="/field-owner/harvester-profile"
                       className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
                     >
                       <FiEye />
                       <span>view</span>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               );
