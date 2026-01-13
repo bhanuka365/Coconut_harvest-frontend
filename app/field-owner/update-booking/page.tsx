@@ -8,6 +8,7 @@ import {
   FiFileText,
   FiHash,
   FiMapPin,
+  FiMaximize2,
   FiNavigation,
 } from "react-icons/fi";
 import Image from "next/image";
@@ -66,6 +67,14 @@ const UpdateBooking = () => {
           <FiCalendar />
           <input
             type="date"
+            className="w-full focus:outline-none focus:ring-0 border-none"
+          />
+        </div>
+        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+          <FiMaximize2 />
+          <input
+            type="number"
+            placeholder="Field size (in acres)"
             className="w-full focus:outline-none focus:ring-0 border-none"
           />
         </div>

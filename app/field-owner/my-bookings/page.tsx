@@ -9,6 +9,7 @@ import {
   FiHome,
   FiLogOut,
   FiMapPin,
+  FiMaximize2,
   FiSearch,
   FiUser,
   FiX,
@@ -31,6 +32,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "IN_PROGRESS",
@@ -44,6 +46,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -57,6 +60,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "CANCELLED",
@@ -70,6 +74,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "COMPLETED",
@@ -83,6 +88,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "IN_PROGRESS",
@@ -96,6 +102,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "COMPLETED",
@@ -109,6 +116,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "COMPLETED",
@@ -340,6 +348,12 @@ const MyBooking = () => {
                   </div>
 
                   <div className="flex items-center gap-2">
+                    <FiMaximize2 className="text-red-600" />
+                    <span className="font-medium">Field size (in acres)</span>
+                    <span>{e.field_size}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
                     <GiTreeBranch className="text-green-700" />
                     <span className="font-medium">Tree Count:</span>
                     <span>{e.tree_count}</span>
@@ -359,14 +373,15 @@ const MyBooking = () => {
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-row gap-2 items-center">
                       {e.rate === false && e.status === "COMPLETED" ? (
-                        <div
+                        <Link
+                          href="/field-owner/add-review"
                           className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
                         >
                           <FiAward />
                           <span>Rate</span>
-                        </div>
+                        </Link>
                       ) : (
                         <div
                           className="flex items-center gap-2 p-2 rounded-lg font-bold

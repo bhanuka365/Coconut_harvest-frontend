@@ -10,6 +10,7 @@ import {
   FiHome,
   FiLogOut,
   FiMapPin,
+  FiMaximize2,
   FiSearch,
   FiUser,
   FiX,
@@ -33,6 +34,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -45,6 +47,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -57,6 +60,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -69,6 +73,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -81,6 +86,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -93,6 +99,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -105,6 +112,7 @@ const bookingData = [
     field_owner: "Mr. Silva",
     location: "Matara,Sri Lanka",
     Date: "2026/05/07",
+    field_size: 10,
     tree_count: 4,
     per_tree: 50,
     status: "PENDING",
@@ -251,6 +259,12 @@ const Home = () => {
                     <FiCalendar className="text-purple-600" />
                     <span className="font-medium">Date:</span>
                     <span>{e.Date}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <FiMaximize2 className="text-red-600" />
+                    <span className="font-medium">Field size (in acres)</span>
+                    <span>{e.field_size}</span>
                   </div>
 
                   <div className="flex items-center gap-2">

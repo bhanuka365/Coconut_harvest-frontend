@@ -13,7 +13,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-white font-sans text-green-900 p-5 gap-10 text-sm">
+    <div className="flex flex-col min-h-screen bg-[url('/coconut-still-life.jpg')]  w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto font-sans text-white p-5 gap-10 text-sm">
       <div className="flex flex-row justify-between items-center w-full">
         <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
           <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -47,15 +47,15 @@ export default function Home() {
         </div>
       </div>
       <div
-        className="flex flex-row w-full justify-center items-center"
+        className="flex flex-row w-full justify-left items-center min-h-screen"
         id="home"
       >
         <div className="flex flex-col w-1/2 gap-5">
           <Typewriter
             options={{
               strings: [
-                '<span class="inline-block bg-gradient-to-r from-gray-900 via-green-400 to-green-700 text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">Welcome to</span>',
-                '<span class="inline-block bg-gradient-to-r from-green-600 to-green-400 text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">CocoHarvest</span>',
+                '<span class="inline-block bg-gradient-to-r from-gray-900 via-green-400 to-white text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">Welcome to</span>',
+                '<span class="inline-block bg-gradient-to-r from-white to-black text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">CocoHarvest</span>',
               ],
               autoStart: true,
               loop: true,
@@ -79,72 +79,71 @@ export default function Home() {
             </Link>
             <Link
               href="/field-owner/login"
-              className="p-2 rounded-full border-2 border-green-500 text-green-500"
+              className="p-2 rounded-full border-2 border-white "
             >
               continue as field owner
             </Link>
           </div>
         </div>
-        <Image
+        {/* <div   className="w-1/2 h-full"></div> */}
+        {/* <Image
           src="/image1.jpg"
           alt="image"
           width={300}
           height={300}
           className="w-1/2 h-full"
-        />
+        /> */}
       </div>
       <div
-        className="flex flex-col gap-5 justify-center items-center"
+        className="flex flex-col gap-5 "
         id="benifits"
       >
         <h1 className="font-bold text-4xl text-left w-full">Benifits</h1>
         <div className="flex flex-row gap-5 w-full">
-          <div className="flex flex-col gap-5 w-1/4 border-2 border-green-500 p-5 rounded-lg">
-            <div className="flex flex-row items-center ju  stify-start gap-2 text-green-500 font-bold text-2xl">
+          <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
             </div>
-            <p className="text-gray-600">
+            <p>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta
               minima, veniam facilis numquam possimus ex magnam? Aliquam, ipsum!
               Dolor, est. Est et sunt doloremque, sed iusto nobis maiores magnam
               sint.
             </p>
           </div>
-          <div className="flex flex-col gap-5 w-1/4 border-2 border-green-500 p-5 rounded-lg">
-            <div className="flex flex-row items-center justify-start gap-2 text-green-500 font-bold text-2xl">
+          <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
             </div>
-            <p className="text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-              pariatur quod accusantium accusamus quaerat beatae aspernatur
-              eveniet saepe, alias repellat itaque, hic iure, laudantium
-              deleniti? Porro quis similique accusantium quibusdam.
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta
+              minima, veniam facilis numquam possimus ex magnam? Aliquam, ipsum!
+              Dolor, est. Est et sunt doloremque, sed iusto nobis maiores magnam
+              sint.
             </p>
-          </div>
-          <div className="flex flex-col gap-5 w-1/4 border-2 border-green-500 p-5 rounded-lg">
-            <div className="flex flex-row items-center justify-start gap-2 text-green-500 font-bold text-2xl">
+          </div> <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
             </div>
-            <p className="text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod sit,
-              quaerat, modi quisquam voluptate in deleniti saepe recusandae
-              ducimus odit omnis dolores accusamus facere doloremque quibusdam
-              exercitationem itaque aliquam cumque.
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta
+              minima, veniam facilis numquam possimus ex magnam? Aliquam, ipsum!
+              Dolor, est. Est et sunt doloremque, sed iusto nobis maiores magnam
+              sint.
             </p>
-          </div>
-          <div className="flex flex-col gap-5 w-1/4 border-2 border-green-500 p-5 rounded-lg">
-            <div className="flex flex-row items-center justify-start gap-2 text-green-500 font-bold text-2xl">
+          </div> <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
             </div>
-            <p className="text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum,
-              iste. Voluptates sapiente sed ipsam provident ratione corrupti vel
-              quos vero dolores ullam consectetur amet quas voluptate quis
-              dolore, consequatur aut?
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta
+              minima, veniam facilis numquam possimus ex magnam? Aliquam, ipsum!
+              Dolor, est. Est et sunt doloremque, sed iusto nobis maiores magnam
+              sint.
             </p>
           </div>
         </div>
@@ -154,15 +153,15 @@ export default function Home() {
         id="about"
       >
         <h1 className="font-bold text-4xl text-left w-full">About us</h1>
-        <div className="flex flex-row w-full justify-center items-start gap-5">
-          <Image
+        <div className="flex flex-row w-full justify-left gap-5">
+          {/* <Image
             src="/image3.jpg"
             alt="image"
             width={500}
             height={500}
             className="w-1/2 h-full"
-          />
-          <div className="flex flex-col w-1/2 gap-5">
+          /> */}
+          <div className="flex flex-col w-full gap-5">
             <p className="text-justify">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
               ipsum saepe tempore sapiente voluptatum, ullam neque at odit sequi
@@ -181,13 +180,13 @@ export default function Home() {
               sit amet consectetur adipisicing elit. Repellendus numquam modi
               error dolorem quod dolor alias incidunt voluptatibus odio officia
               ea enim, iste aliquid dolores soluta cupiditate facere veritatis
-              ratione!
+              ratione! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore, accusantium facilis hic similique sunt deleniti aliquam vero aspernatur corporis veritatis, culpa, atque qui sint iusto minima? Quibusdam natus iste consequatur. Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis unde, voluptatibus similique soluta dolores doloribus pariatur fugit doloremque rerum adipisci ad et dolorum atque impedit accusantium quos nobis illo sint.
             </p>
           </div>
         </div>
       </div>
       <div
-        className="bg-green-300/40 w-full rounded-lg p-5 flex flex-col gap-5 justify-center items-center"
+        className="bg-black/40 backdrop-blur-md w-full rounded-lg p-5 flex flex-col gap-5 justify-center items-center"
         id="contact"
       >
         <div className="flex flex-row justify-between">
@@ -207,7 +206,7 @@ export default function Home() {
               corrupti optio.
             </p>
             <div className="flex flex-row gap-5">
-              <div className="p-2 rounded-full border-2 border-dashed border-green-500 flex flex-row justify-center items-center gap-2 text-green-500 cursor-pointer">
+              <div className="p-2 rounded-full border-2 border-dashed border-white flex flex-row justify-center items-center gap-2 cursor-pointer">
                 <FiCopy />
                 +94 72 567 6789
               </div>
@@ -244,7 +243,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <hr className="w-full text-green-500"></hr>
+        <hr className="w-full"></hr>
         <label>@2026 CocoHarvest Inc.</label>
       </div>
     </div>

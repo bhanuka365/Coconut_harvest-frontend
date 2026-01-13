@@ -1,0 +1,166 @@
+"use client";
+
+import Link from "next/link";
+import {
+  FiCalendar,
+  FiDollarSign,
+  FiEdit3,
+  FiFileText,
+  FiHash,
+  FiMapPin,
+  FiMaximize2,
+  FiNavigation,
+  FiStar,
+} from "react-icons/fi";
+import Image from "next/image";
+import { BiArrowBack } from "react-icons/bi";
+import { BsStar, BsStarFill } from "react-icons/bs";
+import { useState } from "react";
+
+const Booking = () => {
+  const [star01, setStart01] = useState(false);
+  const [star02, setStart02] = useState(false);
+  const [star03, setStart03] = useState(false);
+  const [star04, setStart04] = useState(false);
+  const [star05, setStart05] = useState(false);
+  return (
+    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
+      <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
+        <Image src="/logo2.png" alt="image" width={50} height={50} />
+        CocoHarvest
+      </div>
+      <div className="flex flex-col justify-center items-center w-2/3 gap-5 bg-white/40 p-5 rounded-xl">
+        <h1 className="font-bold w-full text-left text-2xl flex flex-row items-center gap-2">
+          <Link href="/field-owner/my-bookings" className="cursor-pointer">
+            <BiArrowBack />
+          </Link>
+          Write a Review
+        </h1>
+        <div className="flex flex-col gap-2 w-full">
+          <label className="font-bold">Select your rating</label>
+          <div className="flex flex-row items-center gap-2 text-3xl cursor-pointer">
+            {star01 ? (
+              <BsStarFill
+            className="text-yellow-400"
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(false);
+                  setStart03(false);
+                  setStart04(false);
+                  setStart05(false);
+                }}
+              />
+            ) : (
+              <BsStar 
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(false);
+                  setStart03(false);
+                  setStart04(false);
+                  setStart05(false);
+                }}
+              />
+            )}
+            {star02 ? (
+              <BsStarFill className="text-yellow-400"
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(true);
+                  setStart03(false);
+                  setStart04(false);
+                  setStart05(false);
+                }}
+              />
+            ) : (
+              <BsStar 
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(true);
+                  setStart03(false);
+                  setStart04(false);
+                  setStart05(false);
+                }}
+              />
+            )}
+            {star03 ? (
+              <BsStarFill className="text-yellow-400"
+                onClick={() => {
+                setStart01(true);
+                  setStart02(true);
+                  setStart03(true);
+                  setStart04(false);
+                  setStart05(false);
+                }}
+              />
+            ) : (
+              <BsStar
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(true);
+                  setStart03(true);
+                  setStart04(false);
+                  setStart05(false);
+                }}
+              />
+            )}
+            {star04 ? (
+              <BsStarFill className="text-yellow-400"
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(true);
+                  setStart03(true);
+                  setStart04(true);
+                  setStart05(false);
+                }}
+              />
+            ) : (
+              <BsStar
+                onClick={() => {
+                  setStart01(true);
+                  setStart02(true);
+                  setStart03(true);
+                  setStart04(true);
+                  setStart05(false);
+                }}
+              />
+            )}
+            {star05 ? (
+              <BsStarFill className="text-yellow-400"
+                onClick={() => {
+                   setStart01(true);
+                  setStart02(true);
+                  setStart03(true);
+                  setStart04(true);
+                  setStart05(true);
+                }}
+              />
+            ) : (
+              <BsStar
+                onClick={() => {
+                 setStart01(true);
+                  setStart02(true);
+                  setStart03(true);
+                  setStart04(true);
+                  setStart05(true);
+                }}
+              />
+            )}
+          </div>
+        </div>
+        <div className="flex flex-row gap-2 justify-start items-start bg-white p-2 rounded-sm w-full">
+          <FiFileText />
+          <textarea
+            placeholder="Enter Your Review here"
+            className="w-full focus:outline-none focus:ring-0 border-none"
+          />
+        </div>
+        <button className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
+          SUBMIT
+        </button>
+      </div>
+      <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
+    </div>
+  );
+};
+
+export default Booking;
