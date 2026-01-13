@@ -13,7 +13,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[url('/coconut-still-life.jpg')]  w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto font-sans text-white p-5 gap-10 text-sm">
+    <div className="min-h-screen bg-[url('/coconut-still-life.jpg')] w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  font-sans text-white text-sm">
+       <div className="flex flex-col p-5 gap-10 bg-black/60">
       <div className="flex flex-row justify-between items-center w-full">
         <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
           <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -54,8 +55,8 @@ export default function Home() {
           <Typewriter
             options={{
               strings: [
-                '<span class="inline-block bg-gradient-to-r from-gray-900 via-green-400 to-white text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">Welcome to</span>',
-                '<span class="inline-block bg-gradient-to-r from-white to-black text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">CocoHarvest</span>',
+                '<span class="inline-block bg-gradient-to-r from-gray-400 via-green-600 to-white text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">Welcome to</span>',
+                '<span class="inline-block bg-gradient-to-r from-white to-green-600 text-transparent bg-clip-text text-5xl lg:text-7xl font-bold">CocoHarvest</span>',
               ],
               autoStart: true,
               loop: true,
@@ -94,13 +95,10 @@ export default function Home() {
           className="w-1/2 h-full"
         /> */}
       </div>
-      <div
-        className="flex flex-col gap-5 "
-        id="benifits"
-      >
+      <div className="flex flex-col gap-5 " id="benifits">
         <h1 className="font-bold text-4xl text-left w-full">Benifits</h1>
         <div className="flex flex-row gap-5 w-full">
-          <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+          <div className="flex flex-col gap-5 w-1/4 p-5 rounded-lg bg-black/40 backdrop-blur-md">
             <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
@@ -112,7 +110,7 @@ export default function Home() {
               sint.
             </p>
           </div>
-          <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+          <div className="flex flex-col gap-5 w-1/4 p-5 rounded-lg bg-black/40 backdrop-blur-md">
             <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
@@ -123,7 +121,8 @@ export default function Home() {
               Dolor, est. Est et sunt doloremque, sed iusto nobis maiores magnam
               sint.
             </p>
-          </div> <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+          </div>
+          <div className="flex flex-col gap-5 w-1/4 p-5 rounded-lg bg-black/40 backdrop-blur-md">
             <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
@@ -134,7 +133,8 @@ export default function Home() {
               Dolor, est. Est et sunt doloremque, sed iusto nobis maiores magnam
               sint.
             </p>
-          </div> <div className="flex flex-col gap-5 w-1/4 border-2 border-white p-5 rounded-lg bg-black/40 backdrop-blur-md">
+          </div>{" "}
+          <div className="flex flex-col gap-5 w-1/4 p-5 rounded-lg bg-black/40 backdrop-blur-md">
             <div className="flex flex-row items-center ju  stify-start gap-2 font-bold text-2xl">
               <FiAnchor />
               Benifits1
@@ -152,39 +152,45 @@ export default function Home() {
         className="flex flex-col gap-5 justify-center items-center"
         id="about"
       >
-        <h1 className="font-bold text-4xl text-left w-full">About us</h1>
-        <div className="flex flex-row w-full justify-left gap-5">
-          {/* <Image
-            src="/image3.jpg"
-            alt="image"
-            width={500}
-            height={500}
-            className="w-1/2 h-full"
-          /> */}
-          <div className="flex flex-col w-full gap-5">
+        <h1 className="font-bold text-4xl text-left w-full">About Us</h1>
+
+        <div className="flex flex-row w-full gap-5">
+          <div className="flex flex-col w-1/2 gap-5">
             <p className="text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              ipsum saepe tempore sapiente voluptatum, ullam neque at odit sequi
-              quaerat minima inventore blanditiis ut aut quibusdam obcaecati
-              aliquam accusamus esse. Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Delectus labore rerum qui molestiae quo enim
-              perspiciatis voluptatem aut. Officiis amet quia saepe facere eos
-              accusamus est, ad cumque eius at. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Delectus eaque alias officia
-              nesciunt modi, nostrum repudiandae fugiat aut animi magnam.
-              Cupiditate harum sit non eaque, reiciendis dolore quod mollitia
-              ut? Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Repellendus aspernatur vitae totam! Vero et alias, iusto, ratione
-              harum repellat accusantium adipisci at quam, blanditiis
-              dignissimos beatae quos vitae nemo voluptatum. Lorem ipsum, dolor
-              sit amet consectetur adipisicing elit. Repellendus numquam modi
-              error dolorem quod dolor alias incidunt voluptatibus odio officia
-              ea enim, iste aliquid dolores soluta cupiditate facere veritatis
-              ratione! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore, accusantium facilis hic similique sunt deleniti aliquam vero aspernatur corporis veritatis, culpa, atque qui sint iusto minima? Quibusdam natus iste consequatur. Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis unde, voluptatibus similique soluta dolores doloribus pariatur fugit doloremque rerum adipisci ad et dolorum atque impedit accusantium quos nobis illo sint.
+              Our Coconut Harvest platform connects field owners with skilled
+              workers, simplifying harvest management and improving
+              productivity. We empower newcomers, support local farmers, and
+              ensure efficient task completion through a trusted digital
+              ecosystem. Lorem ipsum dolor sit amet, consectetur adipisicing
+              elit. Porro ratione facilis tempora officiis autem, nisi harum
+              dolores neque cumque nam, dignissimos exercitationem eos? Dolorum
+              enim labore molestias animi maxime earum. Lorem ipsum dolor sit
+              amet consectetur adipisicing elit. Id, amet officiis magni
+              repudiandae ipsa ut commodi, corporis non repellat, saepe labore
+              eius voluptatem sunt aliquid ea rerum at? Non, similique! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste culpa repellat recusandae perspiciatis dolore nesciunt a accusantium saepe voluptates, quam non sunt odit necessitatibus! Impedit sunt amet modi maxime.  Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui laboriosam fugit ipsum pariatur tenetur omnis minus at facilis quidem incidunt, laudantium velit possimus, officia similique eveniet in ea alias quos!
+            </p>
+          </div>
+        </div>
+        <div className="w-full flex flex-row gap-5">
+          <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition w-50">
+            <h2 className="text-3xl font-bold text-green-700">950+</h2>
+            <p className="text-gray-600 text-sm mt-1 text-center">
+              Field Owners
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition w-50">
+            <h2 className="text-3xl font-bold text-green-700">150+</h2>
+            <p className="text-gray-600 text-sm mt-1 text-center">Workers</p>
+          </div>
+          <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition w-50">
+            <h2 className="text-3xl font-bold text-green-700">950+</h2>
+            <p className="text-gray-600 text-sm mt-1 text-center">
+              Tasks Completed
             </p>
           </div>
         </div>
       </div>
+
       <div
         className="bg-black/40 backdrop-blur-md w-full rounded-lg p-5 flex flex-col gap-5 justify-center items-center"
         id="contact"
@@ -245,7 +251,7 @@ export default function Home() {
         </div>
         <hr className="w-full"></hr>
         <label>@2026 CocoHarvest Inc.</label>
-      </div>
+      </div></div>
     </div>
   );
 }
