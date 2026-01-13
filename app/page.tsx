@@ -9,7 +9,7 @@ import { FiAnchor, FiCopy, FiMail } from "react-icons/fi";
 import Image from "next/image";
 
 // JOB TYPE - DIRECT/ JOB_POST
-// STATUS - PENDING/ IN_PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
+// STATUS - PENDING/ PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
 
 export default function Home() {
   return (
