@@ -129,13 +129,13 @@ const Home = () => {
           Hi, <span className="text-green-400">Amal</span>
         </h1>
         <div className="flex flex-row gap-5">
-          <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
+          {/* <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiDollarSign className="text-2xl" />
               <label className="font-bold text-2xl">Total Spent</label>
             </div>
             <label>LKR 100,000</label>
-          </div>
+          </div> */}
           <div className="bg-gradient-to-r from-purple-400 to-purple-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />

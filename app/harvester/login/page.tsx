@@ -10,16 +10,17 @@ const Login = () => {
   const [textVisual, setTextVisual] = useState(false);
 
   return (
-    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
+       <div className="min-h-screen bg-[url('/coconut-still-life1.jpg')] w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  font-sans text-white text-sm">
+       <div className="flex flex-col p-5 gap-10 justify-between items-center bg-black/60 min-h-screen">
       <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
         <Image src="/logo2.png" alt="image" width={50} height={50} />
         CocoHarvest
       </div>
-      <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-white/40 p-5 rounded-xl">
+      <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
         <h1 className="font-bold w-full text-left text-2xl">
           Sign in to your account
         </h1>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
           <FiMail />
           <input
             placeholder="Enter the email"
@@ -27,7 +28,7 @@ const Login = () => {
             className="w-full focus:outline-none focus:ring-0 border-none"
           />
         </div>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
           <FiLock />
           <input
             placeholder="Enter the password"
@@ -79,6 +80,7 @@ const Login = () => {
         </Link>
       </div>
       <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
+      </div>
     </div>
   );
 };
