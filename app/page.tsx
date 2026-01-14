@@ -9,11 +9,11 @@ import { FiAnchor, FiCopy, FiMail } from "react-icons/fi";
 import Image from "next/image";
 
 // JOB TYPE - DIRECT/ JOB_POST
-// STATUS - PENDING/ IN_PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
+// STATUS - PENDING/ PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[url('/coconut-still-life.jpg')] w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  font-sans text-white text-sm">
+ <div className="min-h-screen bg-[url('/coconut-still-life.jpg')] w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  font-sans text-white text-sm">
        <div className="flex flex-col p-5 gap-10 bg-black/60">
       <div className="flex flex-row justify-between items-center w-full">
         <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
