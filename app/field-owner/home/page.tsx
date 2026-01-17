@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   FiCheckCircle,
   FiClipboard,
-  FiDollarSign,
   FiEye,
   FiHome,
   FiLogOut,

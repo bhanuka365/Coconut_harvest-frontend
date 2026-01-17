@@ -7,6 +7,7 @@ const Typewriter = dynamic(() => import("typewriter-effect"), { ssr: false });
 import Link from "next/link";
 import { FiAnchor, FiCopy, FiMail } from "react-icons/fi";
 import Image from "next/image";
+import { ToastContainer } from "react-toastify";
 
 // JOB TYPE - DIRECT/ JOB_POST
 // STATUS - PENDING/ PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
@@ -252,6 +253,7 @@ export default function Home() {
         <hr className="w-full"></hr>
         <label>@2026 CocoHarvest Inc.</label>
       </div></div>
+      <ToastContainer />
     </div>
   );
 }
