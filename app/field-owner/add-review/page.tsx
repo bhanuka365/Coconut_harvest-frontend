@@ -1,21 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import {
-  FiCalendar,
-  FiDollarSign,
-  FiEdit3,
-  FiFileText,
-  FiHash,
-  FiMapPin,
-  FiMaximize2,
-  FiNavigation,
-  FiStar,
-} from "react-icons/fi";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import { useState } from "react";
+import { FiFileText } from "react-icons/fi";
 
 const Booking = () => {
   const [star01, setStart01] = useState(false);

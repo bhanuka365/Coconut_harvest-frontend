@@ -29,48 +29,35 @@ const Booking = () => {
   const [dueDate, setDueDate] = useState("");
   const [navButtonLoading, setNavButtonLoading] = useState(false);
 
-
   const bookingSubmit = async () => {
+    const token = localStorage.getItem("jwtToken");
+    console.log(token);
 
-
-   const token = localStorage.getItem("jwtToken");
-console.log(token)
-
-await axios.post(
-  "http://localhost:8085/api/v1/bookings/add",
-  {
-  "landSize": 2.5,
-  "treeCount": 120,
-  "pricePerTree": 150.00,
-  "longitude": "80.7718",
-  "latitude": "7.8731",
-  "address": "Kurunegala",
-  "title": "Coconut Harvesting Job",
-  "description": "Experienced workers required",
-  "duedate": "2026-02-10",
-  "jobType": "Job_Post",
-  "rate": true
-},
-  {
-    headers: {
-      Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX2ZpZWxkX293bmVyIl0sInN1YiI6Ik5hZGVlIiwiaWF0IjoxNzY4ODg0MTU1LCJleHAiOjE3Njg5MDIxNTV9.VO7plY0hWY7PFr6d-Nv0NYKfGvmWqqWUAAd580bCeDiXqrD0GBDeczJsDS7MSD4cnsUdVXlIciIxc6bNQt5DGQ"}`, // ✅ correct
-    },
-  }
-)
-.then((res) => console.log("Booking created:", res.data))
-.catch((err) => console.error("Error creating booking:", err));
-
-    toast.info(
-      title +
-        description +
-        address +
-        latitude +
-        longitude +
-        pricePerTree +
-        treeCount +
-        landSize +
-        dueDate,
-    );
+    await axios
+      .post(
+        "http://localhost:8085/api/v1/bookings/add",
+        {
+          landSize: landSize,
+          treeCount: treeCount,
+          pricePerTree: pricePerTree,
+          longitude: longitude.toString(),
+          latitude: latitude.toString(),
+          address: address,
+          title: title,
+          description: description,
+          duedate: dueDate,
+          jobType: "Job_Post",
+          rate: false,
+          Count: 10,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => toast.success("Booking created"))
+      .catch((err) => toast.error("Error creating booking"));
   };
 
   const getCurrentLocation = () => {
