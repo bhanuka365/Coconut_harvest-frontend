@@ -71,7 +71,7 @@ const Register = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -111,7 +111,7 @@ const Register = () => {
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
-          }
+          },
         );
 
         toast.success("Registration successful");
@@ -130,7 +130,6 @@ const Register = () => {
       toast.error("Registration failed please check the details");
       setLoading(false);
     }
-
   };
 
   return (
@@ -349,7 +348,8 @@ const Register = () => {
         </div>
 
         <label>@2026 CocoHarvest Inc.</label>
-      </div><ToastContainer />
+      </div>
+      <ToastContainer />
     </div>
   );
 };

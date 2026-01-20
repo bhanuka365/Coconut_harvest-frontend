@@ -35,10 +35,12 @@ const Login = () => {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         );
 
         if (result.data.user.role[0].roleName === "field_owner") {
+          localStorage.setItem("jwtToken", result.data.jwtToken);
+          localStorage.setItem("userName", result.data.user.userName);
           toast.success("Login successful");
           window.location.href = "/field-owner/home";
         } else {
