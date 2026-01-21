@@ -38,7 +38,7 @@ export const validatePassword = (val: any) => {
   }
 };
 
-export const validatematchPasswords = (val1: any,val2: any) => {
+export const validatematchPasswords = (val1: any, val2: any) => {
   if (val1 === val2) {
     return true;
   } else {
@@ -46,14 +46,10 @@ export const validatematchPasswords = (val1: any,val2: any) => {
   }
 };
 
-export const checkEmpty = (val:any) =>{
-if(val.length !== 0){
-return true;
-}else{
-return false;
-}
-}
-
-
-
-
+export const checkEmpty = (val: any) => {
+  if (val.length !== 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
