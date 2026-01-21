@@ -141,7 +141,7 @@ const Register = () => {
           CocoHarvest
         </div>
 
-        <div className="flex flex-col items-center w-1/4 gap-2 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-2 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign up to your account
           </h1>

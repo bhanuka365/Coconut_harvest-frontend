@@ -67,7 +67,7 @@ const Login = () => {
           <Image src="/logo2.png" alt="image" width={50} height={50} />
           CocoHarvest
         </div>
-        <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col justify-center items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign in to your account
           </h1>

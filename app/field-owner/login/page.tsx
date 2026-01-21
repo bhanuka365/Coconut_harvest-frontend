@@ -63,16 +63,19 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[url('/coconut-still-life1.jpg')] w-full bg-cover bg-center fixed top-0 right-0 left-0 bottom-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  font-sans text-white text-sm">
+    <div
+      className="min-h-screen w-full bg-[url('/coconut-still-life1.jpg')] 
+             bg-cover bg-center bg-fixed font-sans text-white text-sm"
+    >
       <div className="flex flex-col p-5 gap-10 justify-between items-center bg-black/60 min-h-screen">
         <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
           <Image src="/logo2.png" alt="image" width={50} height={50} />
           CocoHarvest
         </div>
-        <div className="flex flex-col justify-center items-center w-1/4 gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col justify-center items-center lg:w-1/4 md:w-1/2 sm:w-2/3 w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign in to your account
-          </h1> 
+          </h1>
           <div className="w-full relative">
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiUser />

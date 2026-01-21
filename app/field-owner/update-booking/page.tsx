@@ -21,7 +21,7 @@ const UpdateBooking = () => {
         <Image src="/logo2.png" alt="image" width={50} height={50} />
         CocoHarvest
       </div>
-      <div className="flex flex-col justify-center items-center w-2/3 gap-5 bg-white/40 p-5 rounded-xl">
+      <div className="flex flex-col justify-center items-center lg:w-2/3 w-fullgap-5 bg-white/40 p-5 rounded-xl">
         <h1 className="font-bold w-full text-left text-2xl flex flex-row items-center gap-2">
           <Link href="/field-owner/my-bookings" className="cursor-pointer">
             <BiArrowBack />

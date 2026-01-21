@@ -133,14 +133,15 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[url('/coconut-still-life1.jpg')] w-full bg-cover bg-center fixed inset-0 overflow-y-auto font-sans text-white text-sm">
+    <div className="min-h-screen w-full bg-[url('/coconut-still-life1.jpg')] 
+             bg-cover bg-center bg-fixed font-sans text-white text-sm">
       <div className="flex flex-col p-5 gap-10 justify-between items-center bg-black/60 min-h-screen">
         <div className="font-bold w-full text-2xl flex gap-2 items-center">
           <Image src="/logo2.png" alt="logo" width={50} height={50} />
           CocoHarvest
         </div>
 
-        <div className="flex flex-col items-center w-1/4 gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign up to your account
           </h1>

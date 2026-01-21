@@ -6,7 +6,6 @@ const Typewriter = dynamic(() => import("typewriter-effect"), { ssr: false });
 
 import Link from "next/link";
 import {
-  FiAnchor,
   FiClock,
   FiCopy,
   FiDollarSign,
@@ -17,14 +16,20 @@ import {
   FiX,
 } from "react-icons/fi";
 import Image from "next/image";
-import { ToastContainer } from "react-toastify";
-import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { useState } from "react";
 
 // JOB TYPE - DIRECT/ JOB_POST
 // STATUS - PENDING/ PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
 
 export default function Home() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const itemCopy = (val:any) =>{
+    navigator.clipboard.writeText(val)
+      .then(() => toast.success("Phone number copied"))
+      .catch(() => toast.error("Phone number copying failed"));
+  }
 
   return (
     <div
@@ -114,7 +119,7 @@ export default function Home() {
             Benefits
           </h1>
           <div className="flex lg:flex-row flex-col gap-5 w-full">
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-col gap-5 lg:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiUsers />
                 Verified Workers
@@ -125,7 +130,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-col gap-5 lg:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiClock />
                 Fast Scheduling
@@ -136,7 +141,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-col gap-5 lg:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiShield />
                 Secure Platform
@@ -147,7 +152,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md">
+            <div className="flex flex-col gap-5 lg:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiDollarSign />
                 Fair Pricing
@@ -231,14 +236,14 @@ export default function Home() {
                 harvesting simpler, faster, and more reliable for everyone.
               </p>
               <div className="flex flex-row gap-5">
-                <div className="p-2 rounded-full border-2 border-dashed border-white flex flex-row justify-center items-center gap-2 cursor-pointer">
+                <div className="p-2 rounded-full border-2 border-dashed border-white flex flex-row justify-center items-center gap-2 cursor-pointer" onClick={()=>{itemCopy("+94 71 145 64545")}}>
                   <FiCopy />
                   +94 72 567 6789
                 </div>
-                <div className="p-2 rounded-full flex flex-row justify-center items-center gap-2 text-white bg-gradient-to-r from-green-400 to-green-700 cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-80">
+                <a  href="mailto:example@gmail.com" className="p-2 rounded-full flex flex-row justify-center items-center gap-2 text-white bg-gradient-to-r from-green-400 to-green-700 cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-80">
                   <FiMail />
                   contact with email
-                </div>
+                </a>
               </div>
             </div>
             <div className="flex flex-row lg:flex-col items-center gap-5 font-bold bg-green-400/40 rounded-md lg:bg-transparent justify-center lg:justify-start">
