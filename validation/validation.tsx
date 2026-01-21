@@ -46,6 +46,14 @@ export const validatematchPasswords = (val1: any,val2: any) => {
   }
 };
 
+export const checkEmpty = (val:any) =>{
+if(val.length !== 0){
+return true;
+}else{
+return false;
+}
+}
+
 
 
 

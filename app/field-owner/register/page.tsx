@@ -140,7 +140,7 @@ const Register = () => {
           CocoHarvest
         </div>
 
-        <div className="flex flex-col items-center w-1/4 gap-2 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col items-center w-1/4 gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign up to your account
           </h1>
@@ -170,7 +170,7 @@ const Register = () => {
               onChange={handleImageChange}
             />
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiUser />
               <input
@@ -180,15 +180,17 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
+
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 usernameError ? "invisible" : "visible"
               }`}
             >
-              username must be at least 3 characters
+              Username must be at least 3 characters
             </span>
           </div>
-          <div className="w-full">
+
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiUser />
               <input
@@ -199,14 +201,14 @@ const Register = () => {
               />
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 fnameError ? "invisible" : "visible"
               }`}
             >
               cannot be empty or must contain only letters
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiUser />
               <input
@@ -217,14 +219,14 @@ const Register = () => {
               />
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 lnameError ? "invisible" : "visible"
               }`}
             >
               cannot be empty or must contain only letters
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiPhoneCall />
               <input
@@ -235,14 +237,14 @@ const Register = () => {
               />
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 phoneNumberError ? "invisible" : "visible"
               }`}
             >
               cannot be empty or invalid phone number
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiMapPin />
               <input
@@ -253,14 +255,14 @@ const Register = () => {
               />
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 addressError ? "invisible" : "visible"
               }`}
             >
               cannot be empty
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-start bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiFileText />
               <textarea
@@ -271,14 +273,14 @@ const Register = () => {
               />
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 descriptionError ? "invisible" : "visible"
               }`}
             >
               cannot be empty
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiLock />
               <input
@@ -295,14 +297,14 @@ const Register = () => {
               )}
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 newpasswordError ? "invisible" : "visible"
               }`}
             >
               password must be 8+ chars with letters & numbers
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiLock />
               <input
@@ -321,14 +323,14 @@ const Register = () => {
             </div>
             {matchPasswords ? (
               <span
-                className={`text-red-400 text-xs ${
+                className={`absolute left-0 top-full text-red-400 text-xs ${
                   confirmpasswordError ? "invisible" : "visible"
                 }`}
               >
                 password must be 8+ chars with letters & numbers
               </span>
             ) : (
-              <span className="text-red-400 text-xs">missmatch passwords</span>
+              <span className="absolute left-0 top-full mt-1 text-red-400 text-xs">missmatch passwords</span>
             )}
           </div>
           <button

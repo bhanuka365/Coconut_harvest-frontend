@@ -71,7 +71,7 @@ const Login = () => {
           <h1 className="font-bold w-full text-left text-2xl">
             Sign in to your account
           </h1>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiUser />
               <input
@@ -84,14 +84,14 @@ const Login = () => {
               />
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 usernameError ? "invisible" : "visible"
               }`}
             >
               cannot be empty
             </span>
           </div>
-          <div className="w-full">
+          <div className="w-full relative">
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiLock />
               <input
@@ -117,7 +117,7 @@ const Login = () => {
               )}
             </div>
             <span
-              className={`text-red-400 text-xs ${
+              className={`absolute left-0 top-full text-red-400 text-xs ${
                 passwordError ? "invisible" : "visible"
               }`}
             >

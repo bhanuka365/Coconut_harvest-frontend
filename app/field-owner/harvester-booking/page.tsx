@@ -16,48 +16,100 @@ import { BiArrowBack } from "react-icons/bi";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { checkEmpty } from "@/validation/validation";
 
 const Booking = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   const [pricePerTree, setPricePerTree] = useState("");
   const [treeCount, setTreeCount] = useState("");
+  const [workerCount, setWorkerCount] = useState("");
   const [landSize, setLandSize] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [navButtonLoading, setNavButtonLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [titleError, setTitleError] = useState(true);
+  const [descriptionError, setDescriptionError] = useState(true);
+  const [pricePerTreeError, setPricePerTreeError] = useState(true);
+  const [treeCountError, setTreeCountError] = useState(true);
+  const [workerCountError, setWorkerCountError] = useState(true);
+  const [landSizeError, setLandSizeError] = useState(true);
+  const [dueDateError, setDueDateError] = useState(true);
+
+  //test
+  let workerId = 1;
 
   const bookingSubmit = async () => {
-    const token = localStorage.getItem("jwtToken");
-    console.log(token);
+    setLoading(true);
 
-    await axios
-      .post(
-        "http://localhost:8085/api/v1/bookings/add",
-        {
-          landSize: landSize,
-          treeCount: treeCount,
-          pricePerTree: pricePerTree,
-          longitude: longitude.toString(),
-          latitude: latitude.toString(),
-          address: address,
-          title: title,
-          description: description,
-          duedate: dueDate,
-          jobType: "Job_Post",
-          rate: false,
-          Count: 10,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    setTitleError(checkEmpty(title));
+    setDescriptionError(checkEmpty(description));
+    setPricePerTreeError(checkEmpty(pricePerTree));
+    setTreeCountError(checkEmpty(treeCount));
+    setLandSizeError(checkEmpty(landSize));
+    setDueDateError(checkEmpty(dueDate));
+    setWorkerCountError(checkEmpty(workerCount));
+
+    if (
+      checkEmpty(title) &&
+      checkEmpty(description) &&
+      checkEmpty(pricePerTree) &&
+      checkEmpty(treeCount) &&
+      checkEmpty(landSize) &&
+      checkEmpty(dueDate) &&
+      (checkEmpty(address) || (checkEmpty(longitude) && checkEmpty(latitude)))
+    ) {
+      try {
+        if (workerId !== null && !checkEmpty(workerCount)) {
+          toast.error("Booking submit failed please check the details");
+          setLoading(false);
+          return;
+        }
+        const token = localStorage.getItem("jwtToken");
+
+        await axios.post(
+          "http://localhost:8085/api/v1/bookings/add",
+          {
+            landSize: landSize,
+            treeCount: treeCount,
+            pricePerTree: pricePerTree,
+            longitude: longitude,
+            latitude: latitude,
+            address: address,
+            title: title,
+            description: description,
+            duedate: dueDate,
+            jobType: workerId === null ? "Job_Post" : "Direct",
+            rate: false,
+            Count: workerId === null ? workerCount : null,
           },
-        },
-      )
-      .then((res) => toast.success("Booking created"))
-      .catch((err) => toast.error("Error creating booking"));
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        toast.success("Booking submited");
+      } catch (err: any) {
+        if (err.response) {
+          toast.error("Booking failed");
+        } else if (err.request) {
+          toast.error("Server not reachable");
+        } else {
+          toast.error("Something went wrong");
+        }
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      toast.error("Booking submit failed please check the details");
+      setLoading(false);
+    }
+
   };
 
   const getCurrentLocation = () => {
@@ -71,8 +123,8 @@ const Booking = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
 
-        setLatitude(latitude);
-        setLongitude(longitude);
+        setLatitude(latitude.toString());
+        setLongitude(longitude.toString());
 
         toast.success("Location added successfully");
       },
@@ -95,26 +147,44 @@ const Booking = () => {
           </Link>
           Harvester Booking
         </h1>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
-          <FiEdit3 />
-          <input
-            type="text"
-            placeholder="Booking title (e.g. Coconut Harvest – Block A)"
-            className="w-full focus:outline-none focus:ring-0 border-none"
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+            <FiEdit3 />
+            <input
+              type="text"
+              placeholder="Booking title (e.g. Coconut Harvest – Block A)"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              titleError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
         </div>
-        <div className="flex flex-row gap-2 justify-start items-start bg-white p-2 rounded-sm w-full">
-          <FiFileText />
-          <textarea
-            placeholder="Brief description of the work"
-            className="w-full focus:outline-none focus:ring-0 border-none"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-start bg-white p-2 rounded-sm w-full">
+            <FiFileText />
+            <textarea
+              placeholder="Brief description of the work"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              descriptionError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
         </div>
         <div className="flex flex-col gap-2 w-full">
           <div className="flex items-center gap-3 bg-white p-3 rounded-md">
@@ -142,51 +212,108 @@ const Booking = () => {
             You can enter the address manually or use your current location.
           </p>
         </div>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
-          <FiCalendar />
-          <input
-            type="date"
-            className="w-full focus:outline-none focus:ring-0 border-none"
-            onChange={(e) => {
-              setDueDate(e.target.value);
-            }}
-          />
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+            <FiCalendar />
+            <input
+              type="date"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setDueDate(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              dueDateError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
         </div>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
-          <FiMaximize2 />
-          <input
-            type="number"
-            min={0}
-            placeholder="Field size (in acres)"
-            className="w-full focus:outline-none focus:ring-0 border-none"
-            onChange={(e) => {
-              setLandSize(e.target.value);
-            }}
-          />
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+            <FiMaximize2 />
+            <input
+              type="number"
+              min={0}
+              placeholder="Field size (in acres)"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setLandSize(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              landSizeError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
         </div>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
-          <FiHash />
-          <input
-            type="number"
-            min={0}
-            placeholder="Number of trees in the field"
-            className="w-full focus:outline-none focus:ring-0 border-none"
-            onChange={(e) => {
-              setTreeCount(e.target.value);
-            }}
-          />
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+            <FiHash />
+            <input
+              type="number"
+              min={0}
+              placeholder="Number of trees in the field"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setTreeCount(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              treeCountError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
         </div>
-        <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
-          <FiDollarSign />
-          <input
-            type="number"
-            min={0}
-            placeholder="Price per tree"
-            className="w-full focus:outline-none focus:ring-0 border-none"
-            onChange={(e) => {
-              setPricePerTree(e.target.value);
-            }}
-          />
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+            <FiHash />
+            <input
+              type="number"
+              min={0}
+              placeholder="Number of worker count"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setWorkerCount(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              workerCountError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
+        </div>
+        <div className="w-full relative">
+          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+            <FiDollarSign />
+            <input
+              type="number"
+              min={0}
+              placeholder="Price per tree"
+              className="w-full focus:outline-none focus:ring-0 border-none"
+              onChange={(e) => {
+                setPricePerTree(e.target.value);
+              }}
+            />
+          </div>
+          <span
+            className={`absolute left-0 top-full text-red-400 text-xs ${
+              pricePerTreeError ? "invisible" : "visible"
+            }`}
+          >
+            cannot be empty
+          </span>
         </div>
         <button
           className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
