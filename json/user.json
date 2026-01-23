@@ -1,0 +1,14 @@
+{
+    "Address": "",
+    "Description": "",
+    "Telephone": 0,
+    "role": {
+        "roleDescription": "",
+        "roleName": ""
+    },
+    "userFirstName": "",
+    "userImage": "",
+    "userLastName": "",
+    "userName": "",
+    "userPassword": ""
+}

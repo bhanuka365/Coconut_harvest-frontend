@@ -15,48 +15,31 @@ import {
 import Image from "next/image";
 import { LuClipboardPen } from "react-icons/lu";
 import { useEffect, useState } from "react";
-import { Dialog } from "@/components/Components";
+import {
+  AvatarSkeleton,
+  Dialog,
+  EmptyState,
+  NameSkeleton,
+  WorkerCardSkeleton,
+} from "@/components/Components";
 import axios from "axios";
-
+import usersjson from "@/json/users.json";
+import userjson from "@/json/user.json";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
-  const [users, setUsers] = useState([
-    {
-      Address: "",
-      Description: "",
-      Telephone: 0,
-      role: {
-        roleDescription: "",
-        roleName: "",
-      },
-      userFirstName: "",
-      userImage: "",
-      userLastName: "",
-      userName: "",
-      userPassword: "",
-    },
-  ]);
-
-  const [user, setUser] = useState({
-    Address: "",
-    Description: "",
-    Telephone: 0,
-    role: {
-      roleDescription: "",
-      roleName: "",
-    },
-    userFirstName: "",
-    userImage: "",
-    userLastName: "",
-    userName: "",
-    userPassword: "",
-  });
+  const [users, setUsers] = useState(usersjson);
+  const [user, setUser] = useState(userjson);
+  const [loadingPage, setLoadingPage] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    const userName = localStorage.getItem("userName");
-    const loadData = async () => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const userName = localStorage.getItem("userName");
       const result = await axios.get(
         `http://localhost:8085/api/v1/by-role/Harvester`,
         {
@@ -78,9 +61,12 @@ const Home = () => {
       );
 
       setUser(result1.data.dataBundle);
-    };
-    loadData();
-  }, []);
+    } catch (error) {
+    } finally {
+      setLoadingPage(false);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
       <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
@@ -129,16 +115,22 @@ const Home = () => {
           </div>
           <Link
             className="relative group cursor-pointer"
-            href={{pathname:"/field-owner/profile",query: { username: user.userName },}}
+            href={{
+              pathname: "/field-owner/profile",
+              query: { username: user.userName },
+            }}
           >
-            <Image
-              width={50}
-              height={50}
-              // src="/profile.jpg"
-              src={`data:image/jpeg;base64,${user.userImage}`}
-              alt=""
-              className="rounded-full h-15 w-15"
-            />
+            {loadingPage ? (
+              <AvatarSkeleton />
+            ) : (
+              <Image
+                width={0}
+                height={0}
+                src={`data:image/jpeg;base64,${user.userImage}`}
+                alt=""
+                className="rounded-full h-15 w-15"
+              />
+            )}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
@@ -146,7 +138,12 @@ const Home = () => {
           </Link>
         </div>
         <h1 className="text-6xl font-bold">
-          Hi, <span className="text-green-400">{user.userFirstName}</span>
+          Hi,{" "}
+          {loadingPage ? (
+            <NameSkeleton />
+          ) : (
+            <span className="text-green-400">{user.userFirstName}</span>
+          )}
         </h1>
         <div className="flex flex-row gap-5">
           <div className="bg-gradient-to-r from-purple-400 to-purple-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
@@ -185,53 +182,61 @@ const Home = () => {
             <span>Need Harvesting Today?</span>
           </Link>
         </div>
-        <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {users
-            .filter((e) => {
-              return e.Address.toLowerCase().includes(searchTxt.toLowerCase());
-            })
-            .map((e, index) => {
-              return (
-                <div
-                  className="shadow-lg rounded-xl bg-white w-full flex flex-row gap-2 p-5 "
-                  key={index}
-                >
-                  <Image
-                    width={50}
-                    height={50}
-                    src={`data:image/jpeg;base64,${e.userImage}`}
-                    alt=""
-                    className="rounded-full h-20 w-20"
-                  />
-                  <div className="flex flex-col gap-1">
-                    <h1 className="text-2xl font-bold">
-                      {e.userFirstName} {e.userLastName}
-                    </h1>
-                    <div className="flex items-center gap-2 text-red-500">
-                      <FiMapPin />
-                      <span>{e.Address}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-blue-500">
-                      <FiPhoneCall />
-                      <span>{e.Telephone}</span>
-                    </div>
-                    <Link
-                      href={{
-                        pathname: "/field-owner/harvester-profile",
-                        query: { username: e.userName },
-                      }}
-                      className="flex items-center gap-2 p-2 rounded-lg font-bold
+        {loadingPage ? (
+          <WorkerCardSkeleton />
+        ) : users.length === 0 ? (
+          <EmptyState message="No workers found."/>
+        ) : (
+          <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+            {users
+              .filter((e) => {
+                return e.Address.toLowerCase().includes(
+                  searchTxt.toLowerCase(),
+                );
+              })
+              .map((e, index) => {
+                return (
+                  <div
+                    className="shadow-lg rounded-xl bg-white w-full flex flex-row gap-2 p-5 "
+                    key={index}
+                  >
+                    <Image
+                      width={50}
+                      height={50}
+                      src={`data:image/jpeg;base64,${e.userImage}`}
+                      alt=""
+                      className="rounded-full h-20 w-20"
+                    />
+                    <div className="flex flex-col gap-1">
+                      <h1 className="text-2xl font-bold">
+                        {e.userFirstName} {e.userLastName}
+                      </h1>
+                      <div className="flex items-center gap-2 text-red-500">
+                        <FiMapPin />
+                        <span>{e.Address}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-blue-500">
+                        <FiPhoneCall />
+                        <span>{e.Telephone}</span>
+                      </div>
+                      <Link
+                        href={{
+                          pathname: "/field-owner/harvester-profile",
+                          query: { username: e.userName },
+                        }}
+                        className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                    >
-                      <FiEye />
-                      <span>view</span>
-                    </Link>
+                      >
+                        <FiEye />
+                        <span>view</span>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-        </div>
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );
