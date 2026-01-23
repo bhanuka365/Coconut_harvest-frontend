@@ -16,13 +16,11 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { Dialog } from "@/components/Components";
-
-const MySwal = withReactContent(Swal);
+import { AvatarSkeleton, Dialog } from "@/components/Components";
+import axios from "axios";
+import userjson from "@/json/user.json";
 
 const bookingData = [
   {
@@ -133,6 +131,34 @@ const MyBooking = () => {
   const [categoryBtn3, setCategoryBtn3] = useState(false);
   const [categoryBtn4, setCategoryBtn4] = useState(false);
   const [categoryTxt, setCategoryTxt] = useState("all");
+  const [user, setUser] = useState(userjson);
+  const [loadingPage, setLoadingPage] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const userName = localStorage.getItem("userName");
+
+      const result = await axios.get(
+        `http://localhost:8085/api/v1/user/${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setUser(result.data.dataBundle);
+    } catch (error) {
+    } finally {
+      setLoadingPage(false);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
       <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
@@ -151,7 +177,7 @@ const MyBooking = () => {
         >
           <FiClipboard size={25} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            My Booking
+            My Bookings
           </span>
         </Link>
         <div
@@ -162,7 +188,7 @@ const MyBooking = () => {
               "Are you sure you want to logout?",
               "warning",
               "#43ce76",
-              "#ef4444"
+              "#ef4444",
             );
             result ? (window.location.href = "/field-owner/login") : "";
           }}
@@ -183,13 +209,17 @@ const MyBooking = () => {
             className="relative group cursor-pointer"
             href="/field-owner/profile"
           >
-            <Image
-              width={50}
-              height={50}
-              src="/profile.jpg"
-              alt=""
-              className="rounded-full"
-            />
+            {loadingPage ? (
+              <AvatarSkeleton />
+            ) : (
+              <Image
+                width={0}
+                height={0}
+                src={`data:image/jpeg;base64,${user.userImage}`}
+                alt=""
+                className="rounded-full h-12 w-12"
+              />
+            )}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
@@ -315,10 +345,10 @@ const MyBooking = () => {
                     e.status === "IN_PROGRESS"
                       ? "bg-yellow-200"
                       : e.status === "COMPLETED"
-                      ? "bg-green-200"
-                      : e.status === "CANCELLED"
-                      ? "bg-red-200"
-                      : "bg-gray-200"
+                        ? "bg-green-200"
+                        : e.status === "CANCELLED"
+                          ? "bg-red-200"
+                          : "bg-gray-200"
                   } w-full flex flex-col gap-2 p-5`}
                   key={index}
                 >
@@ -412,10 +442,10 @@ const MyBooking = () => {
                           e.status === "IN_PROGRESS"
                             ? "bg-yellow-100 text-yellow-600"
                             : e.status === "COMPLETED"
-                            ? "text-green-600 bg-green-100"
-                            : e.status === "CANCELLED"
-                            ? "text-red-600 bg-red-100"
-                            : "text-gray-600 bg-gray-100"
+                              ? "text-green-600 bg-green-100"
+                              : e.status === "CANCELLED"
+                                ? "text-red-600 bg-red-100"
+                                : "text-gray-600 bg-gray-100"
                         } p-2 rounded-lg font-bold`}
                       >
                         {e.status}
@@ -431,7 +461,7 @@ const MyBooking = () => {
                             "Are you sure you want to delete this booking",
                             "warning",
                             "#ef4444",
-                            "#43ce76"
+                            "#43ce76",
                           );
                         }}
                       />

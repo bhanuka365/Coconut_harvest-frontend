@@ -174,7 +174,7 @@ const Profile = () => {
       {loadingPage ? (
         <ProfileCardSkeleton />
       ) : (
-        <div className="flex flex-col items-start w-2/3 gap-5 bg-white/40 p-5 rounded-xl">
+        <div className="flex flex-col items-start w-full lg:w-2/3 gap-5 bg-white/40 p-5 rounded-xl">
           <Link href="/field-owner/home" className="cursor-pointer">
             <BiArrowBack size={30} />
           </Link>
@@ -184,10 +184,10 @@ const Profile = () => {
               height={50}
               src={`data:image/jpeg;base64,${user.userImage}`}
               alt=""
-              className="rounded-full h-30 w-30"
+              className="rounded-full lg:h-30 lg:w-30 h-20 w-20"
             />
-            <div className="flex flex-col gap-1">
-              <h1 className="font-bold text-4xl">
+            <div className="flex flex-col gap-1 min-w-0">
+              <h1 className="font-bold text-4xl truncate">
                 {user.userFirstName}
                 {user.userLastName}
               </h1>
@@ -213,7 +213,7 @@ const Profile = () => {
               />
             </div>
           </div>
-          <div className="flex flex-row w-full gap-5">
+          <div className="flex lg:flex-row flex-col w-full gap-5">
             <div className="flex flex-col gap-1 w-full bg-white/40 p-2 rounded-lg">
               <span className="font-bold">First name</span>
               <div className="flex flex-row gap-2">
@@ -253,7 +253,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row w-full gap-5">
+          <div className="flex lg:flex-row flex-col w-full gap-5">
             <div className="flex flex-col gap-1 w-full bg-white/40 p-2 rounded-lg">
               <span className="font-bold">Address</span>
               <div className="flex flex-row gap-2">

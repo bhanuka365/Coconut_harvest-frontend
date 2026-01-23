@@ -68,13 +68,13 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
-      <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
+    <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+      <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
         <Link
           href="/field-owner/home"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiHome size={25} />
+          <FiHome size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Home
           </span>
@@ -83,7 +83,7 @@ const Home = () => {
           href="/field-owner/my-bookings"
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiClipboard size={25} />
+          <FiClipboard size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             My Bookings
           </span>
@@ -101,7 +101,7 @@ const Home = () => {
             result ? (window.location.href = "/field-owner/login") : "";
           }}
         >
-          <FiLogOut size={25} />
+          <FiLogOut size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
           </span>
@@ -128,7 +128,7 @@ const Home = () => {
                 height={0}
                 src={`data:image/jpeg;base64,${user.userImage}`}
                 alt=""
-                className="rounded-full h-15 w-15"
+                className="rounded-full h-12 w-12"
               />
             )}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
@@ -145,15 +145,15 @@ const Home = () => {
             <span className="text-green-400">{user.userFirstName}</span>
           )}
         </h1>
-        <div className="flex flex-row gap-5">
-          <div className="bg-gradient-to-r from-purple-400 to-purple-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
+        <div className="flex sm:flex-row flex-col gap-5">
+          <div className="bg-gradient-to-r from-purple-400 to-purple-900 p-5 rounded-lg lg:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Jobs Posted</label>
             </div>
             <label>30</label>
           </div>
-          <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
+          <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg lg:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Completed Jobs</label>
@@ -162,8 +162,8 @@ const Home = () => {
           </div>
         </div>
         <h1 className="text-2xl font-bold">Find Workers</h1>
-        <div className="flex flex-row gap-2">
-          <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
+        <div className="flex sm:flex-row flex-col gap-2">
+          <div className="flex flex-row gap-2 p-2 rounded-full bg-white sm:w-1/2 w-full">
             <FiSearch size={20} />
             <input
               value={searchTxt}
@@ -176,7 +176,7 @@ const Home = () => {
           </div>
           <Link
             href="/field-owner/harvester-booking"
-            className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800"
+            className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg sm:w-fit w-full font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800"
           >
             <FiPlus />
             <span>Need Harvesting Today?</span>
@@ -187,7 +187,7 @@ const Home = () => {
         ) : users.length === 0 ? (
           <EmptyState message="No workers found."/>
         ) : (
-          <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+          <div className="flex flex-col gap-5 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
             {users
               .filter((e) => {
                 return e.Address.toLowerCase().includes(
@@ -211,11 +211,11 @@ const Home = () => {
                       <h1 className="text-2xl font-bold">
                         {e.userFirstName} {e.userLastName}
                       </h1>
-                      <div className="flex items-center gap-2 text-red-500">
+                      <div className="flex items-center gap-2 text-red-500 font-bold">
                         <FiMapPin />
                         <span>{e.Address}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-blue-500">
+                      <div className="flex items-center gap-2 text-blue-500 font-bold">
                         <FiPhoneCall />
                         <span>{e.Telephone}</span>
                       </div>
@@ -224,7 +224,7 @@ const Home = () => {
                           pathname: "/field-owner/harvester-profile",
                           query: { username: e.userName },
                         }}
-                        className="flex items-center gap-2 p-2 rounded-lg font-bold
+                        className="flex items-center gap-2 pl-2 pr-2 rounded-sm font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
                       >

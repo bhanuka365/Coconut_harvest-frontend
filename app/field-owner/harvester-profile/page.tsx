@@ -104,29 +104,29 @@ const HarvesterProfile = () => {
       {loadingPage ? (
         <WorkerProfile />
       ) : (
-        <div className="flex flex-col items-start w-2/3 gap-5 bg-white/40 p-5 rounded-xl">
+        <div className="flex flex-col items-start lg:w-2/3 w-full gap-5 bg-white/40 p-5 rounded-xl">
           <Link href="/field-owner/home" className="cursor-pointer">
             <BiArrowBack size={30} />
           </Link>
           <div className="flex flex-row justify-left items-center gap-2 w-full">
             <Image
-              width={50}
-              height={50}
+              width={0}
+              height={0}
               src={`data:image/jpeg;base64,${user.userImage}`}
               alt=""
-              className="rounded-full h-30 w-30"
+              className="rounded-full lg:h-30 lg:w-30 h-20 w-20"
             />
-            <div className="flex flex-col gap-1">
-              <h1 className="font-bold text-4xl">
+            <div className="flex flex-col gap-1 min-w-0">
+              <h1 className="font-bold text-4xl truncate">
                 {user.userFirstName} {user.userLastName}
               </h1>
               <span>@{user.userName}</span>
               <div className="flex flex-row gap-2">
                 <Link
                   href={"/field-owner/home"}
-                  className="flex flex-row gap-2 items-center text-white bg-gradient-to-r from-blue-400 to-blue-700 p-1 w-fit rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800"
+                  className="flex flex-row gap-2 items-center text-white bg-gradient-to-r from-blue-400 to-blue-700 p-1 w-fit rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800 min-w-0"
                 >
-                  <FiPhoneCall /> Booking the harvester
+                  <FiPhoneCall /> <span className="truncate">Booking the harvester</span>
                 </Link>
                 <span className="flex flex-row items-center gap-1 font-bold text-xl">
                   <BsFillStarFill className="text-yellow-500" />

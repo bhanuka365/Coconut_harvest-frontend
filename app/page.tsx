@@ -98,16 +98,16 @@ export default function Home() {
               more transparent harvesting experience.
             </p>
 
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-col sm:flex-row gap-5">
               <Link
                 href="/harvester/login"
-                className="p-2 rounded-full bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
+                className="flex items-center justify-center p-2 rounded-full bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
               >
                 continue as harvester
               </Link>
               <Link
                 href="/field-owner/login"
-                className="p-2 rounded-full border-2 border-white "
+                className="flex items-center justify-center p-2 rounded-full border-2 border-white "
               >
                 continue as field owner
               </Link>
@@ -198,18 +198,18 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="w-full flex flex-row gap-5">
-            <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition w-50">
+          <div className="w-full flex flex-col sm:flex-row gap-5">
+            <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
               <h2 className="text-3xl font-bold text-green-700">950+</h2>
               <p className="text-gray-600 text-sm mt-1 text-center">
                 Field Owners
               </p>
             </div>
-            <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition w-50">
+            <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
               <h2 className="text-3xl font-bold text-green-700">150+</h2>
               <p className="text-gray-600 text-sm mt-1 text-center">Workers</p>
             </div>
-            <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition w-50">
+            <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
               <h2 className="text-3xl font-bold text-green-700">950+</h2>
               <p className="text-gray-600 text-sm mt-1 text-center">
                 Tasks Completed
@@ -224,7 +224,7 @@ export default function Home() {
         >
           <div className="flex flex-col lg:flex-row justify-between w-full gap-5">
             <div className="w-full lg:w-1/2 flex flex-col gap-5">
-              <div className="font-bold lg:text-5xl text-4xl flex flex-row gap-2 justify-start items-center">
+              <div className="font-bold lg:text-5xl text-4xl flex sm:flex-row flex-col gap-2 justify-start items-center">
                 <Image src="/logo2.png" alt="image" width={100} height={100} />
                 CocoHarvest
               </div>
@@ -235,7 +235,7 @@ export default function Home() {
                 and technical issues. We are committed to making coconut
                 harvesting simpler, faster, and more reliable for everyone.
               </p>
-              <div className="flex flex-row gap-5">
+              <div className="flex sm:flex-row flex-col gap-5">
                 <div className="p-2 rounded-full border-2 border-dashed border-white flex flex-row justify-center items-center gap-2 cursor-pointer" onClick={()=>{itemCopy("+94 71 145 64545")}}>
                   <FiCopy />
                   +94 72 567 6789

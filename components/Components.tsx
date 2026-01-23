@@ -37,7 +37,7 @@ export const NameSkeleton = () => {
 };
 
 export const AvatarSkeleton = () => (
-    <div className="w-15 h-15 rounded-full bg-green-300 animate-pulse" />
+    <div className="w-12 h-12 rounded-full bg-green-300 animate-pulse" />
 );
 
 
@@ -111,7 +111,7 @@ export const ProfileCardSkeleton = () => {
 
 export const WorkerProfile = () => {
   return (
-    <div className="flex flex-col items-start w-2/3 gap-5 bg-white p-5 rounded-xl animate-pulse">
+    <div className="flex flex-col items-start lg:w-2/3 w-full gap-5 bg-white p-5 rounded-xl animate-pulse">
       
       <div className="h-8 w-8 bg-green-300 rounded-full" />
 
@@ -135,7 +135,7 @@ export const WorkerProfile = () => {
       <div className="h-16 w-full bg-green-300 rounded" />
 
      
-      <div className="flex flex-row gap-5 font-bold mt-2">
+      <div className="flex flex-col lg:flex-row gap-5 font-bold mt-2">
         <div className="h-6 w-40 bg-green-300 rounded" />
         <div className="h-6 w-32 bg-green-300 rounded" />
       </div>
