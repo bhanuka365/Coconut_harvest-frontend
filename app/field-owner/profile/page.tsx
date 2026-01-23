@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BsFillStarFill } from "react-icons/bs";
 import Image from "next/image";
 import { BiArrowBack, BiPencil } from "react-icons/bi";
 import { useSearchParams } from "next/navigation";

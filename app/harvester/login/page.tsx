@@ -39,6 +39,8 @@ const Login = () => {
         );
 
         if (result.data.user.role[0].roleName === "Harvester") {
+          localStorage.setItem("jwtToken", result.data.jwtToken);
+          localStorage.setItem("userName", result.data.user.userName);
           toast.success("Login successful");
           window.location.href = "/harvester/home";
         } else {
