@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { FiEye, FiEyeOff, FiLock, FiUser } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiLock, FiLogIn, FiUser } from "react-icons/fi";
 import Image from "next/image";
 import axios from "axios";
 import { validateName } from "@/validation/validation";
@@ -136,11 +136,12 @@ const Login = () => {
           Forgot password?
         </Link> */}
           <button
-            className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
+            className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
             onClick={async () => {
               await handleLogin();
             }}
           >
+            <FiLogIn/>
             {loading ? "Signing in..." : "SIGN IN"}
           </button>
           <label className="w-full flex flex-row gap-1 justify-center items-center">
