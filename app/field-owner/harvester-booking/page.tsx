@@ -321,7 +321,7 @@ const Booking = () => {
             bookingSubmit();
           }}
         >
-          CONFIRM BOOKING
+         {loading?"Booking confirming...": "CONFIRM BOOKING"}
         </button>
       </div>
       <label className="w-full text-center">@2026 CocoHarvest Inc.</label>

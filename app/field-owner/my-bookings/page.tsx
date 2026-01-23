@@ -20,7 +20,7 @@ import { useState } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { Dialog } from "@/components/Dialog";
+import { Dialog } from "@/components/Components";
 
 const MySwal = withReactContent(Swal);
 

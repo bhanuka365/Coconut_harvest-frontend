@@ -14,53 +14,73 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 import { LuClipboardPen } from "react-icons/lu";
-import { useState } from "react";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { Dialog } from "@/components/Dialog";
+import { useEffect, useState } from "react";
+import { Dialog } from "@/components/Components";
+import axios from "axios";
 
-const MySwal = withReactContent(Swal);
-
-const userData = [
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-];
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
+  const [users, setUsers] = useState([
+    {
+      Address: "",
+      Description: "",
+      Telephone: 0,
+      role: {
+        roleDescription: "",
+        roleName: "",
+      },
+      userFirstName: "",
+      userImage: "",
+      userLastName: "",
+      userName: "",
+      userPassword: "",
+    },
+  ]);
+
+  const [user, setUser] = useState({
+    Address: "",
+    Description: "",
+    Telephone: 0,
+    role: {
+      roleDescription: "",
+      roleName: "",
+    },
+    userFirstName: "",
+    userImage: "",
+    userLastName: "",
+    userName: "",
+    userPassword: "",
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    const userName = localStorage.getItem("userName");
+    const loadData = async () => {
+      const result = await axios.get(
+        `http://localhost:8085/api/v1/by-role/Harvester`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setUsers(result.data.dataBundle);
+
+      const result1 = await axios.get(
+        `http://localhost:8085/api/v1/user/${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setUser(result1.data.dataBundle);
+    };
+    loadData();
+  }, []);
   return (
     <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
       <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
@@ -90,7 +110,7 @@ const Home = () => {
               "Are you sure you want to logout?",
               "warning",
               "#43ce76",
-              "#ef4444"
+              "#ef4444",
             );
             result ? (window.location.href = "/field-owner/login") : "";
           }}
@@ -109,14 +129,15 @@ const Home = () => {
           </div>
           <Link
             className="relative group cursor-pointer"
-            href="/field-owner/profile"
+            href={{pathname:"/field-owner/profile",query: { username: user.userName },}}
           >
             <Image
               width={50}
               height={50}
-              src="/profile.jpg"
+              // src="/profile.jpg"
+              src={`data:image/jpeg;base64,${user.userImage}`}
               alt=""
-              className="rounded-full"
+              className="rounded-full h-15 w-15"
             />
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -125,16 +146,9 @@ const Home = () => {
           </Link>
         </div>
         <h1 className="text-6xl font-bold">
-          Hi, <span className="text-green-400">Amal</span>
+          Hi, <span className="text-green-400">{user.userFirstName}</span>
         </h1>
         <div className="flex flex-row gap-5">
-          {/* <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
-            <div className="flex flex-row items-center gap-2">
-              <FiDollarSign className="text-2xl" />
-              <label className="font-bold text-2xl">Total Spent</label>
-            </div>
-            <label>LKR 100,000</label>
-          </div> */}
           <div className="bg-gradient-to-r from-purple-400 to-purple-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
@@ -163,10 +177,6 @@ const Home = () => {
               }}
             />
           </div>
-          {/* <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
-            <FiMapPin />
-            <span>Search Nearby</span>
-          </div> */}
           <Link
             href="/field-owner/harvester-booking"
             className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-blue-400 to-blue-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800"
@@ -176,9 +186,9 @@ const Home = () => {
           </Link>
         </div>
         <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {userData
+          {users
             .filter((e) => {
-              return e.location.toLowerCase().includes(searchTxt.toLowerCase());
+              return e.Address.toLowerCase().includes(searchTxt.toLowerCase());
             })
             .map((e, index) => {
               return (
@@ -189,28 +199,27 @@ const Home = () => {
                   <Image
                     width={50}
                     height={50}
-                    src="/profile.jpg"
+                    src={`data:image/jpeg;base64,${e.userImage}`}
                     alt=""
                     className="rounded-full h-20 w-20"
                   />
                   <div className="flex flex-col gap-1">
-                    <h1 className="text-lg text-2xl font-bold">{e.name}</h1>
-                    <div className="flex items-center gap-2">
-                      <FiMapPin className="text-red-500" />
-                      <span className="font-medium text-red-500">
-                        Location:
-                      </span>
-                      <span>{e.location}</span>
+                    <h1 className="text-2xl font-bold">
+                      {e.userFirstName} {e.userLastName}
+                    </h1>
+                    <div className="flex items-center gap-2 text-red-500">
+                      <FiMapPin />
+                      <span>{e.Address}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FiPhoneCall className="text-blue-500" />
-                      <span className="font-medium text-blue-500">
-                        Phone Number:
-                      </span>
-                      <span>{e.phone_number}</span>
+                    <div className="flex items-center gap-2 text-blue-500">
+                      <FiPhoneCall />
+                      <span>{e.Telephone}</span>
                     </div>
                     <Link
-                      href="/field-owner/harvester-profile"
+                      href={{
+                        pathname: "/field-owner/harvester-profile",
+                        query: { username: e.userName },
+                      }}
                       className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
