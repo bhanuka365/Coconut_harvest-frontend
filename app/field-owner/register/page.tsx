@@ -134,8 +134,10 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[url('/coconut-still-life1.jpg')] 
-             bg-cover bg-center bg-fixed font-sans text-white text-sm">
+    <div
+      className="min-h-screen w-full bg-[url('/coconut-still-life1.jpg')] 
+             bg-cover bg-center bg-fixed font-sans text-white text-sm"
+    >
       <div className="flex flex-col p-5 gap-10 justify-between items-center bg-black/60 min-h-screen">
         <div className="font-bold w-full text-2xl flex gap-2 items-center">
           <Image src="/logo2.png" alt="logo" width={50} height={50} />
@@ -332,7 +334,9 @@ const Register = () => {
                 password must be 8+ chars with letters & numbers
               </span>
             ) : (
-              <span className="absolute left-0 top-full mt-1 text-red-400 text-xs">missmatch passwords</span>
+              <span className="absolute left-0 top-full mt-1 text-red-400 text-xs">
+                missmatch passwords
+              </span>
             )}
           </div>
           <button
@@ -340,7 +344,7 @@ const Register = () => {
             disabled={loading}
             className="bg-gradient-to-r from-green-400 to-green-700 p-2 w-full rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
           >
-            <FiUserPlus/>
+            <FiUserPlus />
             {loading ? "signing up..." : "sign up"}
           </button>
 

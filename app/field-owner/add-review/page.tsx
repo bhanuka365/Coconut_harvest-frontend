@@ -71,8 +71,6 @@ const Booking = () => {
           </Link>
           Write a Review
         </h1>
-
-        {/* Star Rating */}
         <div className="flex flex-col gap-2">
           <label className="font-bold">Select your rating</label>
           <div className="flex gap-2 text-3xl cursor-pointer">
@@ -92,8 +90,6 @@ const Booking = () => {
             )}
           </div>
         </div>
-
-        {/* Review Message */}
         <div className="w-full relative">
           <div className="flex gap-2 bg-white p-2 rounded-sm">
             <FiFileText />
@@ -112,8 +108,6 @@ const Booking = () => {
             cannot be empty
           </span>
         </div>
-
-        {/* Submit Button */}
         <button
           onClick={handleReview}
           disabled={loading}

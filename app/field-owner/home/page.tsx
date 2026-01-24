@@ -185,7 +185,7 @@ const Home = () => {
         {loadingPage ? (
           <WorkerCardSkeleton />
         ) : users.length === 0 ? (
-          <EmptyState message="No workers found."/>
+          <EmptyState message="No workers found." />
         ) : (
           <div className="flex flex-col gap-5 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
             {users

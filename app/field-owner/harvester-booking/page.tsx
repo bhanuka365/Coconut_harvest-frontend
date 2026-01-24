@@ -43,8 +43,6 @@ const Booking = () => {
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
 
-  //test
-  let workerId = 1;
 
   const bookingSubmit = async () => {
     try {
@@ -89,7 +87,7 @@ const Booking = () => {
             jobType: username === null ? "Job_Post" : "Direct",
             rate: false,
             Count: username !== null ? workerCount : null,
-            HarvesterName: "Nadeesha"
+            HarvesterName:username // re check this api
           },
           {
             headers: {

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { BsFillStarFill } from "react-icons/bs";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
-import { FiMapPin, FiPhoneCall } from "react-icons/fi";
+import { FiBookmark, FiMapPin, FiPhoneCall } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { EmptyState, WorkerProfile } from "@/components/Components";
@@ -18,56 +18,52 @@ const HarvesterProfile = () => {
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
   const [loadingPage, setLoadingPage] = useState(true);
-  const [averageRate,setAverageRate] = useState("")
-
+  const [averageRate, setAverageRate] = useState("");
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
-  try {
-    const token = localStorage.getItem("jwtToken");
+    try {
+      const token = localStorage.getItem("jwtToken");
 
-    const result = await axios.get(
-      `http://localhost:8085/api/v1/user/${username}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    setUser(result.data.dataBundle);
+      const result = await axios.get(
+        `http://localhost:8085/api/v1/user/${username}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      setUser(result.data.dataBundle);
 
-    const result1 = await axios.get(
-      `http://localhost:8085/api/v1/review/${username}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+      const result1 = await axios.get(
+        `http://localhost:8085/api/v1/review/${username}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
-    const fetchedReviews = result1.data.dataBundle;
-    setReviews(fetchedReviews);
+      const fetchedReviews = result1.data.dataBundle;
+      setReviews(fetchedReviews);
 
-    
-    const averageRating =
-      fetchedReviews.length > 0
-        ? (
-            fetchedReviews.reduce(
-              (sum: number, r: { reviewRate: any; }) => sum + Number(r.reviewRate),
-              0
-            ) / fetchedReviews.length
-          ).toFixed(1)
-        : "0.0";
+      const averageRating =
+        fetchedReviews.length > 0
+          ? (
+              fetchedReviews.reduce(
+                (sum: number, r: { reviewRate: any }) =>
+                  sum + Number(r.reviewRate),
+                0,
+              ) / fetchedReviews.length
+            ).toFixed(1)
+          : "0.0";
 
-    setAverageRate(averageRating);
-
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoadingPage(false);
-  }
-};
-
-
+      setAverageRate(averageRating);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingPage(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
@@ -103,12 +99,12 @@ const HarvesterProfile = () => {
                   }}
                   className="flex flex-row gap-2 items-center text-white bg-gradient-to-r from-blue-400 to-blue-700 p-1 w-fit rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800 min-w-0"
                 >
-                  <FiPhoneCall />{" "}
+                  <FiBookmark />
                   <span className="truncate">Booking the harvester</span>
                 </Link>
                 <span className="flex flex-row items-center gap-1 font-bold text-xl">
                   <BsFillStarFill className="text-yellow-500" />
-                 {averageRate}
+                  {averageRate}
                 </span>
               </div>
             </div>
@@ -126,44 +122,46 @@ const HarvesterProfile = () => {
           </div>
           <div className="flex flex-col gap-5 w-full">
             <h1 className="font-bold text-2xl">Rating and Reviews</h1>
-            {reviews.length === 0 ? 
-                      <EmptyState message="No reviews found."/>:
-            <div className="flex flex-col gap-2 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-              {reviews.map((e, index) => {
-                return (
-                  <div
-                    className="shadow-lg rounded-xl bg-white flex flex-row gap-2 p-5 "
-                    key={index}
-                  >
-                    <Image
-                      width={20}
-                      height={20}
-                      src={`data:image/jpeg;base64,${e.user.userImage}`}
-                      alt=""
-                      className="rounded-full h-10 w-10"
-                    />
-                    <div className="flex flex-col gap-1">
-                      <h1 className="font-bold">
-                        {e.user.userFirstName} {e.user.userLastName}
-                      </h1>
-                      <div className="flex flex-row gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <BsFillStarFill
-                            key={star}
-                            className={
-                              star <= Number(e.reviewRate)
-                                ? "text-yellow-500"
-                                : ""
-                            }
-                          />
-                        ))}
+            {reviews.length === 0 ? (
+              <EmptyState message="No reviews found." />
+            ) : (
+              <div className="flex flex-col gap-2 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+                {reviews.map((e, index) => {
+                  return (
+                    <div
+                      className="shadow-lg rounded-xl bg-white flex flex-row gap-2 p-5 "
+                      key={index}
+                    >
+                      <Image
+                        width={20}
+                        height={20}
+                        src={`data:image/jpeg;base64,${e.user.userImage}`}
+                        alt=""
+                        className="rounded-full h-10 w-10"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <h1 className="font-bold">
+                          {e.user.userFirstName} {e.user.userLastName}
+                        </h1>
+                        <div className="flex flex-row gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <BsFillStarFill
+                              key={star}
+                              className={
+                                star <= Number(e.reviewRate)
+                                  ? "text-yellow-500"
+                                  : ""
+                              }
+                            />
+                          ))}
+                        </div>
+                        <p className="text-xs">{e.reviewMessage}</p>
                       </div>
-                      <p className="text-xs">{e.reviewMessage}</p>
                     </div>
-                  </div>
-                );
-              })}
-            </div>}
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -124,17 +124,17 @@ const bookingData = [
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
-   const [user, setUser] = useState(userjson);
+  const [user, setUser] = useState(userjson);
   const [loadingPage, setLoadingPage] = useState(true);
-   useEffect(() => {
-      loadData();
-    }, []);
+  useEffect(() => {
+    loadData();
+  }, []);
 
-    const loadData = async () => {
+  const loadData = async () => {
     try {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
-     
+
       const result1 = await axios.get(
         `http://localhost:8085/api/v1/user/${userName}`,
         {
@@ -180,7 +180,7 @@ const Home = () => {
               "Are you sure you want to logout?",
               "warning",
               "#43ce76",
-              "#ef4444"
+              "#ef4444",
             );
             result ? (window.location.href = "/field-owner/login") : "";
           }}
@@ -199,22 +199,22 @@ const Home = () => {
           </div>
           <Link
             className="relative group cursor-pointer"
-             href={{
+            href={{
               pathname: "/harvester/profile",
               query: { username: user.userName },
             }}
           >
-             {loadingPage ? (
-                          <AvatarSkeleton />
-                        ) : (
-                          <Image
-                            width={0}
-                            height={0}
-                            src={`data:image/jpeg;base64,${user.userImage}`}
-                            alt=""
-                            className="rounded-full h-12 w-12"
-                          />
-                        )}
+            {loadingPage ? (
+              <AvatarSkeleton />
+            ) : (
+              <Image
+                width={0}
+                height={0}
+                src={`data:image/jpeg;base64,${user.userImage}`}
+                alt=""
+                className="rounded-full h-12 w-12"
+              />
+            )}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
@@ -222,13 +222,13 @@ const Home = () => {
           </Link>
         </div>
         <h1 className="text-6xl font-bold">
-                  Hi,{" "}
-                  {loadingPage ? (
-                    <NameSkeleton />
-                  ) : (
-                    <span className="text-green-400">{user.userFirstName}</span>
-                  )}
-                </h1>
+          Hi,{" "}
+          {loadingPage ? (
+            <NameSkeleton />
+          ) : (
+            <span className="text-green-400">{user.userFirstName}</span>
+          )}
+        </h1>
         <div className="flex flex-row gap-5">
           <div className="bg-gradient-to-r from-orange-400 to-orange-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
@@ -353,7 +353,7 @@ const Home = () => {
                             "Are you sure you want to accept this job?",
                             "warning",
                             "#5871ef",
-                            "#43ce76"
+                            "#43ce76",
                           );
                         }}
                         className="flex items-center gap-2 p-2 rounded-lg font-bold

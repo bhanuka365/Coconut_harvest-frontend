@@ -141,7 +141,7 @@ const Login = () => {
               await handleLogin();
             }}
           >
-            <FiLogIn/>
+            <FiLogIn />
             {loading ? "signing in..." : "sign in"}
           </button>
           <label className="w-full flex flex-row gap-1 justify-center items-center">

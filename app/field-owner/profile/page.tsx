@@ -11,7 +11,6 @@ import { checkEmpty } from "@/validation/validation";
 import { ProfileCardSkeleton } from "@/components/Components";
 import { FaEdit } from "react-icons/fa";
 
-
 const Profile = () => {
   const [user, setUser] = useState({
     Address: "",
@@ -255,7 +254,7 @@ const Profile = () => {
               updateProfile();
             }}
           >
-            <FaEdit/>
+            <FaEdit />
             {loading ? "Editing..." : "EDIT"}
           </button>
         </div>
