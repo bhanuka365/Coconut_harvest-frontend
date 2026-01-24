@@ -8,9 +8,11 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/validation/validation";
-import { ProfileCardSkeleton } from "@/components/Components";
+import { EmptyState, ProfileCardSkeleton } from "@/components/Components";
 import { FaEdit } from "react-icons/fa";
 import { BsFillStarFill } from "react-icons/bs";
+import reviewsjson from "@/json/reviews.json";
+import userjson from "@/json/user.json";
 
 const userData = [
   {
@@ -57,28 +59,13 @@ const userData = [
 
 const Profile = () => {
   const [textVisual, setTextVisual] = useState(false);
-  const [user, setUser] = useState({
-    Address: "",
-    Description: "",
-    Telephone: 0,
-    role: {
-      roleDescription: "",
-      roleName: "",
-    },
-    userFirstName: "",
-    userImage: "",
-    userLastName: "",
-    userName: "",
-    userPassword: "",
-  });
+  const [user, setUser] = useState(userjson);
   const [updateUserFirstName, setUpdateUserFirstName] = useState("");
   const [updateUserLastName, setUpdateUserLastName] = useState("");
   const [updateUserAddress, setUpdateUserAddress] = useState("");
   const [updateUserPhoneNumber, setUpdateUserPhoneNumber] = useState("");
   const [updateUserDescription, setUpdateUserDescription] = useState("");
 
-  const searchParams = useSearchParams();
-  const username = searchParams.get("username");
 
   const [editPencil1, setEditPencil1] = useState(true);
   const [editPencil2, setEditPencil2] = useState(true);
@@ -88,6 +75,8 @@ const Profile = () => {
 
   const [loading, setLoading] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
+  const [averageRate, setAverageRate] = useState("");
+  const [reviews, setReviews] = useState(reviewsjson);
 
   useEffect(() => {
     loadData();
@@ -96,6 +85,7 @@ const Profile = () => {
   const loadData = async () => {
     try {
       const token = localStorage.getItem("jwtToken");
+      const username = localStorage.getItem("userName");
       const result = await axios.get(
         `http://localhost:8085/api/v1/user/${username}`,
         {
@@ -111,6 +101,29 @@ const Profile = () => {
       setUpdateUserAddress(result.data.dataBundle.Address);
       setUpdateUserDescription(result.data.dataBundle.Description);
       setUpdateUserPhoneNumber(result.data.dataBundle.Telephone);
+
+      const result1 = await axios.get(
+        `http://localhost:8085/api/v1/review/${username}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      const fetchedReviews = result1.data.dataBundle;
+      setReviews(fetchedReviews);
+
+      const averageRating =
+        fetchedReviews.length > 0
+          ? (
+              fetchedReviews.reduce(
+                (sum: number, r: { reviewRate: any }) =>
+                  sum + Number(r.reviewRate),
+                0,
+              ) / fetchedReviews.length
+            ).toFixed(1)
+          : "0.0";
+
+      setAverageRate(averageRating);
     } catch (error) {
     } finally {
       setLoadingPage(false);
@@ -129,6 +142,7 @@ const Profile = () => {
     ) {
       try {
         const token = localStorage.getItem("jwtToken");
+        const username = localStorage.getItem("userName");
 
         await axios.put(
           "http://localhost:8085/api/v1/user-update",
@@ -193,9 +207,9 @@ const Profile = () => {
               </h1>
               <span>@{user.userName}</span>
               <span className="flex flex-row items-center gap-1 font-bold text-xl">
-                  <BsFillStarFill className="text-yellow-500" />
-                  4.5
-                </span>
+                <BsFillStarFill className="text-yellow-500" />
+                {averageRate}
+              </span>
             </div>
           </div>
           <div className="flex flex-col gap-1 w-full bg-white/40 p-2 rounded-lg">
@@ -303,47 +317,52 @@ const Profile = () => {
               updateProfile();
             }}
           >
-            <FaEdit/>
+            <FaEdit />
             {loading ? "Editing..." : "EDIT"}
           </button>
-           <div className="flex flex-col gap-5">
-                      <h1 className="font-bold text-2xl">Rating and Reviews</h1>
-                      <div className="flex flex-col gap-2 overflow-y-auto h-50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-                        {userData.map((e, index) => {
-                          return (
-                            <div
-                              className="shadow-lg rounded-xl bg-white w-full flex flex-row gap-2 p-5 "
-                              key={index}
-                            >
-                              <Image
-                                width={20}
-                                height={20}
-                                src={`/profile.jpg`}
-                                alt=""
-                                className="rounded-full h-10 w-10"
-                              />
-                              <div className="flex flex-col gap-1">
-                                <h1 className="font-bold">Naeesha Ruwandima</h1>
-                                <div className="flex flex-row gap-1">
-                                  <BsFillStarFill className="text-yellow-500" />{" "}
-                                  <BsFillStarFill />
-                                  <BsFillStarFill />
-                                  <BsFillStarFill />
-                                  <BsFillStarFill />
-                                </div>
-                                <p className="text-xs">
-                                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                  Odit voluptatem quisquam sunt delectus molestiae
-                                  possimus animi porro, impedit obcaecati minus quasi
-                                  ipsam vel ratione voluptatum ad ipsum doloribus
-                                  necessitatibus veritatis. lo
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        })}
+          <div className="flex flex-col gap-5">
+            <h1 className="font-bold text-2xl">Rating and Reviews</h1>
+            {reviews.length === 0 ? (
+              <EmptyState message="No reviews found." />
+            ) : (
+              <div className="flex flex-col gap-2 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+                {reviews.map((e, index) => {
+                  return (
+                    <div
+                      className="shadow-lg rounded-xl bg-white flex flex-row gap-2 p-5 "
+                      key={index}
+                    >
+                      <Image
+                        width={20}
+                        height={20}
+                        src={`data:image/jpeg;base64,${e.user.userImage}`}
+                        alt=""
+                        className="rounded-full h-10 w-10"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <h1 className="font-bold">
+                          {e.user.userFirstName} {e.user.userLastName}
+                        </h1>
+                        <div className="flex flex-row gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <BsFillStarFill
+                              key={star}
+                              className={
+                                star <= Number(e.reviewRate)
+                                  ? "text-yellow-500"
+                                  : ""
+                              }
+                            />
+                          ))}
+                        </div>
+                        <p className="text-xs">{e.reviewMessage}</p>
                       </div>
                     </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       )}
       <label className="w-full text-center">@2026 CocoHarvest Inc.</label>

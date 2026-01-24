@@ -8,92 +8,66 @@ import { BiArrowBack } from "react-icons/bi";
 import { FiMapPin, FiPhoneCall } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
-import { WorkerProfile } from "@/components/Components";
-
-const userData = [
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-];
+import { EmptyState, WorkerProfile } from "@/components/Components";
+import userjson from "@/json/user.json";
+import reviewsjson from "@/json/reviews.json";
 
 const HarvesterProfile = () => {
-  const [user, setUser] = useState({
-    Address: "",
-    Description: "",
-    Telephone: 0,
-    role: {
-      roleDescription: "",
-      roleName: "",
-    },
-    userFirstName: "",
-    userImage: "",
-    userLastName: "",
-    userName: "",
-    userPassword: "",
-  });
+  const [user, setUser] = useState(userjson);
+  const [reviews, setReviews] = useState(reviewsjson);
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
   const [loadingPage, setLoadingPage] = useState(true);
+  const [averageRate,setAverageRate] = useState("")
+
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
-    try {
-      const token = localStorage.getItem("jwtToken");
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/user/${username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+  try {
+    const token = localStorage.getItem("jwtToken");
 
-      setUser(result.data.dataBundle);
-    } catch (error) {
-    } finally {
-      setLoadingPage(false);
-    }
-  };
+    const result = await axios.get(
+      `http://localhost:8085/api/v1/user/${username}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    setUser(result.data.dataBundle);
+
+    const result1 = await axios.get(
+      `http://localhost:8085/api/v1/review/${username}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const fetchedReviews = result1.data.dataBundle;
+    setReviews(fetchedReviews);
+
+    
+    const averageRating =
+      fetchedReviews.length > 0
+        ? (
+            fetchedReviews.reduce(
+              (sum: number, r: { reviewRate: any; }) => sum + Number(r.reviewRate),
+              0
+            ) / fetchedReviews.length
+          ).toFixed(1)
+        : "0.0";
+
+    setAverageRate(averageRating);
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoadingPage(false);
+  }
+};
+
+
 
   return (
     <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
@@ -123,14 +97,18 @@ const HarvesterProfile = () => {
               <span>@{user.userName}</span>
               <div className="flex flex-row gap-2">
                 <Link
-                  href={"/field-owner/home"}
+                  href={{
+                    pathname: "/field-owner/harvester-booking",
+                    query: { username: user.userName },
+                  }}
                   className="flex flex-row gap-2 items-center text-white bg-gradient-to-r from-blue-400 to-blue-700 p-1 w-fit rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800 min-w-0"
                 >
-                  <FiPhoneCall /> <span className="truncate">Booking the harvester</span>
+                  <FiPhoneCall />{" "}
+                  <span className="truncate">Booking the harvester</span>
                 </Link>
                 <span className="flex flex-row items-center gap-1 font-bold text-xl">
                   <BsFillStarFill className="text-yellow-500" />
-                  4.5
+                 {averageRate}
                 </span>
               </div>
             </div>
@@ -146,43 +124,46 @@ const HarvesterProfile = () => {
               <label>{user.Telephone}</label>
             </div>
           </div>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 w-full">
             <h1 className="font-bold text-2xl">Rating and Reviews</h1>
-            <div className="flex flex-col gap-2 overflow-y-auto h-50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-              {userData.map((e, index) => {
+            {reviews.length === 0 ? 
+                      <EmptyState message="No reviews found."/>:
+            <div className="flex flex-col gap-2 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+              {reviews.map((e, index) => {
                 return (
                   <div
-                    className="shadow-lg rounded-xl bg-white w-full flex flex-row gap-2 p-5 "
+                    className="shadow-lg rounded-xl bg-white flex flex-row gap-2 p-5 "
                     key={index}
                   >
                     <Image
                       width={20}
                       height={20}
-                      src={`/profile.jpg`}
+                      src={`data:image/jpeg;base64,${e.user.userImage}`}
                       alt=""
                       className="rounded-full h-10 w-10"
                     />
                     <div className="flex flex-col gap-1">
-                      <h1 className="font-bold">Naeesha Ruwandima</h1>
+                      <h1 className="font-bold">
+                        {e.user.userFirstName} {e.user.userLastName}
+                      </h1>
                       <div className="flex flex-row gap-1">
-                        <BsFillStarFill className="text-yellow-500" />{" "}
-                        <BsFillStarFill />
-                        <BsFillStarFill />
-                        <BsFillStarFill />
-                        <BsFillStarFill />
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <BsFillStarFill
+                            key={star}
+                            className={
+                              star <= Number(e.reviewRate)
+                                ? "text-yellow-500"
+                                : ""
+                            }
+                          />
+                        ))}
                       </div>
-                      <p className="text-xs">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Odit voluptatem quisquam sunt delectus molestiae
-                        possimus animi porro, impedit obcaecati minus quasi
-                        ipsam vel ratione voluptatum ad ipsum doloribus
-                        necessitatibus veritatis. lo
-                      </p>
+                      <p className="text-xs">{e.reviewMessage}</p>
                     </div>
                   </div>
                 );
               })}
-            </div>
+            </div>}
           </div>
         </div>
       )}

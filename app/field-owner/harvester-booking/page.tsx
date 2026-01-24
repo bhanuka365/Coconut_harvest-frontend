@@ -17,6 +17,7 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { checkEmpty } from "@/validation/validation";
+import { useSearchParams } from "next/navigation";
 
 const Booking = () => {
   const [title, setTitle] = useState("");
@@ -39,32 +40,34 @@ const Booking = () => {
   const [workerCountError, setWorkerCountError] = useState(true);
   const [landSizeError, setLandSizeError] = useState(true);
   const [dueDateError, setDueDateError] = useState(true);
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username");
 
   //test
   let workerId = 1;
 
   const bookingSubmit = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    setTitleError(checkEmpty(title));
-    setDescriptionError(checkEmpty(description));
-    setPricePerTreeError(checkEmpty(pricePerTree));
-    setTreeCountError(checkEmpty(treeCount));
-    setLandSizeError(checkEmpty(landSize));
-    setDueDateError(checkEmpty(dueDate));
-    setWorkerCountError(checkEmpty(workerCount));
+      setTitleError(checkEmpty(title));
+      setDescriptionError(checkEmpty(description));
+      setPricePerTreeError(checkEmpty(pricePerTree));
+      setTreeCountError(checkEmpty(treeCount));
+      setLandSizeError(checkEmpty(landSize));
+      setDueDateError(checkEmpty(dueDate));
+      setWorkerCountError(checkEmpty(workerCount));
 
-    if (
-      checkEmpty(title) &&
-      checkEmpty(description) &&
-      checkEmpty(pricePerTree) &&
-      checkEmpty(treeCount) &&
-      checkEmpty(landSize) &&
-      checkEmpty(dueDate) &&
-      (checkEmpty(address) || (checkEmpty(longitude) && checkEmpty(latitude)))
-    ) {
-      try {
-        if (workerId !== null && !checkEmpty(workerCount)) {
+      if (
+        checkEmpty(title) &&
+        checkEmpty(description) &&
+        checkEmpty(pricePerTree) &&
+        checkEmpty(treeCount) &&
+        checkEmpty(landSize) &&
+        checkEmpty(dueDate) &&
+        (checkEmpty(address) || (checkEmpty(longitude) && checkEmpty(latitude)))
+      ) {
+        if (username !== null && !checkEmpty(workerCount)) {
           toast.error("Booking submit failed please check the details");
           setLoading(false);
           return;
@@ -83,9 +86,10 @@ const Booking = () => {
             title: title,
             description: description,
             duedate: dueDate,
-            jobType: workerId === null ? "Job_Post" : "Direct",
+            jobType: username === null ? "Job_Post" : "Direct",
             rate: false,
-            Count: workerId === null ? workerCount : null,
+            Count: username !== null ? workerCount : null,
+            HarvesterName: "Nadeesha"
           },
           {
             headers: {
@@ -94,22 +98,20 @@ const Booking = () => {
           },
         );
         toast.success("Booking submited");
-      } catch (err: any) {
-        if (err.response) {
-          toast.error("Booking failed");
-        } else if (err.request) {
-          toast.error("Server not reachable");
-        } else {
-          toast.error("Something went wrong");
-        }
-      } finally {
-        setLoading(false);
+      } else {
+        toast.error("Booking submit failed please check the details");
       }
-    } else {
-      toast.error("Booking submit failed please check the details");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Booking failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
       setLoading(false);
     }
-
   };
 
   const getCurrentLocation = () => {
@@ -273,27 +275,31 @@ const Booking = () => {
             cannot be empty
           </span>
         </div>
-        <div className="w-full relative">
-          <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
-            <FiHash />
-            <input
-              type="number"
-              min={0}
-              placeholder="Number of worker count"
-              className="w-full focus:outline-none focus:ring-0 border-none"
-              onChange={(e) => {
-                setWorkerCount(e.target.value);
-              }}
-            />
+        {username !== null ? (
+          <div className="w-full relative">
+            <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
+              <FiHash />
+              <input
+                type="number"
+                min={0}
+                placeholder="Number of worker count"
+                className="w-full focus:outline-none focus:ring-0 border-none"
+                onChange={(e) => {
+                  setWorkerCount(e.target.value);
+                }}
+              />
+            </div>
+            <span
+              className={`absolute left-0 top-full text-red-400 text-xs ${
+                workerCountError ? "invisible" : "visible"
+              }`}
+            >
+              cannot be empty
+            </span>
           </div>
-          <span
-            className={`absolute left-0 top-full text-red-400 text-xs ${
-              workerCountError ? "invisible" : "visible"
-            }`}
-          >
-            cannot be empty
-          </span>
-        </div>
+        ) : (
+          ""
+        )}
         <div className="w-full relative">
           <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
             <FiDollarSign />
@@ -321,7 +327,7 @@ const Booking = () => {
             bookingSubmit();
           }}
         >
-         {loading?"Booking confirming...": "CONFIRM BOOKING"}
+          {loading ? "booking confirming..." : "booking confirm"}
         </button>
       </div>
       <label className="w-full text-center">@2026 CocoHarvest Inc.</label>

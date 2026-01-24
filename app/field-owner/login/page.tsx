@@ -142,7 +142,7 @@ const Login = () => {
             }}
           >
             <FiLogIn/>
-            {loading ? "Signing in..." : "SIGN IN"}
+            {loading ? "signing in..." : "sign in"}
           </button>
           <label className="w-full flex flex-row gap-1 justify-center items-center">
             New to Coconut?

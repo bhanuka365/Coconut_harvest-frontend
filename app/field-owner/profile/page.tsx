@@ -11,51 +11,8 @@ import { checkEmpty } from "@/validation/validation";
 import { ProfileCardSkeleton } from "@/components/Components";
 import { FaEdit } from "react-icons/fa";
 
-const userData = [
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-];
 
 const Profile = () => {
-  const [textVisual, setTextVisual] = useState(false);
   const [user, setUser] = useState({
     Address: "",
     Description: "",

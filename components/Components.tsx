@@ -174,7 +174,7 @@ interface EmptyStateProps {
 
 export const EmptyState: React.FC<EmptyStateProps> = ( {message} ) => {
   return (
-    <div className="flex flex-col items-center justify-center h-60 text-center text-gray-500 gap-4">
+    <div className="flex flex-col items-center h-50 justify-center text-center text-gray-500 gap-4">
       <FiFolder className="text-6xl"/>
       <p className="text-lg font-semibold">{message}</p>
       <p className="text-sm text-gray-400">Try adjusting your search or filter.</p>

@@ -339,7 +339,7 @@ const Register = () => {
             className="bg-gradient-to-r from-green-400 to-green-700 p-2 w-full rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
           >
             <FiUserPlus/>
-            {loading ? "Signing up..." : "SIGN UP"}
+            {loading ? "signing up..." : "sign up"}
           </button>
 
           <Link
