@@ -166,6 +166,56 @@ export const WorkerProfile = () => {
   );
 };
 
+export const BookingSkeleton = () => {
+  return (
+    <div className="flex flex-col items-left lg:w-2/3 w-full gap-5 bg-white p-5 rounded-xl animate-pulse">
+      
+      <div className="h-6 w-48 bg-green-300 rounded" />
+
+      <div className="flex flex-row gap-2 items-center bg-gray-200 p-2 rounded-sm w-full">
+        <div className="h-5 w-5 bg-green-300 rounded" />
+        <div className="h-8 w-full bg-green-300 rounded" />
+      </div>
+
+      <div className="flex flex-row gap-2 items-start bg-gray-200 p-2 rounded-sm w-full">
+        <div className="h-5 w-5 bg-green-300 rounded" /> 
+        <div className="h-16 w-full bg-green-300 rounded" />
+      </div>
+
+      <div className="flex flex-col gap-2 w-full">
+        <div className="flex items-center gap-3 bg-gray-200 p-3 rounded-md">
+          <div className="h-5 w-5 bg-green-300 rounded" />
+          <div className="h-8 w-full bg-green-300 rounded" />
+        </div>
+        <div className="h-8 w-40 bg-green-300 rounded self-start" /> 
+        <div className="h-4 w-60 bg-green-200 rounded text-xs" /> 
+      </div>
+
+      <div className="flex flex-row gap-2 items-center bg-gray-200 p-2 rounded-sm w-full">
+        <div className="h-5 w-5 bg-green-300 rounded" />
+        <div className="h-8 w-full bg-green-300 rounded" />
+      </div>
+
+      <div className="flex flex-row gap-2 items-center bg-gray-200 p-2 rounded-sm w-full">
+        <div className="h-5 w-5 bg-green-300 rounded" />
+        <div className="h-8 w-full bg-green-300 rounded" />
+      </div>
+
+      <div className="flex flex-row gap-2 items-center bg-gray-200 p-2 rounded-sm w-full">
+        <div className="h-5 w-5 bg-green-300 rounded" />
+        <div className="h-8 w-full bg-green-300 rounded" />
+      </div>
+
+      <div className="flex flex-row gap-2 items-center bg-gray-200 p-2 rounded-sm w-full">
+        <div className="h-5 w-5 bg-green-300 rounded" />
+        <div className="h-8 w-full bg-green-300 rounded" />
+      </div>
+
+      <div className="h-10 w-full bg-green-300 rounded" />
+    </div>
+  );
+};
+
 
 
 interface EmptyStateProps {

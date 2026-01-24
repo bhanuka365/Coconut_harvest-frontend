@@ -10,22 +10,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/validation/validation";
 import { ProfileCardSkeleton } from "@/components/Components";
 import { FaEdit } from "react-icons/fa";
+import userJson from "@/json/user.json"
 
 const Profile = () => {
-  const [user, setUser] = useState({
-    Address: "",
-    Description: "",
-    Telephone: 0,
-    role: {
-      roleDescription: "",
-      roleName: "",
-    },
-    userFirstName: "",
-    userImage: "",
-    userLastName: "",
-    userName: "",
-    userPassword: "",
-  });
+  const [user, setUser] = useState(userJson);
   const [updateUserFirstName, setUpdateUserFirstName] = useState("");
   const [updateUserLastName, setUpdateUserLastName] = useState("");
   const [updateUserAddress, setUpdateUserAddress] = useState("");

@@ -1,0 +1,18 @@
+{
+    "Count": "",
+    "address": "",
+    "bookingId": "",
+    "description": "",
+    "duedate": "",
+    "harvesterName": "",
+    "jobType": "",
+    "landSize": "",
+    "latitude": "",
+    "longitude": "",
+    "pricePerTree": "",
+    "rate": false,
+    "status": "",
+    "title": "",
+    "totalAmount": "",
+    "treeCount": ""
+}
