@@ -46,10 +46,29 @@ export const validatematchPasswords = (val1: any, val2: any) => {
   }
 };
 
-export const checkEmpty = (val: any) => {
-  if (val.length !== 0) {
-    return true;
-  } else {
-    return false;
-  }
+// export const checkEmpty = (val: any) => {
+//   if (val.length !== 0) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
+
+export const checkEmpty = (val: any): boolean => {
+  if (val === null || val === undefined) return false;
+
+  // numbers (price, count, landSize)
+  if (typeof val === "number") return true;
+
+  // Date object
+  if (val instanceof Date) return true;
+
+  // strings
+  if (typeof val === "string") return val.trim().length !== 0;
+
+  // fallback (arrays, etc.)
+  if (Array.isArray(val)) return val.length !== 0;
+
+  return false;
 };
+

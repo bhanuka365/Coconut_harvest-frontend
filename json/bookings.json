@@ -1,0 +1,34 @@
+[
+    {
+        "count": "",
+        "address": "",
+        "bookingId": "",
+        "description": "",
+        "duedate": "",
+        "harvesterName": "",
+        "jobType": "",
+        "landSize": "",
+        "latitude": "",
+        "longitude": "",
+        "pricePerTree": "",
+        "rate": false,
+        "status": "",
+        "title": "",
+        "totalAmount": "",
+        "treeCount": "",
+        "user": {
+            "Address": "",
+            "Description": "",
+            "Telephone": 0,
+            "role": {
+                "roleDescription": "",
+                "roleName": ""
+            },
+            "userFirstName": "",
+            "userImage": "",
+            "userLastName": "",
+            "userName": "",
+            "userPassword": ""
+        }
+    }
+]

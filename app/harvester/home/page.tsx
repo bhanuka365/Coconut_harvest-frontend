@@ -20,112 +20,34 @@ import { LuClipboardPen } from "react-icons/lu";
 import { GiTreeBranch } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { MdWork } from "react-icons/md";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { AvatarSkeleton, Dialog, NameSkeleton } from "@/components/Components";
+import {
+  AvatarSkeleton,
+  BookingCardSkeleton,
+  Dialog,
+  EmptyState,
+  NameSkeleton,
+} from "@/components/Components";
 import userjson from "@/json/user.json";
 import axios from "axios";
-
-const MySwal = withReactContent(Swal);
-
-const bookingData = [
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "JOB_POST",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "JOB_POST",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "JOB_POST",
-  },
-];
+import bookingJson from "@/json/bookings.json";
+import { toast, ToastContainer } from "react-toastify";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
   const [user, setUser] = useState(userjson);
+  const [bookings, setBookings] = useState(bookingJson);
   const [loadingPage, setLoadingPage] = useState(true);
+  const [acceptBtnloading, setAcceptBtnLoading] = useState(false);
+  const [confirmBtnloading, setConfirmBtnLoading] = useState(false);
+  const [cancelBtnloading, setCancelBtnLoading] = useState(false);
+
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+
+  const [nearbyOnly, setNearbyOnly] = useState(false);
+
   useEffect(() => {
     loadData();
   }, []);
@@ -134,6 +56,17 @@ const Home = () => {
     try {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
+
+      const result = await axios.get(
+        `http://localhost:8085/api/v1/bookings/my/pending`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setBookings(result.data.dataBundle);
 
       const result1 = await axios.get(
         `http://localhost:8085/api/v1/user/${userName}`,
@@ -151,14 +84,188 @@ const Home = () => {
     }
   };
 
+
+  const handleAcceptJob = async (id: number | string) => {
+    setAcceptBtnLoading(true);
+    const result = await Dialog(
+      "Confirm Accept Job",
+      "Are you sure you want to accept this job?",
+      "warning",
+      "#5871ef",
+      "#43ce76",
+    );
+
+    if (!result) return;
+
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:8085/api/v1/bookings/update",
+        {
+          bookingId: Number(id),
+          status: "PROGRESS",
+          rate: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success("Job accepted");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Job accept failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setAcceptBtnLoading(false);
+      loadData();
+    }
+  };
+
+  const handleConfrimJob = async (id: number | string) => {
+    setConfirmBtnLoading(true);
+
+    const token = localStorage.getItem("jwtToken");
+    const userName = localStorage.getItem("userName");
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:8085/api/v1/bookings/update",
+        {
+          bookingId: Number(id),
+          status: "PROGRESS",
+          harvesterName:userName,
+          rate: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success("Job accepted");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Job accept failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setConfirmBtnLoading(false);
+      loadData();
+    }
+  };
+
+  const handleCancelJob = async (id: number | string) => {
+    setCancelBtnLoading(true);
+
+    const token = localStorage.getItem("jwtToken");
+    const userName = localStorage.getItem("userName");
+
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:8085/api/v1/bookings/update",
+        {
+          bookingId: Number(id),
+          status: "CANCELLED",
+          harvesterName:userName,
+          rate: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success("Job canceled");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Job cancel failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setCancelBtnLoading(false);
+      loadData();
+    }
+  };
+
+  const getDistanceInKm = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ) => {
+    const R = 6371; // Earth radius in KM
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation not supported");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setNearbyOnly(true);
+        toast.success("Showing nearby jobs");
+      },
+      () => {
+        toast.error("Location access denied");
+      },
+    );
+  };
+
   return (
-    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
-      <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
+    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+      <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
         <Link
           href="/harvester/home"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiHome size={25} />
+          <FiHome size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Home
           </span>
@@ -167,7 +274,7 @@ const Home = () => {
           href="/harvester/my-jobs"
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiClipboard size={25} />
+          <FiClipboard size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             My Jobs
           </span>
@@ -182,10 +289,10 @@ const Home = () => {
               "#43ce76",
               "#ef4444",
             );
-            result ? (window.location.href = "/field-owner/login") : "";
+            result ? (window.location.href = "/harvester/login") : "";
           }}
         >
-          <FiLogOut size={25} />
+          <FiLogOut size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
           </span>
@@ -229,22 +336,22 @@ const Home = () => {
             <span className="text-green-400">{user.userFirstName}</span>
           )}
         </h1>
-        <div className="flex flex-row gap-5">
-          <div className="bg-gradient-to-r from-orange-400 to-orange-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
+        <div className="flex sm:flex-row flex-col gap-5">
+          <div className="bg-gradient-to-r from-orange-400 to-orange-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Complete jobs</label>
             </div>
             <label>30</label>
           </div>
-          <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
+          <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiDollarSign className="text-2xl" />
               <label className="font-bold text-2xl">Total earn</label>
             </div>
             <label>LKR 100,000</label>
           </div>
-          <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg w-1/3 flex flex-col text-white gap-2">
+          <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Progress jobs</label>
@@ -253,8 +360,8 @@ const Home = () => {
           </div>
         </div>
         <h1 className="text-2xl font-bold">New Job Requests</h1>
-        <div className="flex flex-row gap-2">
-          <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
+        <div className="flex sm:flex-row flex-col gap-2">
+          <div className="flex flex-row gap-2 p-2 rounded-full bg-white sm:w-1/2 w-full">
             <FiSearch size={20} />
             <input
               value={searchTxt}
@@ -265,114 +372,171 @@ const Home = () => {
               }}
             />
           </div>
-          <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
+          <div
+            className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg sm:w-fit w-full font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
+            onClick={() => {
+              getLocation();
+            }}
+          >
             <FiMapPin />
             <span>Search Nearby</span>
           </div>
+          <button
+            onClick={() => setNearbyOnly(false)}
+            className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg sm:w-fit w-full font-bold bg-gradient-to-r from-red-400 to-red-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-red-500 hover:to-red-800"
+          >
+            {" "}
+            <FiX />
+            Clear Nearby Filter
+          </button>
         </div>
-        <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {bookingData
-            .filter((e) => {
-              return e.location.toLowerCase().includes(searchTxt.toLowerCase());
-            })
-            .map((e, index) => {
-              return (
-                <div
-                  className="shadow-lg rounded-xl bg-white w-full flex flex-col gap-2 p-5 "
-                  key={index}
-                >
-                  <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                    {e.tittle}
-                  </h1>
-                  <p className="text-gray-600">{e.description}</p>
-                  <div className="flex items-center gap-2">
-                    <FiUser className="text-blue-600" />
-                    <span className="font-medium">Field Owner:</span>
-                    <span>{e.field_owner}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FiMapPin className="text-red-500" />
-                    <span className="font-medium">Location:</span>
-                    <span>{e.location}</span>
-                  </div>
+        {loadingPage ? (
+          <BookingCardSkeleton />
+        ) : bookings.length === 0 ? (
+          <EmptyState message="No jobs found." />
+        ) : (
+          <div className="flex flex-col gap-5 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+            {bookings
+              .filter((e) => {
+                // return e.address.toLowerCase().includes(searchTxt.toLowerCase());
 
-                  <div className="flex items-center gap-2">
-                    <FiCalendar className="text-purple-600" />
-                    <span className="font-medium">Date:</span>
-                    <span>{e.Date}</span>
-                  </div>
+                // Text search
+                const matchesText = e.address
+                  .toLowerCase()
+                  .includes(searchTxt.toLowerCase());
 
-                  <div className="flex items-center gap-2">
-                    <FiMaximize2 className="text-red-600" />
-                    <span className="font-medium">Field size (in acres)</span>
-                    <span>{e.field_size}</span>
-                  </div>
+                if (!nearbyOnly || !userLocation) return matchesText;
 
-                  <div className="flex items-center gap-2">
-                    <GiTreeBranch className="text-green-700" />
-                    <span className="font-medium">Tree Count:</span>
-                    <span>{e.tree_count}</span>
-                  </div>
+                // onst distance = getDistanceInKm(
+                console.log(userLocation.lat);
+                console.log(userLocation.lng);
+                console.log(Number(e.latitude));
+                console.log(Number(e.longitude));
 
-                  <div className="flex items-center gap-2">
-                    <FiDollarSign className="text-yellow-600" />
-                    <span className="font-medium">Per Tree:</span>
-                    <span>Rs. {e.per_tree}</span>
-                  </div>
+                // Nearby filter (within 10km)
+                const distance = getDistanceInKm(
+                  userLocation.lat,
+                  userLocation.lng,
+                  Number(e.latitude),
+                  Number(e.longitude),
+                );
 
-                  <div className="flex items-center gap-2 font-bold">
-                    <FiDollarSign className="text-green-600" />
-                    <span>Total Price:</span>
-                    <span>Rs. {e.per_tree * e.tree_count}</span>
-                  </div>
-                  <div className="flex flex-row gap-2">
-                    {e.job_type === "DIRECT" ? (
-                      <div className="flex flex-row gap-2">
-                        <div
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
+                return matchesText && distance <= 10;
+              })
+              .map((e, index) => {
+                return (
+                  <div
+                    className="shadow-lg rounded-xl bg-white w-full flex flex-col gap-2 p-5 "
+                    key={index}
+                  >
+                    <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
+                      {e.title}
+                    </h1>
+                    <p className="text-gray-600">{e.description}</p>
+                    <div className="flex items-center gap-2">
+                      <FiUser className="text-blue-600" />
+                      <span className="font-medium">Field Owner:</span>
+                      <span>
+                        {e.user.userFirstName} {e.user.userLastName}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FiMapPin className="text-red-500" />
+                      <span className="font-medium">Location:</span>
+                      <span>{e.address}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <FiCalendar className="text-purple-600" />
+                      <span className="font-medium">Date:</span>
+                      <span>{e.duedate.split("T")[0]}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <FiMaximize2 className="text-red-600" />
+                      <span className="font-medium">Field size (in acres)</span>
+                      <span>{e.landSize}</span>
+                    </div>
+{e.count !== null?
+                    <div className="flex items-center gap-2">
+                      <FiUser className="text-blue-700" />
+                      <span className="font-medium">Worker Count:</span>
+                      <span>{e.count}</span>
+                    </div>:""}
+
+                    <div className="flex items-center gap-2">
+                      <GiTreeBranch className="text-green-700" />
+                      <span className="font-medium">Tree Count:</span>
+                      <span>{e.treeCount}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <FiDollarSign className="text-yellow-600" />
+                      <span className="font-medium">Per Tree:</span>
+                      <span>Rs. {e.pricePerTree}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 font-bold">
+                      <FiDollarSign className="text-green-600" />
+                      <span>Total Price:</span>
+                      <span>Rs. {e.totalAmount}</span>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                      {e.jobType === "Direct" ? (
+                        <div className="flex flex-row gap-2">
+                          <div
+                            onClick={() => {
+                              handleConfrimJob(e.bookingId);
+                            }}
+                            className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                        >
-                          <FiCheck />
-                          <span>Confirm</span>
-                        </div>
-                        <div
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
+                          >
+                            <FiCheck />
+                            <span>
+                              {confirmBtnloading ? "Condirming" : "Confirm"}
+                            </span>
+                          </div>
+                          <div
+                            onClick={() => {
+                              handleCancelJob(e.bookingId);
+                            }}
+                            className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-red-400 to-red-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-red-500 hover:to-red-800"
-                        >
-                          <FiX />
-                          <span>Cancel</span>
+                          >
+                            <FiX />
+                            <span>
+                              {cancelBtnloading ? "Canceling" : "Cancel"}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div
-                        onClick={async () => {
-                          const result = await Dialog(
-                            "Confirm Accept Job",
-                            "Are you sure you want to accept this job?",
-                            "warning",
-                            "#5871ef",
-                            "#43ce76",
-                          );
-                        }}
-                        className="flex items-center gap-2 p-2 rounded-lg font-bold
+                      ) : (
+                        <div
+                          onClick={async () => {
+                            handleAcceptJob(e.bookingId);
+                          }}
+                          className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                      >
-                        <MdWork />
-                        <span>Accept Job</span>
-                      </div>
-                    )}
-                    <label className="text-yellow-600 bg-yellow-100 p-2 rounded-lg font-bold">
-                      {e.status}
-                    </label>
+                        >
+                          <MdWork />
+                          <span>
+                            {acceptBtnloading ? "accepting..." : "Accept Job"}
+                          </span>
+                        </div>
+                      )}
+                      <label className="text-yellow-600 bg-yellow-100 p-2 rounded-lg font-bold">
+                        {e.status}
+                      </label>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-        </div>
+                );
+              })}
+          </div>
+        )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

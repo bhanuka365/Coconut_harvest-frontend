@@ -216,6 +216,72 @@ export const BookingSkeleton = () => {
   );
 };
 
+export const BookingCardSkeleton = () => {
+  return (
+    <div className="shadow-lg rounded-xl bg-white w-full flex flex-col gap-3 p-5 animate-pulse">
+
+      <div className="h-6 w-1/2 bg-green-300 rounded" />
+
+      <div className="h-4 w-full bg-green-300 rounded" />
+      <div className="h-4 w-5/6 bg-green-300 rounded" />
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-24 bg-green-300 rounded" />
+        <div className="h-4 w-32 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-20 bg-green-300 rounded" />
+        <div className="h-4 w-40 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-16 bg-green-300 rounded" />
+        <div className="h-4 w-24 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-40 bg-green-300 rounded" />
+        <div className="h-4 w-16 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-28 bg-green-300 rounded" />
+        <div className="h-4 w-12 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-28 bg-green-300 rounded" />
+        <div className="h-4 w-16 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-4 bg-green-300 rounded-full" />
+        <div className="h-4 w-20 bg-green-300 rounded" />
+        <div className="h-4 w-24 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex items-center gap-2 mt-2">
+        <div className="h-5 w-5 bg-green-300 rounded-full" />
+        <div className="h-5 w-24 bg-green-300 rounded" />
+        <div className="h-5 w-32 bg-green-300 rounded" />
+      </div>
+
+      <div className="flex flex-row gap-3 mt-3">
+        <div className="h-10 w-28 bg-green-300 rounded-lg" />
+        <div className="h-10 w-28 bg-green-300 rounded-lg" />
+      </div>
+    </div>
+  );
+};
+
+
 
 
 interface EmptyStateProps {

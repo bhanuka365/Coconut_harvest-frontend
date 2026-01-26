@@ -65,7 +65,7 @@ const Booking = () => {
         checkEmpty(dueDate) &&
         (checkEmpty(address) || (checkEmpty(longitude) && checkEmpty(latitude)))
       ) {
-        if (username !== null && !checkEmpty(workerCount)) {
+        if (username === null && !checkEmpty(workerCount)) {
           toast.error("Booking submit failed please check the details");
           setLoading(false);
           return;
@@ -86,8 +86,8 @@ const Booking = () => {
             duedate: dueDate,
             jobType: username === null ? "Job_Post" : "Direct",
             rate: false,
-            Count: username !== null ? workerCount : null,
-            HarvesterName:username // re check this api
+            count: username === null ? workerCount : null,
+            harvesterName:username // re check this api
           },
           {
             headers: {
@@ -273,7 +273,7 @@ const Booking = () => {
             cannot be empty
           </span>
         </div>
-        {username !== null ? (
+        {username === null ? (
           <div className="w-full relative">
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
               <FiHash />

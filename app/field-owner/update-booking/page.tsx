@@ -100,21 +100,23 @@ const UpdateBooking = () => {
         checkEmpty(updateDescription) &&
         checkEmpty(updatePricePerTree) &&
         checkEmpty(updateTreeCount) &&
-        checkEmpty(updateTreeCount) &&
         checkEmpty(updateDueDate) &&
-        (checkEmpty(updateAddress) ||
-          (checkEmpty(updatelatitude) && checkEmpty(updatelongitude)))
+        (checkEmpty(updateAddress)
+         ||
+          (checkEmpty(updatelatitude) && checkEmpty(updatelongitude))
+        )
       ) {
-        if (jobType === "Direct" && !checkEmpty(updateWorkerCount)) {
-          toast.error("Booking submit failed please check the details");
+        if (jobType !== "Direct" && !checkEmpty(updateWorkerCount)) {
+          toast.error("Booking update failed please check the details");
           setLoading(false);
           return;
         }
         const token = localStorage.getItem("jwtToken");
 
-        await axios.post(
-          "http://localhost:8085/api/v1/bookings/add",
+        await axios.put(
+          "http://localhost:8085/api/v1/bookings/update",
           {
+            bookingId: 14,
             landSize: updatelandSize,
             treeCount: updateTreeCount,
             pricePerTree: updatePricePerTree,
@@ -124,7 +126,9 @@ const UpdateBooking = () => {
             title: updateTittle,
             description: updateDescription,
             duedate: updateDueDate,
-            Count: jobType === "Direct" ? updateWorkerCount : null,
+            jobType: jobType,
+            rate: false,
+            count: jobType !== "Direct" ? updateWorkerCount : null,
           },
           {
             headers: {
@@ -142,6 +146,7 @@ const UpdateBooking = () => {
       } else if (err.request) {
         toast.error("Server not reachable");
       } else {
+        console.error("FULL ERROR:", err);
         toast.error("Something went wrong");
       }
     } finally {

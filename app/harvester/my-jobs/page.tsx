@@ -16,10 +16,14 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { Dialog } from "@/components/Components";
+import { AvatarSkeleton, Dialog } from "@/components/Components";
+import userjson from "@/json/user.json";
+import axios from "axios";
+import bookingJson from "@/json/bookings.json";
+import { toast, ToastContainer } from "react-toastify";
 
 const MySwal = withReactContent(Swal);
 
@@ -123,6 +127,89 @@ const MyTasks = () => {
   const [categoryBtn1, setCategoryBtn1] = useState(false);
   const [categoryBtn2, setCategoryBtn2] = useState(false);
   const [categoryTxt, setCategoryTxt] = useState("all");
+    const [user, setUser] = useState(userjson);
+    const [bookings, setBookings] = useState(bookingJson);
+    const [loadingPage, setLoadingPage] = useState(true);
+    const [completeBtnLoading, setCompleteBtnLoading] = useState(false);
+
+ useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const userName = localStorage.getItem("userName");
+
+      const result = await axios.get(
+        `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setBookings(result.data.dataBundle);
+      // console.log(result.data.dataBundle)
+
+      const result1 = await axios.get(
+        `http://localhost:8085/api/v1/user/${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setUser(result1.data.dataBundle);
+    } catch (error) {
+    } finally {
+      setLoadingPage(false);
+    }
+  };
+
+   const handleComplete = async (id: number | string) => {
+    setCompleteBtnLoading(true);
+
+    const token = localStorage.getItem("jwtToken");
+    const userName = localStorage.getItem("userName");
+
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:8085/api/v1/bookings/update",
+        {
+          bookingId: Number(id),
+          status: "COMPLETED",
+          rate: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success("Job completed");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Job complete failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setCompleteBtnLoading(false);
+      loadData();
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
       <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
@@ -173,13 +260,17 @@ const MyTasks = () => {
             className="relative group cursor-pointer"
             href="/harvester/profile"
           >
-            <Image
-              width={50}
-              height={50}
-              src="/profile.jpg"
-              alt=""
-              className="rounded-full"
-            />
+             {loadingPage ? (
+                          <AvatarSkeleton />
+                        ) : (
+                          <Image
+                            width={0}
+                            height={0}
+                            src={`data:image/jpeg;base64,${user.userImage}`}
+                            alt=""
+                            className="rounded-full h-12 w-12"
+                          />
+                        )}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
@@ -199,10 +290,10 @@ const MyTasks = () => {
               }}
             />
           </div>
-          <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
+          {/* <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
             <FiMapPin />
             <span>Search Nearby</span>
-          </div>
+          </div> */}
           <div
             className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
               categoryBtn0
@@ -250,9 +341,9 @@ const MyTasks = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {bookingData
+          {bookings
             .filter((e) => {
-              const matchesSearch = e.location
+              const matchesSearch = e.address
                 ?.toLowerCase()
                 .includes(searchTxt.toLowerCase());
 
@@ -266,63 +357,67 @@ const MyTasks = () => {
               return (
                 <div
                   className={`rounded-xl shadow-lg ${
-                    e.status === "IN_PROGRESS" ? "bg-blue-200" : "bg-green-200"
+                    e.status === "PROGRESS" ? "bg-blue-200" : "bg-green-200"
                   } w-full flex flex-col gap-2 p-5`}
                   key={index}
                 >
                   <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                    {e.tittle}
+                    {e.title}
                   </h1>
                   <p className="text-gray-600">{e.description}</p>
                   <div className="flex items-center gap-2">
                     <FiUser className="text-blue-600" />
                     <span className="font-medium">Field Owner:</span>
-                    <span>{e.field_owner}</span>
+                    <span>{e.user.userFirstName} {e.user.userLastName}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <FiMapPin className="text-red-500" />
                     <span className="font-medium">Location:</span>
-                    <span>{e.location}</span>
+                    <span>{e.address}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <FiCalendar className="text-purple-600" />
                     <span className="font-medium">Date:</span>
-                    <span>{e.Date}</span>
+                    <span>{e.duedate.split("T")[0]}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <FiMaximize2 className="text-red-600" />
                     <span className="font-medium">Field size (in acres)</span>
-                    <span>{e.field_size}</span>
+                    <span>{e.landSize}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <GiTreeBranch className="text-green-700" />
                     <span className="font-medium">Tree Count:</span>
-                    <span>{e.tree_count}</span>
+                    <span>{e.treeCount}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <FiDollarSign className="text-yellow-600" />
                     <span className="font-medium">Per Tree:</span>
-                    <span>Rs. {e.per_tree}</span>
+                    <span>Rs. {e.pricePerTree}</span>
                   </div>
 
                   <div className="flex items-center gap-2 font-bold">
                     <FiDollarSign className="text-green-600" />
                     <span>Total Price:</span>
-                    <span>Rs. {e.per_tree * e.tree_count}</span>
+                    <span>Rs. {e.totalAmount}</span>
                   </div>
                   <div className="flex flex-row gap-2">
-                    {e.status === "IN_PROGRESS" ? (
+                    {e.status === "PROGRESS" ? (
+
                       <div
+                      onClick={()=>{
+                        handleComplete(e.bookingId)
+                      }}
                         className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
                       >
                         <FiCheck />
-                        <span>Mark as Complete</span>
+                        <span>{completeBtnLoading?"Completing...":"Mark as Complete"}</span>
                       </div>
                     ) : (
                       <div
@@ -335,7 +430,7 @@ const MyTasks = () => {
                     )}
                     <label
                       className={`${
-                        e.status === "IN_PROGRESS"
+                        e.status === "PROGRESS"
                           ? "text-blue-600 bg-blue-100"
                           : "text-green-600 bg-green-100"
                       } p-2 rounded-lg font-bold`}
@@ -348,6 +443,7 @@ const MyTasks = () => {
             })}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
