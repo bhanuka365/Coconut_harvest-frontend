@@ -9,12 +9,15 @@ import { FiFileText, FiSend } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/validation/validation";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 const Booking = () => {
   const [reviewRate, setReviewRate] = useState(0);
   const [reviewMessage, setReviewMessage] = useState("");
   const [reviewMessageError, setReviewMessageError] = useState(true);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+    const bookingid = searchParams.get("bookingid");
 
   const handleReview = async () => {
     try {
@@ -31,7 +34,7 @@ const Booking = () => {
           {
             reviewMessage,
             reviewRate,
-            bookingId: 14,
+            bookingId: Number(bookingid),
           },
           {
             headers: {

@@ -116,7 +116,7 @@ const UpdateBooking = () => {
         await axios.put(
           "http://localhost:8085/api/v1/bookings/update",
           {
-            bookingId: 14,
+            bookingId: Number(bookingid),
             landSize: updatelandSize,
             treeCount: updateTreeCount,
             pricePerTree: updatePricePerTree,

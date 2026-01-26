@@ -18,110 +18,12 @@ import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import { AvatarSkeleton, Dialog } from "@/components/Components";
+import { AvatarSkeleton, BookingCardSkeleton, Dialog, EmptyState } from "@/components/Components";
 import axios from "axios";
 import userjson from "@/json/user.json";
+import bookingsJson from "@/json/bookings.json";
+import { toast, ToastContainer } from "react-toastify";
 
-const bookingData = [
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "IN_PROGRESS",
-    job_type: "DIRECT",
-    rate: false,
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "PENDING",
-    job_type: "JOB_POST",
-    rate: false,
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "CANCELLED",
-    job_type: "DIRECT",
-    rate: false,
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "COMPLETED",
-    job_type: "DIRECT",
-    rate: false,
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "IN_PROGRESS",
-    job_type: "JOB_POST",
-    rate: false,
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "COMPLETED",
-    job_type: "DIRECT",
-    rate: true,
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "COMPLETED",
-    job_type: "JOB_POST",
-    rate: false,
-  },
-];
 
 const MyBooking = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -132,7 +34,10 @@ const MyBooking = () => {
   const [categoryBtn4, setCategoryBtn4] = useState(false);
   const [categoryTxt, setCategoryTxt] = useState("all");
   const [user, setUser] = useState(userjson);
+  const [bookings, setBookings] = useState(bookingsJson);
   const [loadingPage, setLoadingPage] = useState(true);
+   const [cancelBtnloading, setCancelBtnLoading] = useState(false);
+   const [deleteBtnloading, setDeleteBtnLoading] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -153,9 +58,102 @@ const MyBooking = () => {
       );
 
       setUser(result.data.dataBundle);
+
+      const result1 = await axios.get(
+        `http://localhost:8085/api/v1/bookings/my`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setBookings(result1.data.dataBundle);
     } catch (error) {
     } finally {
       setLoadingPage(false);
+    }
+  };
+
+   const handleCancelJob = async (id: number | string) => {
+    setCancelBtnLoading(true);
+
+    const token = localStorage.getItem("jwtToken");
+    const userName = localStorage.getItem("userName");
+
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:8085/api/v1/bookings/update",
+        {
+          bookingId: Number(id),
+          status: "CANCELLED",
+          rate: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success("Booking canceled");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Booking cancel failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setCancelBtnLoading(false);
+      loadData();
+    }
+  };
+
+  const handleDeleteJob = async (id: number | string) => {
+    const result = await Dialog(
+                            "Confirm Delete",
+                            "Are you sure you want to delete this booking",
+                            "warning",
+                            "#ef4444",
+                            "#43ce76",
+                          );
+
+    if (!result) return;
+
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    try {
+      await axios.delete(
+        `http://localhost:8085/api/v1/bookings/${Number(id)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success("Booking deleted");
+    } catch (err: any) {
+      if (err.response) {
+        toast.error("Booking delete failed");
+      } else if (err.request) {
+        toast.error("Server not reachable");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      loadData();
     }
   };
 
@@ -297,7 +295,7 @@ const MyBooking = () => {
                 : "border-2 border-blue-400 text-blue-400"
             } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
             onClick={() => {
-              setCategoryTxt("IN_PROGRESS");
+              setCategoryTxt("PROGRESS");
               setCategoryBtn0(false);
               setCategoryBtn1(true);
               setCategoryBtn2(false);
@@ -325,10 +323,14 @@ const MyBooking = () => {
             <span>complete</span>
           </div>
         </div>
+         {loadingPage ? 
+                          <BookingCardSkeleton />
+                         : bookings.length === 0 ? 
+                          <EmptyState message="No booking found." />
+                         : 
         <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {bookingData
-            .filter((e) => {
-              const matchesSearch = e.location
+          {bookings.filter((e)=>{
+const matchesSearch = e.address
                 ?.toLowerCase()
                 .includes(searchTxt.toLowerCase());
 
@@ -336,13 +338,11 @@ const MyBooking = () => {
                 categoryTxt === "all" || e.status === categoryTxt;
 
               return matchesSearch && matchesCategory;
-            })
-
-            .map((e, index) => {
+          }).map((e, index) => {
               return (
                 <div
                   className={`rounded-xl shadow-lg ${
-                    e.status === "IN_PROGRESS"
+                    e.status === "PROGRESS"
                       ? "bg-yellow-200"
                       : e.status === "COMPLETED"
                         ? "bg-green-200"
@@ -353,14 +353,14 @@ const MyBooking = () => {
                   key={index}
                 >
                   <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                    {e.tittle}
+                    {e.title}
                   </h1>
                   <p className="text-gray-600">{e.description}</p>
-                  {e.status !== "PENDING" || e.job_type === "DIRECT" ? (
+                  {e.status !== "PENDING" && e.jobType !== "Job_Post" ? (
                     <div className="flex items-center gap-2">
                       <FiUser className="text-blue-600" />
                       <span className="font-medium">Harvester:</span>
-                      <span>{e.field_owner}</span>
+                      <span>{e.harvesterName}</span>
                     </div>
                   ) : (
                     ""
@@ -368,43 +368,43 @@ const MyBooking = () => {
                   <div className="flex items-center gap-2">
                     <FiMapPin className="text-red-500" />
                     <span className="font-medium">Field Location:</span>
-                    <span>{e.location}</span>
+                    <span>{e.address}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <FiCalendar className="text-purple-600" />
                     <span className="font-medium">Date:</span>
-                    <span>{e.Date}</span>
+                    <span>{e.duedate.split("T")[0]}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <FiMaximize2 className="text-red-600" />
                     <span className="font-medium">Field size (in acres)</span>
-                    <span>{e.field_size}</span>
+                    <span>{e.landSize}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <GiTreeBranch className="text-green-700" />
                     <span className="font-medium">Tree Count:</span>
-                    <span>{e.tree_count}</span>
+                    <span>{e.treeCount}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <FiDollarSign className="text-yellow-600" />
                     <span className="font-medium">Per Tree:</span>
-                    <span>Rs. {e.per_tree}</span>
+                    <span>Rs. {e.pricePerTree}</span>
                   </div>
 
                   <div className="flex items-center gap-2 font-bold">
                     <FiDollarSign className="text-green-600" />
                     <span>Total Price:</span>
-                    <span>Rs. {e.per_tree * e.tree_count}</span>
+                    <span>Rs. {e.totalAmount}</span>
                   </div>
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-row gap-2 items-center">
                       {e.rate === false && e.status === "COMPLETED" ? (
                         <Link
-                          href="/field-owner/add-review"
+                          href={{pathname:"/field-owner/add-review", query: { bookingid:e.bookingId },}}
                           className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
@@ -425,21 +425,24 @@ const MyBooking = () => {
                           </span>
                         </div>
                       )}
-                      {e.status === "PENDING" || e.status === "IN_PROGRESS" ? (
+                      {e.status === "PENDING" || e.status === "PROGRESS" ? (
                         <div
+                        onClick={()=>{
+                          handleCancelJob(e.bookingId)
+                        }}
                           className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-red-400 to-red-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-red-500 hover:to-red-800"
                         >
                           <FiX />
-                          <span>cancel</span>
+                          <span>{cancelBtnloading?"canceling":"cancel"}</span>
                         </div>
                       ) : (
                         ""
                       )}
                       <label
                         className={`${
-                          e.status === "IN_PROGRESS"
+                          e.status === "PROGRESS"
                             ? "bg-yellow-100 text-yellow-600"
                             : e.status === "COMPLETED"
                               ? "text-green-600 bg-green-100"
@@ -456,17 +459,11 @@ const MyBooking = () => {
                         className="text-red-600"
                         size={20}
                         onClick={async () => {
-                          const result = await Dialog(
-                            "Confirm Delete",
-                            "Are you sure you want to delete this booking",
-                            "warning",
-                            "#ef4444",
-                            "#43ce76",
-                          );
+                          handleDeleteJob(e.bookingId)
                         }}
                       />
                       {e.status === "PENDING" ? (
-                        <Link href="/field-owner/update-booking">
+                        <Link href={{pathname:"/field-owner/update-booking",query: { bookingid:e.bookingId },}}>
                           <CiEdit className="text-green-600" size={20} />
                         </Link>
                       ) : (
@@ -477,8 +474,9 @@ const MyBooking = () => {
                 </div>
               );
             })}
-        </div>
+        </div>}
       </div>
+       <ToastContainer />
     </div>
   );
 };

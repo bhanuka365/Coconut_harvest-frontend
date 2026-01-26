@@ -17,109 +17,12 @@ import {
 import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { AvatarSkeleton, Dialog } from "@/components/Components";
+import { AvatarSkeleton, BookingCardSkeleton, Dialog, EmptyState } from "@/components/Components";
 import userjson from "@/json/user.json";
 import axios from "axios";
-import bookingJson from "@/json/bookings.json";
+import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 
-const MySwal = withReactContent(Swal);
-
-const bookingData = [
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "IN_PROGRESS",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "COMPLETED",
-    job_type: "JOB_POST",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "IN_PROGRESS",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "COMPLETED",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "IN_PROGRESS",
-    job_type: "JOB_POST",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "IN_PROGRESS",
-    job_type: "DIRECT",
-  },
-  {
-    tittle: "Coconut Harvest Karannoo",
-    description:
-      " Harvest coconuts safely from the given field within thescheduled date.",
-    field_owner: "Mr. Silva",
-    location: "Matara,Sri Lanka",
-    Date: "2026/05/07",
-    field_size: 10,
-    tree_count: 4,
-    per_tree: 50,
-    status: "COMPLETED",
-    job_type: "JOB_POST",
-  },
-];
 
 const MyTasks = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -128,7 +31,7 @@ const MyTasks = () => {
   const [categoryBtn2, setCategoryBtn2] = useState(false);
   const [categoryTxt, setCategoryTxt] = useState("all");
     const [user, setUser] = useState(userjson);
-    const [bookings, setBookings] = useState(bookingJson);
+    const [bookings, setBookings] = useState(bookingsJson);
     const [loadingPage, setLoadingPage] = useState(true);
     const [completeBtnLoading, setCompleteBtnLoading] = useState(false);
 
@@ -173,7 +76,6 @@ const MyTasks = () => {
     setCompleteBtnLoading(true);
 
     const token = localStorage.getItem("jwtToken");
-    const userName = localStorage.getItem("userName");
 
     if (!token) {
       toast.error("Authentication required");
@@ -316,7 +218,7 @@ const MyTasks = () => {
                 : "border-2 border-blue-400 text-blue-400"
             } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
             onClick={() => {
-              setCategoryTxt("IN_PROGRESS");
+              setCategoryTxt("PROGRESS");
               setCategoryBtn0(false);
               setCategoryBtn1(true);
               setCategoryBtn2(false);
@@ -340,6 +242,11 @@ const MyTasks = () => {
             <span>complete</span>
           </div>
         </div>
+         {loadingPage ? 
+                  <BookingCardSkeleton />
+                 : bookings.length === 0 ? 
+                  <EmptyState message="No tasks found." />
+                 : 
         <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
           {bookings
             .filter((e) => {
@@ -441,7 +348,7 @@ const MyTasks = () => {
                 </div>
               );
             })}
-        </div>
+        </div>}
       </div>
       <ToastContainer />
     </div>
