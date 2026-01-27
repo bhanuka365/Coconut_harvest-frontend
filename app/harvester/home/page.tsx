@@ -384,21 +384,21 @@ setAllTotalAmount(result2.data.dataBundle.reduce(
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Complete jobs</label>
             </div>
-            <label>{completeJobCounts}</label>
+            <label>{completeJobCounts?completeJobCounts:"..."}</label>
           </div>
           <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiDollarSign className="text-2xl" />
               <label className="font-bold text-2xl">Total earn</label>
             </div>
-            <label>LKR {setFormatAmout(allTotalAmount)}</label>
+            <label>{allTotalAmount?`LKR ${setFormatAmout(allTotalAmount)}`:"..."}</label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Progress jobs</label>
             </div>
-            <label>{progressJobCounts}</label>
+            <label>{progressJobCounts?progressJobCounts:"..."}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">New Job Requests</h1>
