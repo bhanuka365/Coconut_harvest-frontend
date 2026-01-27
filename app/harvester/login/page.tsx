@@ -126,12 +126,6 @@ const Login = () => {
               cannot be empty
             </span>
           </div>
-          {/* <Link
-          href="/forgot-password"
-          className="w-full text-right hover:underline transition duration-300 ease-in-out"
-        >
-          Forgot password?
-        </Link> */}
           <button
             className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
             onClick={async () => {

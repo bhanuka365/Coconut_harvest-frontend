@@ -44,7 +44,7 @@ const Home = () => {
   const [searchNearbyBtnloading, setSearchNearbyBtnLoading] = useState(false);
   const [progressJobCounts, setProgressJobCounts] = useState("");
   const [completeJobCounts, setCompleteJobCounts] = useState("");
-   const [allTotalAmount, setAllTotalAmount] = useState("");
+  const [allTotalAmount, setAllTotalAmount] = useState("");
 
   const [userLocation, setUserLocation] = useState<{
     lat: number;
@@ -72,7 +72,6 @@ const Home = () => {
       );
 
       setBookings(result.data.dataBundle);
-      
 
       const result1 = await axios.get(
         `http://localhost:8085/api/v1/user/${userName}`,
@@ -106,15 +105,12 @@ const Home = () => {
         }).length,
       );
 
-setAllTotalAmount(result2.data.dataBundle.reduce(
-  (sum: number, e: any) => {
-    const amount = parseFloat(e.totalAmount) || 0;
-    return sum + amount;
-  },
-  0
-))
-
-
+      setAllTotalAmount(
+        result2.data.dataBundle.reduce((sum: number, e: any) => {
+          const amount = parseFloat(e.totalAmount) || 0;
+          return sum + amount;
+        }, 0),
+      );
     } catch (error) {
     } finally {
       setLoadingPage(false);
@@ -297,9 +293,6 @@ setAllTotalAmount(result2.data.dataBundle.reduce(
     setSearchNearbyBtnLoading(false);
   };
 
- 
-  
-
   return (
     <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
       <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
@@ -384,21 +377,23 @@ setAllTotalAmount(result2.data.dataBundle.reduce(
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Complete jobs</label>
             </div>
-            <label>{completeJobCounts?completeJobCounts:"..."}</label>
+            <label>{completeJobCounts ? completeJobCounts : "..."}</label>
           </div>
           <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiDollarSign className="text-2xl" />
               <label className="font-bold text-2xl">Total earn</label>
             </div>
-            <label>{allTotalAmount?`LKR ${setFormatAmout(allTotalAmount)}`:"..."}</label>
+            <label>
+              {allTotalAmount ? `LKR ${setFormatAmout(allTotalAmount)}` : "..."}
+            </label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Progress jobs</label>
             </div>
-            <label>{progressJobCounts?progressJobCounts:"..."}</label>
+            <label>{progressJobCounts ? progressJobCounts : "..."}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">New Job Requests</h1>

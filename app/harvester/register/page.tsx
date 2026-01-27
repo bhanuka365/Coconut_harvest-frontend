@@ -72,7 +72,7 @@ const Register = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -112,7 +112,7 @@ const Register = () => {
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
-          }
+          },
         );
 
         toast.success("Registration successful");
@@ -131,7 +131,6 @@ const Register = () => {
       toast.error("Registration failed please check the details");
       setLoading(false);
     }
-
   };
 
   return (
@@ -330,7 +329,9 @@ const Register = () => {
                 password must be 8+ chars with letters & numbers
               </span>
             ) : (
-              <span className="absolute left-0 top-full mt-1 text-red-400 text-xs">missmatch passwords</span>
+              <span className="absolute left-0 top-full mt-1 text-red-400 text-xs">
+                missmatch passwords
+              </span>
             )}
           </div>
           <button
@@ -338,7 +339,7 @@ const Register = () => {
             disabled={loading}
             className="bg-gradient-to-r from-green-400 to-green-700 p-2 w-full rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
           >
-            <FiUserPlus/>
+            <FiUserPlus />
             {loading ? "signing up..." : "sign up"}
           </button>
 
@@ -351,7 +352,8 @@ const Register = () => {
         </div>
 
         <label>@2026 CocoHarvest Inc.</label>
-      </div><ToastContainer />
+      </div>
+      <ToastContainer />
     </div>
   );
 };

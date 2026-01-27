@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { BiArrowBack, BiPencil } from "react-icons/bi";
-import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
@@ -14,58 +13,15 @@ import { BsFillStarFill } from "react-icons/bs";
 import reviewsjson from "@/json/reviews.json";
 import userjson from "@/json/user.json";
 
-const userData = [
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-  {
-    name: "Nadeesha",
-    location: "Matara,Sri Lanka",
-    phone_number: "0711764232",
-  },
-];
+
 
 const Profile = () => {
-  const [textVisual, setTextVisual] = useState(false);
   const [user, setUser] = useState(userjson);
   const [updateUserFirstName, setUpdateUserFirstName] = useState("");
   const [updateUserLastName, setUpdateUserLastName] = useState("");
   const [updateUserAddress, setUpdateUserAddress] = useState("");
   const [updateUserPhoneNumber, setUpdateUserPhoneNumber] = useState("");
   const [updateUserDescription, setUpdateUserDescription] = useState("");
-
 
   const [editPencil1, setEditPencil1] = useState(true);
   const [editPencil2, setEditPencil2] = useState(true);
@@ -318,7 +274,7 @@ const Profile = () => {
             }}
           >
             <FaEdit />
-            {loading ? "Editing..." : "EDIT"}
+            {loading ? "editing..." : "edi"}
           </button>
           <div className="flex flex-col gap-5">
             <h1 className="font-bold text-2xl">Rating and Reviews</h1>

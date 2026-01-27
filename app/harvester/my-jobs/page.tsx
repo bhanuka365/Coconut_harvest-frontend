@@ -17,13 +17,17 @@ import {
 import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
 import { useEffect, useState } from "react";
-import { AvatarSkeleton, BookingCardSkeleton, Dialog, EmptyState } from "@/components/Components";
+import {
+  AvatarSkeleton,
+  BookingCardSkeleton,
+  Dialog,
+  EmptyState,
+} from "@/components/Components";
 import userjson from "@/json/user.json";
 import axios from "axios";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 import { setFormatAmout } from "@/utils/formatters";
-
 
 const MyTasks = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -31,12 +35,12 @@ const MyTasks = () => {
   const [categoryBtn1, setCategoryBtn1] = useState(false);
   const [categoryBtn2, setCategoryBtn2] = useState(false);
   const [categoryTxt, setCategoryTxt] = useState("all");
-    const [user, setUser] = useState(userjson);
-    const [bookings, setBookings] = useState(bookingsJson);
-    const [loadingPage, setLoadingPage] = useState(true);
-    const [completeBtnLoading, setCompleteBtnLoading] = useState(false);
+  const [user, setUser] = useState(userjson);
+  const [bookings, setBookings] = useState(bookingsJson);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [completeBtnLoading, setCompleteBtnLoading] = useState(false);
 
- useEffect(() => {
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -72,7 +76,7 @@ const MyTasks = () => {
     }
   };
 
-   const handleComplete = async (id: number | string) => {
+  const handleComplete = async (id: number | string) => {
     setCompleteBtnLoading(true);
 
     const token = localStorage.getItem("jwtToken");
@@ -141,7 +145,7 @@ const MyTasks = () => {
               "Are you sure you want to logout?",
               "warning",
               "#43ce76",
-              "#ef4444"
+              "#ef4444",
             );
             result ? (window.location.href = "/harvester/login") : "";
           }}
@@ -162,17 +166,17 @@ const MyTasks = () => {
             className="relative group cursor-pointer"
             href="/harvester/profile"
           >
-             {loadingPage ? (
-                          <AvatarSkeleton />
-                        ) : (
-                          <Image
-                            width={0}
-                            height={0}
-                            src={`data:image/jpeg;base64,${user.userImage}`}
-                            alt=""
-                            className="rounded-full h-12 w-12"
-                          />
-                        )}
+            {loadingPage ? (
+              <AvatarSkeleton />
+            ) : (
+              <Image
+                width={0}
+                height={0}
+                src={`data:image/jpeg;base64,${user.userImage}`}
+                alt=""
+                className="rounded-full h-12 w-12"
+              />
+            )}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="absolute top-full mt-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Profile
@@ -193,160 +197,166 @@ const MyTasks = () => {
             />
           </div>
           <div className="flex flex-row gap-1 w-fit">
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn0
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("all");
-              setCategoryBtn0(true);
-              setCategoryBtn1(false);
-              setCategoryBtn2(false);
-            }}
-          >
-            <span>All</span>
-          </div>
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn1
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("PROGRESS");
-              setCategoryBtn0(false);
-              setCategoryBtn1(true);
-              setCategoryBtn2(false);
-            }}
-          >
-            <span>progress</span>
-          </div>
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn2
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("COMPLETED");
-              setCategoryBtn0(false);
-              setCategoryBtn1(false);
-              setCategoryBtn2(true);
-            }}
-          >
-            <span>complete</span>
-          </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn0
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("all");
+                setCategoryBtn0(true);
+                setCategoryBtn1(false);
+                setCategoryBtn2(false);
+              }}
+            >
+              <span>All</span>
+            </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn1
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("PROGRESS");
+                setCategoryBtn0(false);
+                setCategoryBtn1(true);
+                setCategoryBtn2(false);
+              }}
+            >
+              <span>progress</span>
+            </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn2
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("COMPLETED");
+                setCategoryBtn0(false);
+                setCategoryBtn1(false);
+                setCategoryBtn2(true);
+              }}
+            >
+              <span>complete</span>
+            </div>
           </div>
         </div>
-         {loadingPage ? 
-                  <BookingCardSkeleton />
-                 : bookings.length === 0 ? 
-                  <EmptyState message="No tasks found." />
-                 : 
-        <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {bookings
-            .filter((e) => {
-              const matchesSearch = e.address
-                ?.toLowerCase()
-                .includes(searchTxt.toLowerCase());
+        {loadingPage ? (
+          <BookingCardSkeleton />
+        ) : bookings.length === 0 ? (
+          <EmptyState message="No tasks found." />
+        ) : (
+          <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+            {bookings
+              .filter((e) => {
+                const matchesSearch = e.address
+                  ?.toLowerCase()
+                  .includes(searchTxt.toLowerCase());
 
-              const matchesCategory =
-                categoryTxt === "all" || e.status === categoryTxt;
+                const matchesCategory =
+                  categoryTxt === "all" || e.status === categoryTxt;
 
-              return matchesSearch && matchesCategory;
-            })
+                return matchesSearch && matchesCategory;
+              })
 
-            .map((e, index) => {
-              return (
-                <div
-                  className={`rounded-xl shadow-lg ${
-                    e.status === "PROGRESS" ? "bg-blue-200" : "bg-green-200"
-                  } w-full flex flex-col gap-2 p-5`}
-                  key={index}
-                >
-                  <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                    {e.title}
-                  </h1>
-                  <p className="text-gray-600">{e.description}</p>
-                  <div className="flex items-center gap-2">
-                    <FiUser className="text-blue-600" />
-                    <span className="font-medium">Field Owner:</span>
-                    <span>{e.user.userFirstName} {e.user.userLastName}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FiMapPin className="text-red-500" />
-                    <span className="font-medium">Location:</span>
-                    <span>{e.address}</span>
-                  </div>
+              .map((e, index) => {
+                return (
+                  <div
+                    className={`rounded-xl shadow-lg ${
+                      e.status === "PROGRESS" ? "bg-blue-200" : "bg-green-200"
+                    } w-full flex flex-col gap-2 p-5`}
+                    key={index}
+                  >
+                    <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
+                      {e.title}
+                    </h1>
+                    <p className="text-gray-600">{e.description}</p>
+                    <div className="flex items-center gap-2">
+                      <FiUser className="text-blue-600" />
+                      <span className="font-medium">Field Owner:</span>
+                      <span>
+                        {e.user.userFirstName} {e.user.userLastName}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FiMapPin className="text-red-500" />
+                      <span className="font-medium">Location:</span>
+                      <span>{e.address}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <FiCalendar className="text-purple-600" />
-                    <span className="font-medium">Date:</span>
-                    <span>{e.duedate.split("T")[0]}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <FiCalendar className="text-purple-600" />
+                      <span className="font-medium">Date:</span>
+                      <span>{e.duedate.split("T")[0]}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <FiMaximize2 className="text-red-600" />
-                    <span className="font-medium">Field size (in acres)</span>
-                    <span>{e.landSize}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <FiMaximize2 className="text-red-600" />
+                      <span className="font-medium">Field size (in acres)</span>
+                      <span>{e.landSize}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <GiTreeBranch className="text-green-700" />
-                    <span className="font-medium">Tree Count:</span>
-                    <span>{e.treeCount}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <GiTreeBranch className="text-green-700" />
+                      <span className="font-medium">Tree Count:</span>
+                      <span>{e.treeCount}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <FiDollarSign className="text-yellow-600" />
-                    <span className="font-medium">Per Tree:</span>
-                    <span>Rs. {setFormatAmout(e.pricePerTree)}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <FiDollarSign className="text-yellow-600" />
+                      <span className="font-medium">Per Tree:</span>
+                      <span>Rs. {setFormatAmout(e.pricePerTree)}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2 font-bold">
-                    <FiDollarSign className="text-green-600" />
-                    <span>Total Price:</span>
-                    <span>Rs. {setFormatAmout(e.totalAmount)}</span>
-                  </div>
-                  <div className="flex flex-row gap-2">
-                    {e.status === "PROGRESS" ? (
-
-                      <div
-                      onClick={()=>{
-                        handleComplete(e.bookingId)
-                      }}
-                        className="flex items-center gap-2 p-2 rounded-lg font-bold
+                    <div className="flex items-center gap-2 font-bold">
+                      <FiDollarSign className="text-green-600" />
+                      <span>Total Price:</span>
+                      <span>Rs. {setFormatAmout(e.totalAmount)}</span>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                      {e.status === "PROGRESS" ? (
+                        <div
+                          onClick={() => {
+                            handleComplete(e.bookingId);
+                          }}
+                          className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                      >
-                        <FiCheck />
-                        <span>{completeBtnLoading?"Completing...":"Mark as Complete"}</span>
-                      </div>
-                    ) : (
-                      <div
-                        className="flex items-center gap-2 p-2 rounded-lg font-bold
+                        >
+                          <FiCheck />
+                          <span>
+                            {completeBtnLoading
+                              ? "Completing..."
+                              : "Mark as Complete"}
+                          </span>
+                        </div>
+                      ) : (
+                        <div
+                          className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-gray-300 to-gray-400 text-white w-fit cursor-not-allowed"
+                        >
+                          <FiAward />
+                          <span>Done</span>
+                        </div>
+                      )}
+                      <label
+                        className={`${
+                          e.status === "PROGRESS"
+                            ? "text-blue-600 bg-blue-100"
+                            : "text-green-600 bg-green-100"
+                        } p-2 rounded-lg font-bold`}
                       >
-                        <FiAward />
-                        <span>Done</span>
-                      </div>
-                    )}
-                    <label
-                      className={`${
-                        e.status === "PROGRESS"
-                          ? "text-blue-600 bg-blue-100"
-                          : "text-green-600 bg-green-100"
-                      } p-2 rounded-lg font-bold`}
-                    >
-                      {e.status}
-                    </label>
+                        {e.status}
+                      </label>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-        </div>}
+                );
+              })}
+          </div>
+        )}
       </div>
       <ToastContainer />
     </div>
