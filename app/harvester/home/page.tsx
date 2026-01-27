@@ -118,6 +118,12 @@ const Home = () => {
         }).length,
       );
 
+      console.log(
+        result2.data.dataBundle.filter((e: any) => {
+          return e.status === "PROGRESS";
+        }).length,
+      );
+
       setAllTotalAmount(
         result2.data.dataBundle.reduce((sum: number, e: any) => {
           const amount = parseFloat(e.totalAmount) || 0;
@@ -150,12 +156,12 @@ const Home = () => {
 
     try {
       const jsonData = {
-          bookingId: Number(id),
-          status: "PROGRESS",
-          rate: false,
-        }
+        bookingId: Number(id),
+        status: "PROGRESS",
+        rate: false,
+      };
 
-        await updateBookingById(token,jsonData)
+      await updateBookingById(token, jsonData);
       // await axios.put(
       //   "http://localhost:8085/api/v1/bookings/update",
       //   {
@@ -422,7 +428,7 @@ const Home = () => {
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Progress jobs</label>
             </div>
-            <label>{progressJobCounts ? progressJobCounts : "..."}</label>
+            <label>{progressJobCounts ? progressJobCounts :"..."}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">New Job Requests</h1>
