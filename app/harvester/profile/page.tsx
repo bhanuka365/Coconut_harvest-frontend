@@ -12,8 +12,8 @@ import { FaEdit } from "react-icons/fa";
 import { BsFillStarFill } from "react-icons/bs";
 import reviewsjson from "@/json/reviews.json";
 import userjson from "@/json/user.json";
-
-
+import { getUserByUserName, updateUserByUserName } from "@/api/user";
+import { getReviewsByUserName } from "@/api/review";
 
 const Profile = () => {
   const [user, setUser] = useState(userjson);
@@ -42,14 +42,16 @@ const Profile = () => {
     try {
       const token = localStorage.getItem("jwtToken");
       const username = localStorage.getItem("userName");
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/user/${username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+
+      const result = await getUserByUserName(username, token);
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${username}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUser(result.data.dataBundle);
       setUpdateUserFirstName(result.data.dataBundle.userFirstName);
@@ -58,12 +60,14 @@ const Profile = () => {
       setUpdateUserDescription(result.data.dataBundle.Description);
       setUpdateUserPhoneNumber(result.data.dataBundle.Telephone);
 
-      const result1 = await axios.get(
-        `http://localhost:8085/api/v1/review/${username}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const result1 = await getReviewsByUserName(username, token);
+
+      // const result1 = await axios.get(
+      //   `http://localhost:8085/api/v1/review/${username}`,
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   },
+      // );
 
       const fetchedReviews = result1.data.dataBundle;
       setReviews(fetchedReviews);
@@ -100,22 +104,33 @@ const Profile = () => {
         const token = localStorage.getItem("jwtToken");
         const username = localStorage.getItem("userName");
 
-        await axios.put(
-          "http://localhost:8085/api/v1/user-update",
-          {
-            Address: updateUserAddress,
-            Description: updateUserDescription,
-            Telephone: updateUserPhoneNumber,
-            userFirstName: updateUserFirstName,
-            userLastName: updateUserLastName,
-            userName: username,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const jsonData = {
+          Address: updateUserAddress,
+          Description: updateUserDescription,
+          Telephone: updateUserPhoneNumber,
+          userFirstName: updateUserFirstName,
+          userLastName: updateUserLastName,
+          userName: username,
+        };
+
+        await updateUserByUserName(jsonData, token);
+
+        // await axios.put(
+        //   "http://localhost:8085/api/v1/user-update",
+        //   {
+        //     Address: updateUserAddress,
+        //     Description: updateUserDescription,
+        //     Telephone: updateUserPhoneNumber,
+        //     userFirstName: updateUserFirstName,
+        //     userLastName: updateUserLastName,
+        //     userName: username,
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
         toast.success("Profile updated");
       } catch (err: any) {
         if (err.response) {

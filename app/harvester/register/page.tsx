@@ -25,6 +25,7 @@ import {
   validateUsername,
 } from "@/utils/validation";
 import { toast, ToastContainer } from "react-toastify";
+import { userRegister } from "@/api/user";
 
 const Register = () => {
   const [textVisual1, setTextVisual1] = useState(false);
@@ -107,13 +108,15 @@ const Register = () => {
         formData.append("user", JSON.stringify(form));
         if (userImage) formData.append("image", userImage);
 
-        await axios.post(
-          "http://localhost:8085/api/v1/registeruser",
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          },
-        );
+        await userRegister(formData);
+
+        // await axios.post(
+        //   "http://localhost:8085/api/v1/registeruser",
+        //   formData,
+        //   {
+        //     headers: { "Content-Type": "multipart/form-data" },
+        //   },
+        // );
 
         toast.success("Registration successful");
       } catch (err: any) {
@@ -141,7 +144,7 @@ const Register = () => {
           CocoHarvest
         </div>
 
-        <div className="flex flex-col items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-2 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign up to your account
           </h1>

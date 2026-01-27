@@ -29,6 +29,13 @@ import userjson from "@/json/user.json";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 import { handleLogout } from "@/utils/others";
+import { getUserByUserName } from "@/api/user";
+import {
+  deleteBookingById,
+  getAllMyBookingsForFieldOwner,
+  updateBookingById,
+} from "@/api/booking";
+import { setFormatAmout } from "@/utils/formatters";
 
 const MyBooking = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -53,25 +60,29 @@ const MyBooking = () => {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
 
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/user/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result = await getUserByUserName(userName, token);
+
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${userName}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUser(result.data.dataBundle);
 
-      const result1 = await axios.get(
-        `http://localhost:8085/api/v1/bookings/my`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result1 = await getAllMyBookingsForFieldOwner(token);
+
+      // const result1 = await axios.get(
+      //   `http://localhost:8085/api/v1/bookings/my`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setBookings(result1.data.dataBundle);
     } catch (error) {
@@ -81,7 +92,6 @@ const MyBooking = () => {
   };
 
   const handleCancelJob = async (id: number | string) => {
-
     setCancelBtnId(id.toString());
     setCancelBtnLoading(true);
 
@@ -93,19 +103,27 @@ const MyBooking = () => {
     }
 
     try {
-      await axios.put(
-        "http://localhost:8085/api/v1/bookings/update",
-        {
-          bookingId: Number(id),
-          status: "CANCELLED",
-          rate: false,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const jsonData = {
+        bookingId: Number(id),
+        status: "CANCELLED",
+        rate: false,
+      };
+
+      await updateBookingById(token, jsonData);
+
+      // await axios.put(
+      //   "http://localhost:8085/api/v1/bookings/update",
+      //   {
+      //     bookingId: Number(id),
+      //     status: "CANCELLED",
+      //     rate: false,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       toast.success("Booking canceled");
     } catch (err: any) {
@@ -116,8 +134,9 @@ const MyBooking = () => {
       } else {
         toast.error("Something went wrong");
       }
-        setCancelBtnLoading(false);
-    
+    }finally{
+      setCancelBtnLoading(false);
+
       loadData();
     }
   };
@@ -140,14 +159,15 @@ const MyBooking = () => {
     }
 
     try {
-      await axios.delete(
-        `http://localhost:8085/api/v1/bookings/${Number(id)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      await deleteBookingById(id, token);
+      // await axios.delete(
+      //   `http://localhost:8085/api/v1/bookings/${Number(id)}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       toast.success("Booking deleted");
     } catch (err: any) {
@@ -187,7 +207,7 @@ const MyBooking = () => {
         <div
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
           onClick={async () => {
-           handleLogout("/field-owner/login");
+            handleLogout("/field-owner/login");
           }}
         >
           <FiLogOut size={20} />
@@ -237,91 +257,91 @@ const MyBooking = () => {
             />
           </div>
           <div className="flex flex-row gap-1 w-fit">
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn0
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("all");
-              setCategoryBtn0(true);
-              setCategoryBtn1(false);
-              setCategoryBtn2(false);
-              setCategoryBtn3(false);
-              setCategoryBtn4(false);
-            }}
-          >
-            <span>All</span>
-          </div>
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn3
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("PENDING");
-              setCategoryBtn0(false);
-              setCategoryBtn3(true);
-              setCategoryBtn1(false);
-              setCategoryBtn2(false);
-              setCategoryBtn4(false);
-            }}
-          >
-            <span>pending</span>
-          </div>
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn4
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("CANCELLED");
-              setCategoryBtn0(false);
-              setCategoryBtn4(true);
-              setCategoryBtn2(false);
-              setCategoryBtn1(false);
-              setCategoryBtn3(false);
-            }}
-          >
-            <span>cancel</span>
-          </div>
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn1
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("PROGRESS");
-              setCategoryBtn0(false);
-              setCategoryBtn1(true);
-              setCategoryBtn2(false);
-              setCategoryBtn3(false);
-              setCategoryBtn4(false);
-            }}
-          >
-            <span>progress</span>
-          </div>
-          <div
-            className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
-              categoryBtn2
-                ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-                : "border-2 border-blue-400 text-blue-400"
-            } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
-            onClick={() => {
-              setCategoryTxt("COMPLETED");
-              setCategoryBtn0(false);
-              setCategoryBtn1(false);
-              setCategoryBtn2(true);
-              setCategoryBtn3(false);
-              setCategoryBtn4(false);
-            }}
-          >
-            <span>complete</span>
-          </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn0
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("all");
+                setCategoryBtn0(true);
+                setCategoryBtn1(false);
+                setCategoryBtn2(false);
+                setCategoryBtn3(false);
+                setCategoryBtn4(false);
+              }}
+            >
+              <span>All</span>
+            </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn3
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("PENDING");
+                setCategoryBtn0(false);
+                setCategoryBtn3(true);
+                setCategoryBtn1(false);
+                setCategoryBtn2(false);
+                setCategoryBtn4(false);
+              }}
+            >
+              <span>pending</span>
+            </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn4
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("CANCELLED");
+                setCategoryBtn0(false);
+                setCategoryBtn4(true);
+                setCategoryBtn2(false);
+                setCategoryBtn1(false);
+                setCategoryBtn3(false);
+              }}
+            >
+              <span>cancel</span>
+            </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn1
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("PROGRESS");
+                setCategoryBtn0(false);
+                setCategoryBtn1(true);
+                setCategoryBtn2(false);
+                setCategoryBtn3(false);
+                setCategoryBtn4(false);
+              }}
+            >
+              <span>progress</span>
+            </div>
+            <div
+              className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
+                categoryBtn2
+                  ? "bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+                  : "border-2 border-blue-400 text-blue-400"
+              } cursor-pointer transition duration-300 ease-in-out hover:from-blue-500 hover:to-blue-800`}
+              onClick={() => {
+                setCategoryTxt("COMPLETED");
+                setCategoryBtn0(false);
+                setCategoryBtn1(false);
+                setCategoryBtn2(true);
+                setCategoryBtn3(false);
+                setCategoryBtn4(false);
+              }}
+            >
+              <span>complete</span>
+            </div>
           </div>
         </div>
         {loadingPage ? (
@@ -395,13 +415,13 @@ const MyBooking = () => {
                     <div className="flex items-center gap-2">
                       <FiDollarSign className="text-yellow-600" />
                       <span className="font-medium">Per Tree:</span>
-                      <span>Rs. {e.pricePerTree}</span>
+                      <span>LKR {setFormatAmout(e.pricePerTree)}</span>
                     </div>
 
                     <div className="flex items-center gap-2 font-bold">
                       <FiDollarSign className="text-green-600" />
                       <span>Total Price:</span>
-                      <span>Rs. {e.totalAmount}</span>
+                      <span>LKR {setFormatAmout(e.totalAmount)}</span>
                     </div>
                     <div className="flex flex-row justify-between gap-2">
                       <div className="flex flex-row gap-2 items-center">

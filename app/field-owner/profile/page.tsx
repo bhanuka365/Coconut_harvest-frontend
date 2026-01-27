@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { BiArrowBack, BiPencil } from "react-icons/bi";
 import { useSearchParams } from "next/navigation";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
 import { ProfileCardSkeleton } from "@/components/Components";
 import { FaEdit } from "react-icons/fa";
-import userJson from "@/json/user.json"
+import userJson from "@/json/user.json";
+import { getUserByUserName, updateUserByUserName } from "@/api/user";
 
 const Profile = () => {
   const [user, setUser] = useState(userJson);
@@ -39,14 +39,16 @@ const Profile = () => {
   const loadData = async () => {
     try {
       const token = localStorage.getItem("jwtToken");
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/user/${username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+
+      const result = await getUserByUserName(username, token);
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${username}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUser(result.data.dataBundle);
       setUpdateUserFirstName(result.data.dataBundle.userFirstName);
@@ -73,22 +75,33 @@ const Profile = () => {
       try {
         const token = localStorage.getItem("jwtToken");
 
-        await axios.put(
-          "http://localhost:8085/api/v1/user-update",
-          {
-            Address: updateUserAddress,
-            Description: updateUserDescription,
-            Telephone: updateUserPhoneNumber,
-            userFirstName: updateUserFirstName,
-            userLastName: updateUserLastName,
-            userName: username,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const jsonData = {
+          Address: updateUserAddress,
+          Description: updateUserDescription,
+          Telephone: updateUserPhoneNumber,
+          userFirstName: updateUserFirstName,
+          userLastName: updateUserLastName,
+          userName: username,
+        };
+
+        await updateUserByUserName(jsonData, token);
+
+        // await axios.put(
+        //   "http://localhost:8085/api/v1/user-update",
+        //   {
+        //     Address: updateUserAddress,
+        //     Description: updateUserDescription,
+        //     Telephone: updateUserPhoneNumber,
+        //     userFirstName: updateUserFirstName,
+        //     userLastName: updateUserLastName,
+        //     userName: username,
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
         toast.success("Profile updated");
       } catch (err: any) {
         if (err.response) {

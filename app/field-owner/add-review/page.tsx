@@ -10,6 +10,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { addReview } from "@/api/review";
+import { updateBookingById } from "@/api/booking";
 
 const Booking = () => {
   const [reviewRate, setReviewRate] = useState(0);
@@ -17,7 +19,7 @@ const Booking = () => {
   const [reviewMessageError, setReviewMessageError] = useState(true);
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
-    const bookingid = searchParams.get("bookingid");
+  const bookingid = searchParams.get("bookingid");
 
   const handleReview = async () => {
     try {
@@ -29,32 +31,47 @@ const Booking = () => {
       if (isMessageValid && reviewRate > 0) {
         const token = localStorage.getItem("jwtToken");
 
-        await axios.post(
-          "http://localhost:8085/api/v1/review/add",
-          {
-            reviewMessage,
-            reviewRate,
-            bookingId: Number(bookingid),
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const jsonData = {
+          reviewMessage,
+          reviewRate,
+          bookingId: Number(bookingid),
+        };
 
-         await axios.put(
-        "http://localhost:8085/api/v1/bookings/update",
-        {
+        await addReview(jsonData, token);
+
+        // await axios.post(
+        //   "http://localhost:8085/api/v1/review/add",
+        //   {
+        //     reviewMessage,
+        //     reviewRate,
+        //     bookingId: Number(bookingid),
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
+
+        const jsonData1 = {
           bookingId: Number(bookingid),
           rate: true,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+        };
+
+        await updateBookingById(token, jsonData1);
+
+        // await axios.put(
+        //   "http://localhost:8085/api/v1/bookings/update",
+        //   {
+        //     bookingId: Number(bookingid),
+        //     rate: true,
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
 
         toast.success("Review submitted successfully");
         setReviewMessage("");
@@ -98,11 +115,8 @@ const Booking = () => {
                   onClick={() => setReviewRate(star)}
                 />
               ) : (
-                <BsStar
-                  key={star}
-                  onClick={() => setReviewRate(star)}
-                />
-              )
+                <BsStar key={star} onClick={() => setReviewRate(star)} />
+              ),
             )}
           </div>
         </div>

@@ -25,6 +25,7 @@ import {
   validateUsername,
 } from "@/utils/validation";
 import { toast, ToastContainer } from "react-toastify";
+import { userRegister } from "@/api/user";
 
 const Register = () => {
   const [textVisual1, setTextVisual1] = useState(false);
@@ -107,13 +108,15 @@ const Register = () => {
         formData.append("user", JSON.stringify(form));
         if (userImage) formData.append("image", userImage);
 
-        await axios.post(
-          "http://localhost:8085/api/v1/registeruser",
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          },
-        );
+         await userRegister(formData);
+
+        // await axios.post(
+        //   "http://localhost:8085/api/v1/registeruser",
+        //   formData,
+        //   {
+        //     headers: { "Content-Type": "multipart/form-data" },
+        //   },
+        // );
 
         toast.success("Registration successful");
       } catch (err: any) {

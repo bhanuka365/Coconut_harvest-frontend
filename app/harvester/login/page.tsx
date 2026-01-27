@@ -8,6 +8,7 @@ import Image from "next/image";
 import axios from "axios";
 import { validateName } from "@/utils/validation";
 import { toast, ToastContainer } from "react-toastify";
+import { userLogin } from "@/api/user";
 
 const Login = () => {
   const [textVisual, setTextVisual] = useState(false);
@@ -28,15 +29,17 @@ const Login = () => {
 
     if (validateName(userName) && validateName(userPassword)) {
       try {
-        const result = await axios.post(
-          "http://localhost:8085/api/v1/authentication",
-          { username: userName, password: userPassword },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
+        // const result = await axios.post(
+        //   "http://localhost:8085/api/v1/authentication",
+        //   { username: userName, password: userPassword },
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   },
+        // );
+
+        const result = await userLogin(userName,userPassword)
 
         if (result.data.user.role[0].roleName === "Harvester") {
           localStorage.setItem("jwtToken", result.data.jwtToken);

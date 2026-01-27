@@ -20,7 +20,6 @@ import { useEffect, useState } from "react";
 import {
   AvatarSkeleton,
   BookingCardSkeleton,
-  Dialog,
   EmptyState,
 } from "@/components/Components";
 import userjson from "@/json/user.json";
@@ -29,6 +28,11 @@ import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 import { setFormatAmout } from "@/utils/formatters";
 import { handleLogout } from "@/utils/others";
+import { getUserByUserName } from "@/api/user";
+import {
+  getAllBookingsByHarvesterName,
+  updateBookingById,
+} from "@/api/booking";
 
 const MyTasks = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -50,25 +54,29 @@ const MyTasks = () => {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
 
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result = await getAllBookingsByHarvesterName(token, userName);
+
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setBookings(result.data.dataBundle);
 
-      const result1 = await axios.get(
-        `http://localhost:8085/api/v1/user/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result1 = await getUserByUserName(userName, token);
+
+      // const result1 = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${userName}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUser(result1.data.dataBundle);
     } catch (error) {
@@ -88,19 +96,26 @@ const MyTasks = () => {
     }
 
     try {
-      await axios.put(
-        "http://localhost:8085/api/v1/bookings/update",
-        {
-          bookingId: Number(id),
-          status: "COMPLETED",
-          rate: false,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const jsonData = {
+        bookingId: Number(id),
+        status: "COMPLETED",
+        rate: false,
+      };
+
+      await updateBookingById(token, jsonData);
+      // await axios.put(
+      //   "http://localhost:8085/api/v1/bookings/update",
+      //   {
+      //     bookingId: Number(id),
+      //     status: "COMPLETED",
+      //     rate: false,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       toast.success("Job completed");
     } catch (err: any) {

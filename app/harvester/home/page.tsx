@@ -33,6 +33,12 @@ import bookingJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 import { setFormatAmout } from "@/utils/formatters";
 import { handleLogout } from "@/utils/others";
+import {
+  getAllBookingsByHarvesterName,
+  getAllPendingBookingsForHarvester,
+  updateBookingById,
+} from "@/api/booking";
+import { getUserByUserName } from "@/api/user";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -63,36 +69,42 @@ const Home = () => {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
 
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/bookings/my/pending`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result = await getAllPendingBookingsForHarvester(token);
+
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/bookings/my/pending`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setBookings(result.data.dataBundle);
 
-      const result1 = await axios.get(
-        `http://localhost:8085/api/v1/user/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result1 = await getUserByUserName(userName, token);
+
+      // const result1 = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${userName}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUser(result1.data.dataBundle);
 
-      const result2 = await axios.get(
-        `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result2 = await getAllBookingsByHarvesterName(token, userName);
+
+      // const result2 = await axios.get(
+      //   `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setCompleteJobCounts(
         result2.data.dataBundle.filter((e: any) => {
@@ -137,19 +149,26 @@ const Home = () => {
     }
 
     try {
-      await axios.put(
-        "http://localhost:8085/api/v1/bookings/update",
-        {
+      const jsonData = {
           bookingId: Number(id),
           status: "PROGRESS",
           rate: false,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+        }
+
+        await updateBookingById(token,jsonData)
+      // await axios.put(
+      //   "http://localhost:8085/api/v1/bookings/update",
+      //   {
+      //     bookingId: Number(id),
+      //     status: "PROGRESS",
+      //     rate: false,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       toast.success("Job accepted");
     } catch (err: any) {
@@ -177,20 +196,28 @@ const Home = () => {
     }
 
     try {
-      await axios.put(
-        "http://localhost:8085/api/v1/bookings/update",
-        {
-          bookingId: Number(id),
-          status: "PROGRESS",
-          harvesterName: userName,
-          rate: false,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const jsonData = {
+        bookingId: Number(id),
+        status: "PROGRESS",
+        harvesterName: userName,
+        rate: false,
+      };
+
+      await updateBookingById(token, jsonData);
+      // await axios.put(
+      //   "http://localhost:8085/api/v1/bookings/update",
+      //   {
+      //     bookingId: Number(id),
+      //     status: "PROGRESS",
+      //     harvesterName: userName,
+      //     rate: false,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       toast.success("Job accepted");
     } catch (err: any) {
@@ -219,20 +246,28 @@ const Home = () => {
     }
 
     try {
-      await axios.put(
-        "http://localhost:8085/api/v1/bookings/update",
-        {
-          bookingId: Number(id),
-          status: "CANCELLED",
-          harvesterName: userName,
-          rate: false,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const jsonData = {
+        bookingId: Number(id),
+        status: "CANCELLED",
+        harvesterName: userName,
+        rate: false,
+      };
+
+      await updateBookingById(token, jsonData);
+      // await axios.put(
+      //   "http://localhost:8085/api/v1/bookings/update",
+      //   {
+      //     bookingId: Number(id),
+      //     status: "CANCELLED",
+      //     harvesterName: userName,
+      //     rate: false,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       toast.success("Job canceled");
     } catch (err: any) {
@@ -318,7 +353,7 @@ const Home = () => {
         <div
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
           onClick={async () => {
-              handleLogout("/harvester/login");
+            handleLogout("/harvester/login");
           }}
         >
           <FiLogOut size={20} />

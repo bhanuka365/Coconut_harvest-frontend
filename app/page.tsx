@@ -49,7 +49,6 @@ export default function Home() {
             },
           },
         );
-        console.log(result.data.dataBundle.length)
         setStats({
           owners: result.data.dataBundle.length,
           workers: result.data.dataBundle.length,

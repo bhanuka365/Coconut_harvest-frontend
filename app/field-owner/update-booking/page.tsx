@@ -16,15 +16,14 @@ import { BiArrowBack } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import bookingJson from "@/json/booking.json";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
 import { BookingSkeleton } from "@/components/Components";
+import { getBookingById, updateBookingById } from "@/api/booking";
 
 const UpdateBooking = () => {
   const searchParams = useSearchParams();
   const bookingid = searchParams.get("bookingid");
-  // const [booking,setBooking] = useState(bookingJson)
   const [updateTittle, setUpdateTittle] = useState("");
   const [updateDescription, setUpdateDescription] = useState("");
   const [updateAddress, setUpdateAddress] = useState("");
@@ -55,14 +54,16 @@ const UpdateBooking = () => {
   const loadData = async () => {
     try {
       const token = localStorage.getItem("jwtToken");
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/bookings/14`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+
+      const result = await getBookingById(token, bookingid);
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/bookings/14`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       // setBooking(result.data.dataBundle);
       setUpdateTittle(result.data.dataBundle.title);
@@ -101,10 +102,8 @@ const UpdateBooking = () => {
         checkEmpty(updatePricePerTree) &&
         checkEmpty(updateTreeCount) &&
         checkEmpty(updateDueDate) &&
-        (checkEmpty(updateAddress)
-         ||
-          (checkEmpty(updatelatitude) && checkEmpty(updatelongitude))
-        )
+        (checkEmpty(updateAddress) ||
+          (checkEmpty(updatelatitude) && checkEmpty(updatelongitude)))
       ) {
         if (jobType !== "Direct" && !checkEmpty(updateWorkerCount)) {
           toast.error("Booking update failed please check the details");
@@ -113,29 +112,48 @@ const UpdateBooking = () => {
         }
         const token = localStorage.getItem("jwtToken");
 
-        await axios.put(
-          "http://localhost:8085/api/v1/bookings/update",
-          {
-            bookingId: Number(bookingid),
-            landSize: updatelandSize,
-            treeCount: updateTreeCount,
-            pricePerTree: updatePricePerTree,
-            longitude: updatelongitude,
-            latitude: updatelatitude,
-            address: updateAddress,
-            title: updateTittle,
-            description: updateDescription,
-            duedate: updateDueDate,
-            jobType: jobType,
-            rate: false,
-            count: jobType !== "Direct" ? updateWorkerCount : null,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const jsonData = {
+          bookingId: Number(bookingid),
+          landSize: updatelandSize,
+          treeCount: updateTreeCount,
+          pricePerTree: updatePricePerTree,
+          longitude: updatelongitude,
+          latitude: updatelatitude,
+          address: updateAddress,
+          title: updateTittle,
+          description: updateDescription,
+          duedate: updateDueDate,
+          jobType: jobType,
+          rate: false,
+          count: jobType !== "Direct" ? updateWorkerCount : null,
+        };
+
+        await updateBookingById(token, jsonData);
+
+        // await axios.put(
+        //   "http://localhost:8085/api/v1/bookings/update",
+        //   {
+        //     bookingId: Number(bookingid),
+        //     landSize: updatelandSize,
+        //     treeCount: updateTreeCount,
+        //     pricePerTree: updatePricePerTree,
+        //     longitude: updatelongitude,
+        //     latitude: updatelatitude,
+        //     address: updateAddress,
+        //     title: updateTittle,
+        //     description: updateDescription,
+        //     duedate: updateDueDate,
+        //     jobType: jobType,
+        //     rate: false,
+        //     count: jobType !== "Direct" ? updateWorkerCount : null,
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
+
         toast.success("Booking updated");
       } else {
         toast.error("Booking update failed please check the details");

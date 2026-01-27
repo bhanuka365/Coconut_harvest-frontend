@@ -21,10 +21,12 @@ import {
   NameSkeleton,
   WorkerCardSkeleton,
 } from "@/components/Components";
-import axios from "axios";
 import usersjson from "@/json/users.json";
 import userjson from "@/json/user.json";
 import { handleLogout } from "@/utils/others";
+import { getUserByUserName, getUsersByRoleName } from "@/api/user";
+import { getAllMyBookingsForFieldOwner } from "@/api/booking";
+
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -42,36 +44,42 @@ const Home = () => {
     try {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/by-role/Harvester`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+
+      const result = await getUsersByRoleName("Harvester",token)
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/by-role/Harvester`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUsers(result.data.dataBundle);
 
-      const result1 = await axios.get(
-        `http://localhost:8085/api/v1/user/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result1 = await getUserByUserName(userName,token)
+
+      // const result1 = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${userName}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
 
       setUser(result1.data.dataBundle);
 
-      const result2 = await axios.get(
-        `http://localhost:8085/api/v1/bookings/my`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const result2 = await getAllMyBookingsForFieldOwner(token)
+
+      // const result2 = await axios.get(
+      //   `http://localhost:8085/api/v1/bookings/my`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       setAllJobCounts(result2.data.dataBundle.length);
       setCompleteJobCounts(
         result2.data.dataBundle.filter((e: any) => {

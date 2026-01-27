@@ -18,6 +18,7 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { checkEmpty } from "@/utils/validation";
 import { useSearchParams } from "next/navigation";
+import { addBooking } from "@/api/booking";
 
 const Booking = () => {
   const [title, setTitle] = useState("");
@@ -42,7 +43,6 @@ const Booking = () => {
   const [dueDateError, setDueDateError] = useState(true);
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
-
 
   const bookingSubmit = async () => {
     try {
@@ -72,29 +72,47 @@ const Booking = () => {
         }
         const token = localStorage.getItem("jwtToken");
 
-        await axios.post(
-          "http://localhost:8085/api/v1/bookings/add",
-          {
-            landSize: landSize,
-            treeCount: treeCount,
-            pricePerTree: pricePerTree,
-            longitude: longitude,
-            latitude: latitude,
-            address: address,
-            title: title,
-            description: description,
-            duedate: dueDate,
-            jobType: username === null ? "Job_Post" : "Direct",
-            rate: false,
-            count: username === null ? workerCount : null,
-            harvesterName:username // re check this api
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const jsonData = {
+          landSize: landSize,
+          treeCount: treeCount,
+          pricePerTree: pricePerTree,
+          longitude: longitude,
+          latitude: latitude,
+          address: address,
+          title: title,
+          description: description,
+          duedate: dueDate,
+          jobType: username === null ? "Job_Post" : "Direct",
+          rate: false,
+          count: workerCount,
+          harvesterName: username,
+        };
+
+        await addBooking(jsonData, token);
+
+        // await axios.post(
+        //   "http://localhost:8085/api/v1/bookings/add",
+        //   {
+        //     landSize: landSize,
+        //     treeCount: treeCount,
+        //     pricePerTree: pricePerTree,
+        //     longitude: longitude,
+        //     latitude: latitude,
+        //     address: address,
+        //     title: title,
+        //     description: description,
+        //     duedate: dueDate,
+        //     jobType: username === null ? "Job_Post" : "Direct",
+        //     rate: false,
+        //     count: workerCount,
+        //     harvesterName: username, // re check this api
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
         toast.success("Booking submited");
       } else {
         toast.error("Booking submit failed please check the details");

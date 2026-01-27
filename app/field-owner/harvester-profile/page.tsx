@@ -7,10 +7,11 @@ import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
 import { FiBookmark, FiMapPin, FiPhoneCall } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
-import axios from "axios";
 import { EmptyState, WorkerProfile } from "@/components/Components";
 import userjson from "@/json/user.json";
 import reviewsjson from "@/json/reviews.json";
+import { getUserByUserName } from "@/api/user";
+import { getReviewsByUserName } from "@/api/review";
 
 const HarvesterProfile = () => {
   const [user, setUser] = useState(userjson);
@@ -28,20 +29,25 @@ const HarvesterProfile = () => {
     try {
       const token = localStorage.getItem("jwtToken");
 
-      const result = await axios.get(
-        `http://localhost:8085/api/v1/user/${username}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      // const result = await axios.get(
+      //   `http://localhost:8085/api/v1/user/${username}`,
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   },
+      // );
+
+      const result = await getUserByUserName(username,token)
+
       setUser(result.data.dataBundle);
 
-      const result1 = await axios.get(
-        `http://localhost:8085/api/v1/review/${username}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const result1 = await getReviewsByUserName(username,token)
+
+      // const result1 = await axios.get(
+      //   `http://localhost:8085/api/v1/review/${username}`,
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   },
+      // );
 
       const fetchedReviews = result1.data.dataBundle;
       setReviews(fetchedReviews);
