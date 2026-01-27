@@ -147,7 +147,7 @@ export default function Home() {
                 loop: true,
               }}
             />
-            <p>
+            <p className="lg:text-justify text-center">
               CocoHarvest modernizes coconut harvesting by digitally connecting
               field owners with trusted harvesters. Our platform streamlines
               hiring, scheduling, and payments delivering a faster, safer, and
