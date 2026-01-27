@@ -40,6 +40,10 @@ const Home = () => {
   const [acceptBtnloading, setAcceptBtnLoading] = useState(false);
   const [confirmBtnloading, setConfirmBtnLoading] = useState(false);
   const [cancelBtnloading, setCancelBtnLoading] = useState(false);
+  const [searchNearbyBtnloading, setSearchNearbyBtnLoading] = useState(false);
+  const [progressJobCounts, setProgressJobCounts] = useState("");
+  const [completeJobCounts, setCompleteJobCounts] = useState("");
+   const [allTotalAmount, setAllTotalAmount] = useState("");
 
   const [userLocation, setUserLocation] = useState<{
     lat: number;
@@ -67,6 +71,7 @@ const Home = () => {
       );
 
       setBookings(result.data.dataBundle);
+      
 
       const result1 = await axios.get(
         `http://localhost:8085/api/v1/user/${userName}`,
@@ -78,12 +83,42 @@ const Home = () => {
       );
 
       setUser(result1.data.dataBundle);
+
+      const result2 = await axios.get(
+        `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setCompleteJobCounts(
+        result2.data.dataBundle.filter((e: any) => {
+          return e.status === "COMPLETED";
+        }).length,
+      );
+
+      setProgressJobCounts(
+        result2.data.dataBundle.filter((e: any) => {
+          return e.status === "PROGRESS";
+        }).length,
+      );
+
+setAllTotalAmount(result2.data.dataBundle.reduce(
+  (sum: number, e: any) => {
+    const amount = parseFloat(e.totalAmount) || 0;
+    return sum + amount;
+  },
+  0
+))
+
+
     } catch (error) {
     } finally {
       setLoadingPage(false);
     }
   };
-
 
   const handleAcceptJob = async (id: number | string) => {
     setAcceptBtnLoading(true);
@@ -149,7 +184,7 @@ const Home = () => {
         {
           bookingId: Number(id),
           status: "PROGRESS",
-          harvesterName:userName,
+          harvesterName: userName,
           rate: false,
         },
         {
@@ -191,7 +226,7 @@ const Home = () => {
         {
           bookingId: Number(id),
           status: "CANCELLED",
-          harvesterName:userName,
+          harvesterName: userName,
           rate: false,
         },
         {
@@ -238,6 +273,7 @@ const Home = () => {
   };
 
   const getLocation = () => {
+    setSearchNearbyBtnLoading(true);
     if (!navigator.geolocation) {
       toast.error("Geolocation not supported");
       return;
@@ -256,7 +292,16 @@ const Home = () => {
         toast.error("Location access denied");
       },
     );
+
+    setSearchNearbyBtnLoading(false);
   };
+
+  const setFormatAmout = (amount:any) =>{
+   return amount.toLocaleString(undefined, { 
+  minimumFractionDigits: 2, 
+  maximumFractionDigits: 2 
+});
+  }
 
   return (
     <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
@@ -342,21 +387,21 @@ const Home = () => {
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Complete jobs</label>
             </div>
-            <label>30</label>
+            <label>{completeJobCounts}</label>
           </div>
           <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiDollarSign className="text-2xl" />
               <label className="font-bold text-2xl">Total earn</label>
             </div>
-            <label>LKR 100,000</label>
+            <label>LKR {setFormatAmout(allTotalAmount)}</label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Progress jobs</label>
             </div>
-            <label>2</label>
+            <label>{progressJobCounts}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">New Job Requests</h1>
@@ -379,13 +424,14 @@ const Home = () => {
             }}
           >
             <FiMapPin />
-            <span>Search Nearby</span>
+            <span>
+              {searchNearbyBtnloading ? "Searching..." : "Search Nearby"}
+            </span>
           </div>
           <button
             onClick={() => setNearbyOnly(false)}
             className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg sm:w-fit w-full font-bold bg-gradient-to-r from-red-400 to-red-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-red-500 hover:to-red-800"
           >
-            {" "}
             <FiX />
             Clear Nearby Filter
           </button>
@@ -398,9 +444,6 @@ const Home = () => {
           <div className="flex flex-col gap-5 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
             {bookings
               .filter((e) => {
-                // return e.address.toLowerCase().includes(searchTxt.toLowerCase());
-
-                // Text search
                 const matchesText = e.address
                   .toLowerCase()
                   .includes(searchTxt.toLowerCase());
@@ -457,12 +500,15 @@ const Home = () => {
                       <span className="font-medium">Field size (in acres)</span>
                       <span>{e.landSize}</span>
                     </div>
-{e.count !== null?
-                    <div className="flex items-center gap-2">
-                      <FiUser className="text-blue-700" />
-                      <span className="font-medium">Worker Count:</span>
-                      <span>{e.count}</span>
-                    </div>:""}
+                    {e.jobType !== "Direct" ? (
+                      <div className="flex items-center gap-2">
+                        <FiUser className="text-blue-700" />
+                        <span className="font-medium">Worker Count:</span>
+                        <span>{e.count}</span>
+                      </div>
+                    ) : (
+                      ""
+                    )}
 
                     <div className="flex items-center gap-2">
                       <GiTreeBranch className="text-green-700" />
@@ -473,13 +519,13 @@ const Home = () => {
                     <div className="flex items-center gap-2">
                       <FiDollarSign className="text-yellow-600" />
                       <span className="font-medium">Per Tree:</span>
-                      <span>Rs. {e.pricePerTree}</span>
+                      <span>LKR {setFormatAmout(e.pricePerTree)}</span>
                     </div>
 
                     <div className="flex items-center gap-2 font-bold">
                       <FiDollarSign className="text-green-600" />
                       <span>Total Price:</span>
-                      <span>Rs. {e.totalAmount}</span>
+                      <span>LKR {setFormatAmout(e.totalAmount)}</span>
                     </div>
                     <div className="flex flex-row gap-2">
                       {e.jobType === "Direct" ? (

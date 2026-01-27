@@ -25,13 +25,11 @@ import {
 import axios from "axios";
 import usersjson from "@/json/users.json";
 import userjson from "@/json/user.json";
-import bookingsJson from "@/json/bookings.json";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
   const [users, setUsers] = useState(usersjson);
   const [user, setUser] = useState(userjson);
-  const [bookings, setBookings] = useState(bookingsJson);
   const [loadingPage, setLoadingPage] = useState(true);
   const [allJobCounts, setAllJobCounts] = useState("");
   const [completeJobCounts, setCompleteJobCounts] = useState("");
