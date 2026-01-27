@@ -17,19 +17,75 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { Counter } from "@/components/Components";
 
 // JOB TYPE - DIRECT/ JOB_POST
-// STATUS - PENDING/ PROGRESS/ CANCELLED_OWNER/ CANCELLED_WORKER/ COMPLETED
+// STATUS - PENDING/ PROGRESS/ CANCELLED/ COMPLETED
 
 export default function Home() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const itemCopy = (val:any) =>{
-    navigator.clipboard.writeText(val)
+  const sectionRef = useRef(null);
+  const [startCount, setStartCount] = useState(false);
+  const [runKey, setRunKey] = useState(0);
+
+  const [stats, setStats] = useState({
+    owners: 0,
+    workers: 0,
+    tasks: 0,
+  });
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const result = await axios.get(
+          `http://localhost:8085/api/v1/bookings/my`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setStats({
+          owners: result.data.dataBundle.length,
+          workers: result.data.dataBundle.length,
+          tasks: result.data.dataBundle.length,
+        });
+      } catch (error) {}
+    };
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStartCount(true);
+          setRunKey((prev) => prev + 1);
+        } else {
+          setStartCount(false);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+
+  const itemCopy = (val: any) => {
+    navigator.clipboard
+      .writeText(val)
       .then(() => toast.success("Phone number copied"))
       .catch(() => toast.error("Phone number copying failed"));
-  }
+  };
 
   return (
     <div
@@ -165,6 +221,7 @@ export default function Home() {
           </div>
         </div>
         <div
+          ref={sectionRef}
           className="flex flex-col gap-5 justify-center items-center"
           id="about"
         >
@@ -200,17 +257,25 @@ export default function Home() {
           </div>
           <div className="w-full flex flex-col sm:flex-row gap-5">
             <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
-              <h2 className="text-3xl font-bold text-green-700">950+</h2>
+              <h2 className="text-3xl font-bold text-green-700">
+                <Counter key={`owners-${runKey}`} target={stats.owners} start={startCount} />
+              </h2>
               <p className="text-gray-600 text-sm mt-1 text-center">
                 Field Owners
               </p>
             </div>
+
             <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
-              <h2 className="text-3xl font-bold text-green-700">150+</h2>
+              <h2 className="text-3xl font-bold text-green-700">
+                <Counter key={`workers-${runKey}`} target={stats.workers} start={startCount} />
+              </h2>
               <p className="text-gray-600 text-sm mt-1 text-center">Workers</p>
             </div>
+
             <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
-              <h2 className="text-3xl font-bold text-green-700">950+</h2>
+              <h2 className="text-3xl font-bold text-green-700">
+                <Counter key={`tasks-${runKey}`} target={stats.tasks} start={startCount} />
+              </h2>
               <p className="text-gray-600 text-sm mt-1 text-center">
                 Tasks Completed
               </p>
@@ -236,11 +301,19 @@ export default function Home() {
                 harvesting simpler, faster, and more reliable for everyone.
               </p>
               <div className="flex sm:flex-row flex-col gap-5">
-                <div className="p-2 rounded-full border-2 border-dashed border-white flex flex-row justify-center items-center gap-2 cursor-pointer" onClick={()=>{itemCopy("+94 71 145 64545")}}>
+                <div
+                  className="p-2 rounded-full border-2 border-dashed border-white flex flex-row justify-center items-center gap-2 cursor-pointer"
+                  onClick={() => {
+                    itemCopy("+94 71 145 64545");
+                  }}
+                >
                   <FiCopy />
                   +94 72 567 6789
                 </div>
-                <a  href="mailto:example@gmail.com" className="p-2 rounded-full flex flex-row justify-center items-center gap-2 text-white bg-gradient-to-r from-green-400 to-green-700 cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-80">
+                <a
+                  href="mailto:example@gmail.com"
+                  className="p-2 rounded-full flex flex-row justify-center items-center gap-2 text-white bg-gradient-to-r from-green-400 to-green-700 cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-80"
+                >
                   <FiMail />
                   contact with email
                 </a>

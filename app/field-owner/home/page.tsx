@@ -25,12 +25,16 @@ import {
 import axios from "axios";
 import usersjson from "@/json/users.json";
 import userjson from "@/json/user.json";
+import bookingsJson from "@/json/bookings.json";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
   const [users, setUsers] = useState(usersjson);
   const [user, setUser] = useState(userjson);
+  const [bookings, setBookings] = useState(bookingsJson);
   const [loadingPage, setLoadingPage] = useState(true);
+  const [allJobCounts, setAllJobCounts] = useState("");
+  const [completeJobCounts, setCompleteJobCounts] = useState("");
 
   useEffect(() => {
     loadData();
@@ -61,6 +65,21 @@ const Home = () => {
       );
 
       setUser(result1.data.dataBundle);
+
+      const result2 = await axios.get(
+        `http://localhost:8085/api/v1/bookings/my`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setAllJobCounts(result2.data.dataBundle.length);
+      setCompleteJobCounts(
+        result2.data.dataBundle.filter((e: any) => {
+          return e.status === "COMPLETED";
+        }).length,
+      );
     } catch (error) {
     } finally {
       setLoadingPage(false);
@@ -151,14 +170,14 @@ const Home = () => {
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Jobs Posted</label>
             </div>
-            <label>30</label>
+            <label>{allJobCounts}</label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg lg:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Completed Jobs</label>
             </div>
-            <label>2</label>
+            <label>{completeJobCounts}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">Find Workers</h1>

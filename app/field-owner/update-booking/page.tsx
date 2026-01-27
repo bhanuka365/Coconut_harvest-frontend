@@ -375,7 +375,7 @@ const UpdateBooking = () => {
               handleUpdate();
             }}
           >
-            {loading ? "save changing" : "save changes"}
+            {loading ? "save changing..." : "save changes"}
           </button>
         </div>
       )}

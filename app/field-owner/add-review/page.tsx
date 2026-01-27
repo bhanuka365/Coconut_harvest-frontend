@@ -43,6 +43,19 @@ const Booking = () => {
           }
         );
 
+         await axios.put(
+        "http://localhost:8085/api/v1/bookings/update",
+        {
+          bookingId: Number(bookingid),
+          rate: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
         toast.success("Review submitted successfully");
         setReviewMessage("");
         setReviewRate(0);

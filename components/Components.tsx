@@ -1,4 +1,5 @@
-import { FiFile, FiFolder, FiMapPin, FiPhoneCall } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { FiFolder, FiMapPin, FiPhoneCall } from "react-icons/fi";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -298,6 +299,38 @@ export const EmptyState: React.FC<EmptyStateProps> = ( {message} ) => {
   );
 };
 
+type CounterProps = {
+  target: number;
+  start: boolean;
+};
 
+export const Counter: React.FC<CounterProps> = ({ target, start }) => {
+  const [count, setCount] = useState<number>(0);
 
+  useEffect(() => {
+    if (!start) {
+      setCount(0); 
+      return;
+    }
 
+    if (target === 0) return;
+
+    let current = 0;
+    const increment = Math.max(1, Math.ceil(target / 60));
+
+    const interval = setInterval(() => {
+      current += increment;
+
+      if (current >= target) {
+        setCount(target);
+        clearInterval(interval);
+      } else {
+        setCount(current);
+      }
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [start, target]);
+
+  return <span>{count}+</span>;
+};

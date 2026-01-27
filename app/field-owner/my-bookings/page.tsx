@@ -18,12 +18,16 @@ import Image from "next/image";
 import { GiTreeBranch } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import { AvatarSkeleton, BookingCardSkeleton, Dialog, EmptyState } from "@/components/Components";
+import {
+  AvatarSkeleton,
+  BookingCardSkeleton,
+  Dialog,
+  EmptyState,
+} from "@/components/Components";
 import axios from "axios";
 import userjson from "@/json/user.json";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
-
 
 const MyBooking = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -36,8 +40,8 @@ const MyBooking = () => {
   const [user, setUser] = useState(userjson);
   const [bookings, setBookings] = useState(bookingsJson);
   const [loadingPage, setLoadingPage] = useState(true);
-   const [cancelBtnloading, setCancelBtnLoading] = useState(false);
-   const [deleteBtnloading, setDeleteBtnLoading] = useState(false);
+  const [cancelBtnloading, setCancelBtnLoading] = useState(false);
+  const [cancelBtnId, setCancelBtnId] = useState("");
 
   useEffect(() => {
     loadData();
@@ -75,11 +79,12 @@ const MyBooking = () => {
     }
   };
 
-   const handleCancelJob = async (id: number | string) => {
+  const handleCancelJob = async (id: number | string) => {
+
+    setCancelBtnId(id.toString());
     setCancelBtnLoading(true);
 
     const token = localStorage.getItem("jwtToken");
-    const userName = localStorage.getItem("userName");
 
     if (!token) {
       toast.error("Authentication required");
@@ -110,20 +115,20 @@ const MyBooking = () => {
       } else {
         toast.error("Something went wrong");
       }
-    } finally {
-      setCancelBtnLoading(false);
+        setCancelBtnLoading(false);
+    
       loadData();
     }
   };
 
   const handleDeleteJob = async (id: number | string) => {
     const result = await Dialog(
-                            "Confirm Delete",
-                            "Are you sure you want to delete this booking",
-                            "warning",
-                            "#ef4444",
-                            "#43ce76",
-                          );
+      "Confirm Delete",
+      "Are you sure you want to delete this booking",
+      "warning",
+      "#ef4444",
+      "#43ce76",
+    );
 
     if (!result) return;
 
@@ -158,13 +163,13 @@ const MyBooking = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
-      <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
+    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+      <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
         <Link
           href="/field-owner/home"
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiHome size={25} />
+          <FiHome size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Home
           </span>
@@ -173,7 +178,7 @@ const MyBooking = () => {
           href="/field-owner/my-jobs"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiClipboard size={25} />
+          <FiClipboard size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             My Bookings
           </span>
@@ -191,7 +196,7 @@ const MyBooking = () => {
             result ? (window.location.href = "/field-owner/login") : "";
           }}
         >
-          <FiLogOut size={25} />
+          <FiLogOut size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
           </span>
@@ -225,8 +230,8 @@ const MyBooking = () => {
           </Link>
         </div>
         <h1 className="text-2xl font-bold">My Booking</h1>
-        <div className="flex flex-row gap-2">
-          <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
+        <div className="flex md:flex-row flex-col gap-5">
+          <div className="flex flex-row gap-2 p-2 rounded-full bg-white md:w-1/2 w-full">
             <FiSearch size={20} />
             <input
               value={searchTxt}
@@ -237,6 +242,7 @@ const MyBooking = () => {
               }}
             />
           </div>
+          <div className="flex flex-row gap-1 w-fit">
           <div
             className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
               categoryBtn0
@@ -322,161 +328,177 @@ const MyBooking = () => {
           >
             <span>complete</span>
           </div>
+          </div>
         </div>
-         {loadingPage ? 
-                          <BookingCardSkeleton />
-                         : bookings.length === 0 ? 
-                          <EmptyState message="No booking found." />
-                         : 
-        <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
-          {bookings.filter((e)=>{
-const matchesSearch = e.address
-                ?.toLowerCase()
-                .includes(searchTxt.toLowerCase());
+        {loadingPage ? (
+          <BookingCardSkeleton />
+        ) : bookings.length === 0 ? (
+          <EmptyState message="No booking found." />
+        ) : (
+          <div className="flex flex-col gap-5 overflow-y-auto h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+            {bookings
+              .filter((e) => {
+                const matchesSearch = e.address
+                  ?.toLowerCase()
+                  .includes(searchTxt.toLowerCase());
 
-              const matchesCategory =
-                categoryTxt === "all" || e.status === categoryTxt;
+                const matchesCategory =
+                  categoryTxt === "all" || e.status === categoryTxt;
 
-              return matchesSearch && matchesCategory;
-          }).map((e, index) => {
-              return (
-                <div
-                  className={`rounded-xl shadow-lg ${
-                    e.status === "PROGRESS"
-                      ? "bg-yellow-200"
-                      : e.status === "COMPLETED"
-                        ? "bg-green-200"
-                        : e.status === "CANCELLED"
-                          ? "bg-red-200"
-                          : "bg-gray-200"
-                  } w-full flex flex-col gap-2 p-5`}
-                  key={index}
-                >
-                  <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                    {e.title}
-                  </h1>
-                  <p className="text-gray-600">{e.description}</p>
-                  {e.status !== "PENDING" && e.jobType !== "Job_Post" ? (
+                return matchesSearch && matchesCategory;
+              })
+              .map((e, index) => {
+                return (
+                  <div
+                    className={`rounded-xl shadow-lg ${
+                      e.status === "PROGRESS"
+                        ? "bg-yellow-200"
+                        : e.status === "COMPLETED"
+                          ? "bg-green-200"
+                          : e.status === "CANCELLED"
+                            ? "bg-red-200"
+                            : "bg-gray-200"
+                    } w-full flex flex-col gap-2 p-5`}
+                    key={index}
+                  >
+                    <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
+                      {e.title}
+                    </h1>
+                    <p className="text-gray-600">{e.description}</p>
+                    {e.status !== "PENDING" && e.jobType !== "Job_Post" ? (
+                      <div className="flex items-center gap-2">
+                        <FiUser className="text-blue-600" />
+                        <span className="font-medium">Harvester:</span>
+                        <span>{e.harvesterName}</span>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                     <div className="flex items-center gap-2">
-                      <FiUser className="text-blue-600" />
-                      <span className="font-medium">Harvester:</span>
-                      <span>{e.harvesterName}</span>
+                      <FiMapPin className="text-red-500" />
+                      <span className="font-medium">Field Location:</span>
+                      <span>{e.address}</span>
                     </div>
-                  ) : (
-                    ""
-                  )}
-                  <div className="flex items-center gap-2">
-                    <FiMapPin className="text-red-500" />
-                    <span className="font-medium">Field Location:</span>
-                    <span>{e.address}</span>
-                  </div>
 
-                  <div className="flex items-center gap-2">
-                    <FiCalendar className="text-purple-600" />
-                    <span className="font-medium">Date:</span>
-                    <span>{e.duedate.split("T")[0]}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <FiCalendar className="text-purple-600" />
+                      <span className="font-medium">Date:</span>
+                      <span>{e.duedate.split("T")[0]}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <FiMaximize2 className="text-red-600" />
-                    <span className="font-medium">Field size (in acres)</span>
-                    <span>{e.landSize}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <FiMaximize2 className="text-red-600" />
+                      <span className="font-medium">Field size (in acres)</span>
+                      <span>{e.landSize}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <GiTreeBranch className="text-green-700" />
-                    <span className="font-medium">Tree Count:</span>
-                    <span>{e.treeCount}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <GiTreeBranch className="text-green-700" />
+                      <span className="font-medium">Tree Count:</span>
+                      <span>{e.treeCount}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <FiDollarSign className="text-yellow-600" />
-                    <span className="font-medium">Per Tree:</span>
-                    <span>Rs. {e.pricePerTree}</span>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      <FiDollarSign className="text-yellow-600" />
+                      <span className="font-medium">Per Tree:</span>
+                      <span>Rs. {e.pricePerTree}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2 font-bold">
-                    <FiDollarSign className="text-green-600" />
-                    <span>Total Price:</span>
-                    <span>Rs. {e.totalAmount}</span>
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <div className="flex flex-row gap-2 items-center">
-                      {e.rate === false && e.status === "COMPLETED" ? (
-                        <Link
-                          href={{pathname:"/field-owner/add-review", query: { bookingid:e.bookingId },}}
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
+                    <div className="flex items-center gap-2 font-bold">
+                      <FiDollarSign className="text-green-600" />
+                      <span>Total Price:</span>
+                      <span>Rs. {e.totalAmount}</span>
+                    </div>
+                    <div className="flex flex-row justify-between gap-2">
+                      <div className="flex flex-row gap-2 items-center">
+                        {e.rate === false && e.status === "COMPLETED" ? (
+                          <Link
+                            href={{
+                              pathname: "/field-owner/add-review",
+                              query: { bookingid: e.bookingId },
+                            }}
+                            className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                        >
-                          <FiAward />
-                          <span>Rate</span>
-                        </Link>
-                      ) : (
-                        <div
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
+                          >
+                            <FiAward />
+                            <span>Rate</span>
+                          </Link>
+                        ) : (
+                          <div
+                            className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-gray-300 to-gray-400 text-white w-fit cursor-not-allowed"
-                        >
-                          <FiAward />
-                          <span>
-                            {e.rate === true && e.status === "COMPLETED"
-                              ? "Rated"
-                              : "Rate"}
-                          </span>
-                        </div>
-                      )}
-                      {e.status === "PENDING" || e.status === "PROGRESS" ? (
-                        <div
-                        onClick={()=>{
-                          handleCancelJob(e.bookingId)
-                        }}
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
+                          >
+                            <FiAward />
+                            <span>
+                              {e.rate === true && e.status === "COMPLETED"
+                                ? "Rated"
+                                : "Rate"}
+                            </span>
+                          </div>
+                        )}
+                        {e.status === "PENDING" || e.status === "PROGRESS" ? (
+                          <div
+                            onClick={() => {
+                              handleCancelJob(e.bookingId);
+                            }}
+                            className="flex items-center gap-2 p-2 rounded-lg font-bold
       bg-gradient-to-r from-red-400 to-red-700 text-white w-fit
       cursor-pointer transition duration-300 hover:from-red-500 hover:to-red-800"
+                          >
+                            <FiX />
+                            <span>
+                              {cancelBtnloading && e.bookingId == cancelBtnId
+                                ? "canceling..."
+                                : "cancel"}
+                            </span>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                        <label
+                          className={`${
+                            e.status === "PROGRESS"
+                              ? "bg-yellow-100 text-yellow-600"
+                              : e.status === "COMPLETED"
+                                ? "text-green-600 bg-green-100"
+                                : e.status === "CANCELLED"
+                                  ? "text-red-600 bg-red-100"
+                                  : "text-gray-600 bg-gray-100"
+                          } p-2 rounded-lg font-bold`}
                         >
-                          <FiX />
-                          <span>{cancelBtnloading?"canceling":"cancel"}</span>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      <label
-                        className={`${
-                          e.status === "PROGRESS"
-                            ? "bg-yellow-100 text-yellow-600"
-                            : e.status === "COMPLETED"
-                              ? "text-green-600 bg-green-100"
-                              : e.status === "CANCELLED"
-                                ? "text-red-600 bg-red-100"
-                                : "text-gray-600 bg-gray-100"
-                        } p-2 rounded-lg font-bold`}
-                      >
-                        {e.status}
-                      </label>
-                    </div>
-                    <div className="flex flex-row gap-2 items-center cursor-pointer">
-                      <CiTrash
-                        className="text-red-600"
-                        size={20}
-                        onClick={async () => {
-                          handleDeleteJob(e.bookingId)
-                        }}
-                      />
-                      {e.status === "PENDING" ? (
-                        <Link href={{pathname:"/field-owner/update-booking",query: { bookingid:e.bookingId },}}>
-                          <CiEdit className="text-green-600" size={20} />
-                        </Link>
-                      ) : (
-                        ""
-                      )}
+                          {e.status}
+                        </label>
+                      </div>
+                      <div className="flex flex-row gap-2 items-center cursor-pointer">
+                        <CiTrash
+                          className="text-red-600"
+                          size={20}
+                          onClick={async () => {
+                            handleDeleteJob(e.bookingId);
+                          }}
+                        />
+                        {e.status === "PENDING" ? (
+                          <Link
+                            href={{
+                              pathname: "/field-owner/update-booking",
+                              query: { bookingid: e.bookingId },
+                            }}
+                          >
+                            <CiEdit className="text-green-600" size={20} />
+                          </Link>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-        </div>}
+                );
+              })}
+          </div>
+        )}
       </div>
-       <ToastContainer />
+      <ToastContainer />
     </div>
   );
 };
