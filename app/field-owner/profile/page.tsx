@@ -256,7 +256,7 @@ const Profile = () => {
             }}
           >
             <FaEdit />
-            {loading ? "Editing..." : "EDIT"}
+            {loading ? "editing..." : "edit"}
           </button>
         </div>
       )}

@@ -70,6 +70,7 @@ const Profile = () => {
       // );
 
       const fetchedReviews = result1.data.dataBundle;
+      console.log(result1.data.dataBundle)
       setReviews(fetchedReviews);
 
       const averageRating =
@@ -289,10 +290,10 @@ const Profile = () => {
             }}
           >
             <FaEdit />
-            {loading ? "editing..." : "edi"}
+            {loading ? "editing..." : "edit"}
           </button>
-          <div className="flex flex-col gap-5">
-            <h1 className="font-bold text-2xl">Rating and Reviews</h1>
+          <div className="flex flex-col gap-5 items-center w-full">
+            <h1 className="font-bold text-2xl text-left w-full">Rating and Reviews</h1>
             {reviews.length === 0 ? (
               <EmptyState message="No reviews found." />
             ) : (
