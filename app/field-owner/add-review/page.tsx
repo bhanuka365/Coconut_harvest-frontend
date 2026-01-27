@@ -7,7 +7,7 @@ import { BsStar, BsStarFill } from "react-icons/bs";
 import { useState } from "react";
 import { FiFileText, FiSend } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
-import { checkEmpty } from "@/validation/validation";
+import { checkEmpty } from "@/utils/validation";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 

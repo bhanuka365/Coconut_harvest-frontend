@@ -7,7 +7,7 @@ import { BiArrowBack, BiPencil } from "react-icons/bi";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { checkEmpty } from "@/validation/validation";
+import { checkEmpty } from "@/utils/validation";
 import { ProfileCardSkeleton } from "@/components/Components";
 import { FaEdit } from "react-icons/fa";
 import userJson from "@/json/user.json"

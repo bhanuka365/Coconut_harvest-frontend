@@ -22,6 +22,7 @@ import userjson from "@/json/user.json";
 import axios from "axios";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
+import { setFormatAmout } from "@/utils/formatters";
 
 
 const MyTasks = () => {
@@ -54,7 +55,6 @@ const MyTasks = () => {
       );
 
       setBookings(result.data.dataBundle);
-      // console.log(result.data.dataBundle)
 
       const result1 = await axios.get(
         `http://localhost:8085/api/v1/user/${userName}`,
@@ -113,13 +113,13 @@ const MyTasks = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm flex-row">
-      <div className="bg-green-400 w-20 text-white flex flex-col items-center p-5 gap-5">
+    <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+      <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
         <Link
           href="/harvester/home"
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiHome size={25} />
+          <FiHome size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Home
           </span>
@@ -128,7 +128,7 @@ const MyTasks = () => {
           href="/harvester/my-jobs"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
         >
-          <FiClipboard size={25} />
+          <FiClipboard size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             My Jobs
           </span>
@@ -143,10 +143,10 @@ const MyTasks = () => {
               "#43ce76",
               "#ef4444"
             );
-            result ? (window.location.href = "/field-owner/login") : "";
+            result ? (window.location.href = "/harvester/login") : "";
           }}
         >
-          <FiLogOut size={25} />
+          <FiLogOut size={20} />
           <span className="absolute left-full ml-2 hidden group-hover:block px-3 py-1 text-sm text-white bg-gray-700 rounded-lg whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Logout
           </span>
@@ -180,8 +180,8 @@ const MyTasks = () => {
           </Link>
         </div>
         <h1 className="text-2xl font-bold">My tasks</h1>
-        <div className="flex flex-row gap-2">
-          <div className="flex flex-row gap-2 p-2 rounded-full bg-white w-1/2">
+        <div className="flex md:flex-row flex-col gap-2">
+          <div className="flex flex-row gap-2 p-2 rounded-full bg-white md:w-1/2 w-full">
             <FiSearch size={20} />
             <input
               value={searchTxt}
@@ -192,10 +192,7 @@ const MyTasks = () => {
               }}
             />
           </div>
-          {/* <div className="flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800">
-            <FiMapPin />
-            <span>Search Nearby</span>
-          </div> */}
+          <div className="flex flex-row gap-1 w-fit">
           <div
             className={`flex flex-row gap-2 p-2 justify-center items-center rounded-lg w-fit font-bold ${
               categoryBtn0
@@ -240,6 +237,7 @@ const MyTasks = () => {
             }}
           >
             <span>complete</span>
+          </div>
           </div>
         </div>
          {loadingPage ? 
@@ -304,13 +302,13 @@ const MyTasks = () => {
                   <div className="flex items-center gap-2">
                     <FiDollarSign className="text-yellow-600" />
                     <span className="font-medium">Per Tree:</span>
-                    <span>Rs. {e.pricePerTree}</span>
+                    <span>Rs. {setFormatAmout(e.pricePerTree)}</span>
                   </div>
 
                   <div className="flex items-center gap-2 font-bold">
                     <FiDollarSign className="text-green-600" />
                     <span>Total Price:</span>
-                    <span>Rs. {e.totalAmount}</span>
+                    <span>Rs. {setFormatAmout(e.totalAmount)}</span>
                   </div>
                   <div className="flex flex-row gap-2">
                     {e.status === "PROGRESS" ? (

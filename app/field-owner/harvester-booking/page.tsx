@@ -16,7 +16,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
-import { checkEmpty } from "@/validation/validation";
+import { checkEmpty } from "@/utils/validation";
 import { useSearchParams } from "next/navigation";
 
 const Booking = () => {

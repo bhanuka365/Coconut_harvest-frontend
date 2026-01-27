@@ -31,6 +31,7 @@ import userjson from "@/json/user.json";
 import axios from "axios";
 import bookingJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
+import { setFormatAmout } from "@/utils/formatters";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -296,15 +297,11 @@ setAllTotalAmount(result2.data.dataBundle.reduce(
     setSearchNearbyBtnLoading(false);
   };
 
-  const setFormatAmout = (amount:any) =>{
-   return amount.toLocaleString(undefined, { 
-  minimumFractionDigits: 2, 
-  maximumFractionDigits: 2 
-});
-  }
+ 
+  
 
   return (
-    <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+    <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
       <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
         <Link
           href="/harvester/home"

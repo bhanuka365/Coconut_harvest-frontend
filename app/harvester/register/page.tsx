@@ -23,7 +23,7 @@ import {
   validatePassword,
   validatePhoneNumber,
   validateUsername,
-} from "@/validation/validation";
+} from "@/utils/validation";
 import { toast, ToastContainer } from "react-toastify";
 
 const Register = () => {

@@ -18,7 +18,7 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import bookingJson from "@/json/booking.json";
 import { toast, ToastContainer } from "react-toastify";
-import { checkEmpty } from "@/validation/validation";
+import { checkEmpty } from "@/utils/validation";
 import { BookingSkeleton } from "@/components/Components";
 
 const UpdateBooking = () => {

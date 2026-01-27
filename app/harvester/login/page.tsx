@@ -6,7 +6,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { FiEye, FiEyeOff, FiLock, FiLogIn, FiUser } from "react-icons/fi";
 import Image from "next/image";
 import axios from "axios";
-import { validateName } from "@/validation/validation";
+import { validateName } from "@/utils/validation";
 import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
