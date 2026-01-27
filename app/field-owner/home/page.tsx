@@ -17,7 +17,6 @@ import { LuClipboardPen } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import {
   AvatarSkeleton,
-  Dialog,
   EmptyState,
   NameSkeleton,
   WorkerCardSkeleton,
@@ -25,6 +24,7 @@ import {
 import axios from "axios";
 import usersjson from "@/json/users.json";
 import userjson from "@/json/user.json";
+import { handleLogout } from "@/utils/others";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -108,14 +108,7 @@ const Home = () => {
         <div
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
           onClick={async () => {
-            const result = await Dialog(
-              "Confirm Logout",
-              "Are you sure you want to logout?",
-              "warning",
-              "#43ce76",
-              "#ef4444",
-            );
-            result ? (window.location.href = "/field-owner/login") : "";
+            handleLogout("/field-owner/login");
           }}
         >
           <FiLogOut size={20} />
@@ -168,14 +161,14 @@ const Home = () => {
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Jobs Posted</label>
             </div>
-            <label>{allJobCounts}</label>
+            <label>{allJobCounts ? allJobCounts : "..."}</label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg lg:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Completed Jobs</label>
             </div>
-            <label>{completeJobCounts}</label>
+            <label>{completeJobCounts ? completeJobCounts : "..."}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">Find Workers</h1>

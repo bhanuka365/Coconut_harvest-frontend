@@ -49,6 +49,7 @@ export default function Home() {
             },
           },
         );
+        console.log(result.data.dataBundle.length)
         setStats({
           owners: result.data.dataBundle.length,
           workers: result.data.dataBundle.length,
@@ -69,7 +70,7 @@ export default function Home() {
           setStartCount(false);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (sectionRef.current) {
@@ -78,7 +79,6 @@ export default function Home() {
 
     return () => observer.disconnect();
   }, []);
-
 
   const itemCopy = (val: any) => {
     navigator.clipboard
@@ -258,7 +258,11 @@ export default function Home() {
           <div className="w-full flex flex-col sm:flex-row gap-5">
             <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
               <h2 className="text-3xl font-bold text-green-700">
-                <Counter key={`owners-${runKey}`} target={stats.owners} start={startCount} />
+                <Counter
+                  key={`owners-${runKey}`}
+                  target={stats.owners}
+                  start={startCount}
+                />
               </h2>
               <p className="text-gray-600 text-sm mt-1 text-center">
                 Field Owners
@@ -267,14 +271,22 @@ export default function Home() {
 
             <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
               <h2 className="text-3xl font-bold text-green-700">
-                <Counter key={`workers-${runKey}`} target={stats.workers} start={startCount} />
+                <Counter
+                  key={`workers-${runKey}`}
+                  target={stats.workers}
+                  start={startCount}
+                />
               </h2>
               <p className="text-gray-600 text-sm mt-1 text-center">Workers</p>
             </div>
 
             <div className="flex flex-col items-center justify-center p-5 bg-green-50 rounded-xl shadow-sm hover:shadow-md transition sm:w-50 w-full">
               <h2 className="text-3xl font-bold text-green-700">
-                <Counter key={`tasks-${runKey}`} target={stats.tasks} start={startCount} />
+                <Counter
+                  key={`tasks-${runKey}`}
+                  target={stats.tasks}
+                  start={startCount}
+                />
               </h2>
               <p className="text-gray-600 text-sm mt-1 text-center">
                 Tasks Completed

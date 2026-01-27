@@ -28,6 +28,7 @@ import axios from "axios";
 import userjson from "@/json/user.json";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
+import { handleLogout } from "@/utils/others";
 
 const MyBooking = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -186,14 +187,7 @@ const MyBooking = () => {
         <div
           className="relative group flex items-center hover:bg-black/20 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
           onClick={async () => {
-            const result = await Dialog(
-              "Confirm Logout",
-              "Are you sure you want to logout?",
-              "warning",
-              "#43ce76",
-              "#ef4444",
-            );
-            result ? (window.location.href = "/field-owner/login") : "";
+           handleLogout("/field-owner/login");
           }}
         >
           <FiLogOut size={20} />
