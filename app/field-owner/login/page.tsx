@@ -39,7 +39,7 @@ const Login = () => {
         //   },
         // );
 
-        const result = await userLogin(userName,userPassword)
+        const result = await userLogin(userName, userPassword);
 
         if (result.data.user.role[0].roleName === "field_owner") {
           localStorage.setItem("jwtToken", result.data.jwtToken);
@@ -79,16 +79,17 @@ const Login = () => {
           <h1 className="font-bold w-full text-left text-2xl">
             Sign in to your account
           </h1>
+
           <div className="w-full relative">
-            <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Username
+            </label>
+            <div className="flex gap-2 items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiUser />
               <input
-                placeholder="Enter the username"
                 type="text"
-                className="w-full focus:outline-none focus:ring-0 border-none"
-                onChange={(e) => {
-                  setUserName(e.target.value);
-                }}
+                className="w-full focus:outline-none border-none"
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
             <span
@@ -99,28 +100,27 @@ const Login = () => {
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
-            <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Password
+            </label>
+            <div className="flex gap-2 items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiLock />
               <input
-                placeholder="Enter the password"
                 type={textVisual ? "text" : "password"}
-                className="w-full focus:outline-none focus:ring-0 border-none"
-                onChange={(e) => {
-                  setUserPassword(e.target.value);
-                }}
+                className="w-full focus:outline-none border-none"
+                onChange={(e) => setUserPassword(e.target.value)}
               />
               {textVisual ? (
                 <FiEye
-                  onClick={() => {
-                    setTextVisual(false);
-                  }}
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual(false)}
                 />
               ) : (
                 <FiEyeOff
-                  onClick={() => {
-                    setTextVisual(true);
-                  }}
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual(true)}
                 />
               )}
             </div>
@@ -132,31 +132,34 @@ const Login = () => {
               cannot be empty
             </span>
           </div>
+
           <button
-            className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
-            onClick={async () => {
-              await handleLogin();
-            }}
+            onClick={handleLogin}
+            disabled={loading}
+            className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full flex gap-2 items-center justify-center transition hover:from-green-500 hover:to-green-800 disabled:opacity-50"
           >
             <FiLogIn />
-            {loading ? "signing in..." : "sign in"}
+            {loading ? "Signing in..." : "Sign in"}
           </button>
-          <label className="w-full flex flex-row gap-1 justify-center items-center">
+
+          <label className="w-full flex gap-1 justify-center items-center">
             New to Coconut?
             <Link
               href="/field-owner/register"
-              className="text-green-700 font-bold hover:underline transition duration-300 ease-in-out"
+              className="text-green-700 font-bold hover:underline transition"
             >
               Register
             </Link>
           </label>
+
           <Link
             href="/"
-            className="w-full flex flex-row justify-center items-center gap-2 text-green-700 hover:underline transition duration-300 ease-in-out"
+            className="w-full flex justify-center items-center gap-2 text-green-700 hover:underline transition"
           >
             <BsArrowLeft /> Back to main
           </Link>
         </div>
+
         <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
       </div>
       <ToastContainer />

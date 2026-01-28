@@ -144,7 +144,7 @@ const Register = () => {
           CocoHarvest
         </div>
 
-        <div className="flex flex-col items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col items-center lg:w-1/4 md:w-1/2 sm:w-2/3 w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
           <h1 className="font-bold w-full text-left text-2xl">
             Sign up to your account
           </h1>
@@ -164,7 +164,7 @@ const Register = () => {
                 <FiCamera size={28} className="text-gray-700" />
               )}
             </div>
-            <span className="text-xs">Add profile</span>
+            <span className="text-xs mt-1">Add profile photo</span>
 
             <input
               type="file"
@@ -174,176 +174,196 @@ const Register = () => {
               onChange={handleImageChange}
             />
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Username
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiUser />
               <input
                 name="userName"
-                placeholder="Enter the username"
                 className="w-full outline-none"
                 onChange={handleChange}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                usernameError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${usernameError ? "invisible" : "visible"}`}
             >
               username must be at least 3 characters
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              First Name
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiUser />
               <input
                 name="userFirstName"
-                placeholder="Enter the first name"
                 className="w-full outline-none"
                 onChange={handleChange}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                fnameError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${fnameError ? "invisible" : "visible"}`}
             >
               cannot be empty or must contain only letters
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Last Name
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiUser />
               <input
                 name="userLastName"
-                placeholder="Enter the last name"
                 className="w-full outline-none"
                 onChange={handleChange}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                lnameError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${lnameError ? "invisible" : "visible"}`}
             >
               cannot be empty or must contain only letters
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Phone Number
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiPhoneCall />
               <input
                 name="Telephone"
-                placeholder="Enter the phone number"
                 className="w-full outline-none"
                 onChange={handleChange}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                phoneNumberError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${phoneNumberError ? "invisible" : "visible"}`}
             >
               cannot be empty or invalid phone number
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Address
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiMapPin />
               <input
                 name="Address"
-                placeholder="Enter the laddress with location"
                 className="w-full outline-none"
                 onChange={handleChange}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                addressError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${addressError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              About You
+            </label>
             <div className="flex gap-2 items-start bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiFileText />
               <textarea
                 name="Description"
-                placeholder="Enter the description about you"
                 className="w-full outline-none"
                 onChange={handleChange}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                descriptionError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${descriptionError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Password
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiLock />
               <input
                 name="userPassword"
-                placeholder="Enter the new password"
                 type={textVisual1 ? "text" : "password"}
                 className="w-full outline-none"
                 onChange={handleChange}
               />
               {textVisual1 ? (
-                <FiEye onClick={() => setTextVisual1(false)} />
+                <FiEye
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual1(false)}
+                />
               ) : (
-                <FiEyeOff onClick={() => setTextVisual1(true)} />
+                <FiEyeOff
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual1(true)}
+                />
               )}
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                newpasswordError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${newpasswordError ? "invisible" : "visible"}`}
             >
               password must be 8+ chars with letters & numbers
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Confirm Password
+            </label>
             <div className="flex gap-2 items-center bg-white p-2 w-full text-gray-900 rounded-sm">
               <FiLock />
               <input
-                placeholder="Confirm password"
                 type={textVisual2 ? "text" : "password"}
                 className="w-full outline-none"
-                onChange={(e) => {
-                  setConpassword(e.target.value);
-                }}
+                onChange={(e) => setConpassword(e.target.value)}
               />
               {textVisual2 ? (
-                <FiEye onClick={() => setTextVisual2(false)} />
+                <FiEye
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual2(false)}
+                />
               ) : (
-                <FiEyeOff onClick={() => setTextVisual2(true)} />
+                <FiEyeOff
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual2(true)}
+                />
               )}
             </div>
+
             {matchPasswords ? (
               <span
-                className={`absolute left-0 top-full text-red-400 text-xs ${
-                  confirmpasswordError ? "invisible" : "visible"
-                }`}
+                className={`absolute left-0 top-full text-red-400 text-xs ${confirmpasswordError ? "invisible" : "visible"}`}
               >
                 password must be 8+ chars with letters & numbers
               </span>
             ) : (
-              <span className="absolute left-0 top-full mt-1 text-red-400 text-xs">
-                missmatch passwords
+              <span className="absolute left-0 top-full text-red-400 text-xs">
+                mismatch passwords
               </span>
             )}
           </div>
+
           <button
             onClick={handleRegister}
             disabled={loading}
-            className="bg-gradient-to-r from-green-400 to-green-700 p-2 w-full rounded-sm cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
+            className="bg-gradient-to-r from-green-400 to-green-700 p-2 w-full rounded-sm transition hover:from-green-500 hover:to-green-800 flex gap-2 items-center justify-center disabled:opacity-50"
           >
             <FiUserPlus />
-            {loading ? "signing up..." : "sign up"}
+            {loading ? "Signing up..." : "Sign up"}
           </button>
 
           <Link

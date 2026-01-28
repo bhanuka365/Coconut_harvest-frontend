@@ -204,72 +204,63 @@ const UpdateBooking = () => {
       {loadingPage ? (
         <BookingSkeleton />
       ) : (
-        <div className="flex flex-col justify-center items-center lg:w-2/3 w-full gap-5 bg-white/40 p-5 gap-5 rounded-xl">
-          <h1 className="font-bold w-full text-left text-2xl flex flex-row items-center gap-2">
+        <div className="flex flex-col justify-center items-center lg:w-2/3 w-full gap-5 bg-white/40 p-5 rounded-xl">
+          <h1 className="font-bold w-full text-left text-2xl flex items-center gap-2">
             <Link href="/field-owner/my-bookings" className="cursor-pointer">
               <BiArrowBack />
             </Link>
             Update the Booking
           </h1>
+
           <div className="w-full relative">
+            <label className="block mb-1 font-medium">Booking Title</label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
               <FiEdit3 />
               <input
                 type="text"
-                placeholder="Booking title (e.g. Coconut Harvest – Block A)"
-                className="w-full focus:outline-none focus:ring-0 border-none"
+                className="w-full focus:outline-none border-none"
                 value={updateTittle}
-                onChange={(e) => {
-                  setUpdateTittle(e.target.value);
-                }}
+                onChange={(e) => setUpdateTittle(e.target.value)}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                titleError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${titleError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 font-medium">Description</label>
             <div className="flex flex-row gap-2 justify-start items-start bg-white p-2 rounded-sm w-full">
               <FiFileText />
               <textarea
-                placeholder="Brief description of the work"
-                className="w-full focus:outline-none focus:ring-0 border-none"
+                className="w-full focus:outline-none border-none"
                 value={updateDescription}
-                onChange={(e) => {
-                  setUpdateDescription(e.target.value);
-                }}
+                onChange={(e) => setUpdateDescription(e.target.value)}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                descriptionError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${descriptionError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <div className="flex flex-col gap-2 w-full">
+            <label className="block font-medium">Field Location</label>
             <div className="flex items-center gap-3 bg-white p-3 rounded-md">
               <FiMapPin className="text-gray-500" />
               <input
                 type="text"
-                placeholder="Enter field location manually"
                 className="w-full focus:outline-none"
                 value={updateAddress}
-                onChange={(e) => {
-                  setUpdateAddress(e.target.value);
-                }}
+                onChange={(e) => setUpdateAddress(e.target.value)}
               />
             </div>
             <button
               type="button"
-              onClick={() => {
-                getCurrentLocation();
-              }}
+              onClick={getCurrentLocation}
               className="flex items-center justify-center gap-2 text-sm text-green-700 bg-green-100 p-2 rounded-md hover:bg-green-200 transition cursor-pointer"
             >
               <FiNavigation />
@@ -279,121 +270,104 @@ const UpdateBooking = () => {
               You can enter the address manually or use your current location.
             </p>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 font-medium">Due Date</label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
               <FiCalendar />
               <input
                 type="date"
-                className="w-full focus:outline-none focus:ring-0 border-none"
+                className="w-full focus:outline-none border-none"
                 value={updateDueDate}
-                onChange={(e) => {
-                  setUpdateDueDate(e.target.value);
-                }}
+                onChange={(e) => setUpdateDueDate(e.target.value)}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                dueDateError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${dueDateError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 font-medium">Field Size (acres)</label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
               <FiMaximize2 />
               <input
                 type="number"
-                placeholder="Field size (in acres)"
-                className="w-full focus:outline-none focus:ring-0 border-none"
+                className="w-full focus:outline-none border-none"
                 value={updatelandSize}
-                onChange={(e) => {
-                  setUpdateLandSize(e.target.value);
-                }}
+                onChange={(e) => setUpdateLandSize(e.target.value)}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                landSizeError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${landSizeError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 font-medium">Number of Trees</label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
               <FiHash />
               <input
                 type="number"
-                placeholder="Number of trees in the field"
-                className="w-full focus:outline-none focus:ring-0 border-none"
+                className="w-full focus:outline-none border-none"
                 value={updateTreeCount}
-                onChange={(e) => {
-                  setUpdateTreeCount(e.target.value);
-                }}
+                onChange={(e) => setUpdateTreeCount(e.target.value)}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                treeCountError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${treeCountError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
-          {jobType !== "Direct" ? (
+
+          {jobType !== "Direct" && (
             <div className="w-full relative">
+              <label className="block mb-1 font-medium">Worker Count</label>
               <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
                 <FiHash />
                 <input
                   type="number"
                   min={0}
-                  placeholder="Number of worker count"
-                  className="w-full focus:outline-none focus:ring-0 border-none"
-                  onChange={(e) => {
-                    setUpdateWorkerCount(e.target.value);
-                  }}
+                  className="w-full focus:outline-none border-none"
+                  onChange={(e) => setUpdateWorkerCount(e.target.value)}
                 />
               </div>
               <span
-                className={`absolute left-0 top-full text-red-400 text-xs ${
-                  workerCountError ? "invisible" : "visible"
-                }`}
+                className={`absolute left-0 top-full text-red-400 text-xs ${workerCountError ? "invisible" : "visible"}`}
               >
                 cannot be empty
               </span>
             </div>
-          ) : (
-            ""
           )}
+
           <div className="w-full relative">
+            <label className="block mb-1 font-medium">Price per Tree</label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full">
               <FiDollarSign />
               <input
                 type="number"
-                placeholder="Price per tree"
-                className="w-full focus:outline-none focus:ring-0 border-none"
+                className="w-full focus:outline-none border-none"
                 value={updatePricePerTree}
-                onChange={(e) => {
-                  setUpdatePricePerTree(e.target.value);
-                }}
+                onChange={(e) => setUpdatePricePerTree(e.target.value)}
               />
             </div>
             <span
-              className={`absolute left-0 top-full text-red-400 text-xs ${
-                pricePerTreeError ? "invisible" : "visible"
-              }`}
+              className={`absolute left-0 top-full text-red-400 text-xs ${pricePerTreeError ? "invisible" : "visible"}`}
             >
               cannot be empty
             </span>
           </div>
+
           <button
             className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
-            onClick={() => {
-              handleUpdate();
-            }}
+            onClick={handleUpdate}
           >
-            {loading ? "save changing..." : "save changes"}
+            {loading ? "saving changes..." : "Save Changes"}
           </button>
         </div>
       )}

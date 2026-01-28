@@ -39,7 +39,7 @@ const Login = () => {
         //   },
         // );
 
-        const result = await userLogin(userName,userPassword)
+        const result = await userLogin(userName, userPassword);
 
         if (result.data.user.role[0].roleName === "Harvester") {
           localStorage.setItem("jwtToken", result.data.jwtToken);
@@ -72,20 +72,22 @@ const Login = () => {
           <Image src="/logo2.png" alt="image" width={50} height={50} />
           CocoHarvest
         </div>
-        <div className="flex flex-col justify-center items-center lg:w-1/4 md:w-1/2 sm:w-2/3  w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+        <div className="flex flex-col justify-center items-center lg:w-1/4 md:w-1/2 sm:w-2/3 w-full gap-5 bg-black/40 backdrop-blur-md p-5 rounded-xl">
+          
           <h1 className="font-bold w-full text-left text-2xl">
             Sign in to your account
           </h1>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Username
+            </label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiUser />
               <input
-                placeholder="Enter the username"
                 type="text"
                 className="w-full focus:outline-none focus:ring-0 border-none"
-                onChange={(e) => {
-                  setUserName(e.target.value);
-                }}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
             <span
@@ -96,28 +98,27 @@ const Login = () => {
               cannot be empty
             </span>
           </div>
+
           <div className="w-full relative">
+            <label className="block mb-1 text-sm font-medium text-white">
+              Password
+            </label>
             <div className="flex flex-row gap-2 justify-start items-center bg-white p-2 rounded-sm w-full text-gray-900">
               <FiLock />
               <input
-                placeholder="Enter the password"
                 type={textVisual ? "text" : "password"}
                 className="w-full focus:outline-none focus:ring-0 border-none"
-                onChange={(e) => {
-                  setUserPassword(e.target.value);
-                }}
+                onChange={(e) => setUserPassword(e.target.value)}
               />
               {textVisual ? (
                 <FiEye
-                  onClick={() => {
-                    setTextVisual(false);
-                  }}
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual(false)}
                 />
               ) : (
                 <FiEyeOff
-                  onClick={() => {
-                    setTextVisual(true);
-                  }}
+                  className="cursor-pointer"
+                  onClick={() => setTextVisual(true)}
                 />
               )}
             </div>
@@ -129,14 +130,14 @@ const Login = () => {
               cannot be empty
             </span>
           </div>
+          
           <button
-            className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center"
-            onClick={async () => {
-              await handleLogin();
-            }}
+            disabled={loading}
+            className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full text-center cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800 flex flex-row gap-2 items-center justify-center disabled:opacity-50"
+            onClick={handleLogin}
           >
             <FiLogIn />
-            {loading ? "signing in..." : "sign in"}
+            {loading ? "Signing in..." : "Sign in"}
           </button>
           <label className="w-full flex flex-row gap-1 justify-center items-center">
             New to Coconut?
@@ -147,6 +148,7 @@ const Login = () => {
               Register
             </Link>
           </label>
+
           <Link
             href="/"
             className="w-full flex flex-row justify-center items-center gap-2 text-green-700 hover:underline transition duration-300 ease-in-out"
@@ -154,6 +156,7 @@ const Login = () => {
             <BsArrowLeft /> Back to main
           </Link>
         </div>
+
         <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
       </div>
       <ToastContainer />

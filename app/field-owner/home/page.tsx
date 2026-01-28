@@ -26,7 +26,7 @@ import userjson from "@/json/user.json";
 import { handleLogout } from "@/utils/others";
 import { getUserByUserName, getUsersByRoleName } from "@/api/user";
 import { getAllMyBookingsForFieldOwner } from "@/api/booking";
-
+import { BsDot } from "react-icons/bs";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -45,7 +45,7 @@ const Home = () => {
       const token = localStorage.getItem("jwtToken");
       const userName = localStorage.getItem("userName");
 
-      const result = await getUsersByRoleName("Harvester",token)
+      const result = await getUsersByRoleName("Harvester", token);
       // const result = await axios.get(
       //   `http://localhost:8085/api/v1/by-role/Harvester`,
       //   {
@@ -57,7 +57,7 @@ const Home = () => {
 
       setUsers(result.data.dataBundle);
 
-      const result1 = await getUserByUserName(userName,token)
+      const result1 = await getUserByUserName(userName, token);
 
       // const result1 = await axios.get(
       //   `http://localhost:8085/api/v1/user/${userName}`,
@@ -70,7 +70,7 @@ const Home = () => {
 
       setUser(result1.data.dataBundle);
 
-      const result2 = await getAllMyBookingsForFieldOwner(token)
+      const result2 = await getAllMyBookingsForFieldOwner(token);
 
       // const result2 = await axios.get(
       //   `http://localhost:8085/api/v1/bookings/my`,
@@ -93,8 +93,13 @@ const Home = () => {
   };
 
   return (
-    <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
-      <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
+    // <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+    <div className="flex min-h-screen bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+      {/* <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2"> */}
+      <div
+        className="bg-green-400 w-full md:w-15 text-white flex md:flex-col flex-row md:justify-start justify-evenly items-center p-2 gap-2
+            md:fixed md:left-0 md:top-0 md:bottom-0"
+      >
         <Link
           href="/field-owner/home"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
@@ -125,7 +130,8 @@ const Home = () => {
           </span>
         </div>
       </div>
-      <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5">
+      {/* <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5"> */}
+       <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -169,16 +175,17 @@ const Home = () => {
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Jobs Posted</label>
             </div>
-            <label>{allJobCounts ? allJobCounts : "..."}</label>
+            <label>{allJobCounts}</label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg lg:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Completed Jobs</label>
             </div>
-            <label>{completeJobCounts ? completeJobCounts : "..."}</label>
+            <label>{completeJobCounts}</label>
           </div>
         </div>
+
         <h1 className="text-2xl font-bold">Find Workers</h1>
         <div className="flex sm:flex-row flex-col gap-2">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white sm:w-1/2 w-full">
@@ -200,12 +207,13 @@ const Home = () => {
             <span>Need Harvesting Today?</span>
           </Link>
         </div>
+
         {loadingPage ? (
           <WorkerCardSkeleton />
         ) : users.length === 0 ? (
           <EmptyState message="No workers found." />
         ) : (
-          <div className="flex flex-col gap-5 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+          <div className="flex flex-col gap-5 overflow-y-auto max-h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
             {users
               .filter((e) => {
                 return e.Address.toLowerCase().includes(
@@ -229,13 +237,16 @@ const Home = () => {
                       <h1 className="text-2xl font-bold">
                         {e.userFirstName} {e.userLastName}
                       </h1>
-                      <div className="flex items-center gap-2 text-red-500 font-bold">
+                      <div className="flex flex-row flex-wrap gap-2 items-center">
+                      <div className="flex items-center gap-2 text-red-500 ">
                         <FiMapPin />
                         <span>{e.Address}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-blue-500 font-bold">
+                       <BsDot className="text-gray-400 hidden sm:inline" />
+                      <div className="flex items-center gap-2 text-blue-500">
                         <FiPhoneCall />
                         <span>{e.Telephone}</span>
+                      </div>
                       </div>
                       <Link
                         href={{

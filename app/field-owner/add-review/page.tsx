@@ -104,8 +104,9 @@ const Booking = () => {
           </Link>
           Write a Review
         </h1>
+
         <div className="flex flex-col gap-2">
-          <label className="font-bold">Select your rating</label>
+          <label className="font-bold text-sm">Select your rating</label>
           <div className="flex gap-2 text-3xl cursor-pointer">
             {[1, 2, 3, 4, 5].map((star) =>
               star <= reviewRate ? (
@@ -120,12 +121,14 @@ const Booking = () => {
             )}
           </div>
         </div>
+
         <div className="w-full relative">
+          <label className="block mb-1 text-sm font-bold">Your Review</label>
           <div className="flex gap-2 bg-white p-2 rounded-sm">
             <FiFileText />
             <textarea
-              placeholder="Enter your review here"
               className="w-full focus:outline-none border-none"
+              rows={4}
               value={reviewMessage}
               onChange={(e) => setReviewMessage(e.target.value)}
             />
@@ -138,10 +141,11 @@ const Booking = () => {
             cannot be empty
           </span>
         </div>
+
         <button
           onClick={handleReview}
           disabled={loading}
-          className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full flex justify-center items-center gap-2 hover:from-green-500 hover:to-green-800 transition"
+          className="bg-gradient-to-r from-green-400 to-green-700 text-white p-2 rounded-sm w-full flex justify-center items-center gap-2 hover:from-green-500 hover:to-green-800 transition disabled:opacity-50"
         >
           <FiSend />
           {loading ? "Submitting..." : "Submit"}

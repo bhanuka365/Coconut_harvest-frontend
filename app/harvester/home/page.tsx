@@ -5,6 +5,7 @@ import {
   FiCalendar,
   FiCheck,
   FiCheckCircle,
+  FiChevronRight,
   FiClipboard,
   FiDollarSign,
   FiHome,
@@ -39,6 +40,7 @@ import {
   updateBookingById,
 } from "@/api/booking";
 import { getUserByUserName } from "@/api/user";
+import { BsDot } from "react-icons/bs";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -336,8 +338,13 @@ const Home = () => {
   };
 
   return (
-    <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
-      <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2">
+    // <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+    <div className="flex min-h-screen bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
+      {/* <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2 fixed left-0 bottom-0 top-0"> */}
+      <div
+        className="bg-green-400 w-full md:w-15 text-white flex md:flex-col flex-row md:justify-start justify-evenly items-center p-2 gap-2
+            md:fixed md:left-0 md:top-0 md:bottom-0"
+      >
         <Link
           href="/harvester/home"
           className="relative group flex items-center bg-black/40 p-2 rounded-lg cursor-pointer transition duration-300 ease-in-out"
@@ -368,7 +375,8 @@ const Home = () => {
           </span>
         </div>
       </div>
-      <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5">
+      {/* <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5"> */}
+      <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -412,7 +420,7 @@ const Home = () => {
               <FiCheckCircle className="text-2xl" />
               <label className="font-bold text-2xl">Complete jobs</label>
             </div>
-            <label>{completeJobCounts ? completeJobCounts : "..."}</label>
+            <label>{completeJobCounts}</label>
           </div>
           <div className="bg-gradient-to-r from-green-400 to-green-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
@@ -420,7 +428,7 @@ const Home = () => {
               <label className="font-bold text-2xl">Total earn</label>
             </div>
             <label>
-              {allTotalAmount ? `LKR ${setFormatAmout(allTotalAmount)}` : "..."}
+              {allTotalAmount ? `LKR ${setFormatAmout(allTotalAmount)}` : ""}
             </label>
           </div>
           <div className="bg-gradient-to-r from-blue-400 to-blue-900 p-5 rounded-lg sm:w-1/3 w-full flex flex-col text-white gap-2">
@@ -428,7 +436,7 @@ const Home = () => {
               <LuClipboardPen className="text-2xl" />
               <label className="font-bold text-2xl">Progress jobs</label>
             </div>
-            <label>{progressJobCounts ? progressJobCounts :"..."}</label>
+            <label>{progressJobCounts}</label>
           </div>
         </div>
         <h1 className="text-2xl font-bold">New Job Requests</h1>
@@ -468,7 +476,7 @@ const Home = () => {
         ) : bookings.length === 0 ? (
           <EmptyState message="No jobs found." />
         ) : (
-          <div className="flex flex-col gap-5 overflow-y-auto max-h-[40vh] sm:max-h-[60vh] lg:max-h-[75vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
+          <div className="flex flex-col gap-5 overflow-y-auto max-h-dvh [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ">
             {bookings
               .filter((e) => {
                 const matchesText = e.address
@@ -503,56 +511,77 @@ const Home = () => {
                       {e.title}
                     </h1>
                     <p className="text-gray-600">{e.description}</p>
-                    <div className="flex items-center gap-2">
-                      <FiUser className="text-blue-600" />
-                      <span className="font-medium">Field Owner:</span>
-                      <span>
-                        {e.user.userFirstName} {e.user.userLastName}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FiMapPin className="text-red-500" />
-                      <span className="font-medium">Location:</span>
-                      <span>{e.address}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <FiCalendar className="text-purple-600" />
-                      <span className="font-medium">Date:</span>
-                      <span>{e.duedate.split("T")[0]}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <FiMaximize2 className="text-red-600" />
-                      <span className="font-medium">Field size (in acres)</span>
-                      <span>{e.landSize}</span>
-                    </div>
-                    {e.jobType !== "Direct" ? (
+                    <div className="flex flex-row flex-wrap gap-2 items-center">
                       <div className="flex items-center gap-2">
-                        <FiUser className="text-blue-700" />
-                        <span className="font-medium">Worker Count:</span>
-                        <span>{e.count}</span>
+                        <FiUser className="text-blue-600" />
+                        <span className="font-medium text-blue-600">
+                          Field Owner:
+                        </span>
+                        <span>
+                          {e.user.userFirstName} {e.user.userLastName}
+                        </span>
                       </div>
-                    ) : (
-                      ""
-                    )}
+                      <BsDot className="text-gray-400 hidden sm:inline" />
+                      <div className="flex items-center gap-2">
+                        <FiMapPin className="text-red-500" />
+                        <span className="font-medium text-red-500">
+                          Location:
+                        </span>
+                        <span>{e.address}</span>
+                      </div>
+                      <BsDot className="text-gray-400 hidden sm:inline" />
+                      <div className="flex items-center gap-2">
+                        <FiCalendar className="text-purple-600" />
+                        <span className="font-medium text-purple-600">
+                          Date:
+                        </span>
+                        <span>{e.duedate.split("T")[0]}</span>
+                      </div>
+                      <BsDot className="text-gray-400 hidden sm:inline" />
+                      <div className="flex items-center gap-2">
+                        <FiMaximize2 className="text-red-600" />
+                        <span className="font-medium text-red-600">
+                          Field size (in acres)
+                        </span>
+                        <span>{e.landSize}</span>
+                      </div>
+                      <BsDot className="text-gray-400 hidden sm:inline" />
+                      {e.jobType !== "Direct" ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <FiUser className="text-blue-700" />
+                            <span className="font-medium text-blue-700">
+                              Worker Count:
+                            </span>
+                            <span>{e.count}</span>
+                          </div>
+                          <BsDot className="text-gray-400 hidden sm:inline" />
+                        </>
+                      ) : (
+                        ""
+                      )}
 
-                    <div className="flex items-center gap-2">
-                      <GiTreeBranch className="text-green-700" />
-                      <span className="font-medium">Tree Count:</span>
-                      <span>{e.treeCount}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <FiDollarSign className="text-yellow-600" />
-                      <span className="font-medium">Per Tree:</span>
-                      <span>LKR {setFormatAmout(e.pricePerTree)}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 font-bold">
-                      <FiDollarSign className="text-green-600" />
-                      <span>Total Price:</span>
-                      <span>LKR {setFormatAmout(e.totalAmount)}</span>
+                      <div className="flex items-center gap-2">
+                        <GiTreeBranch className="text-green-700" />
+                        <span className="font-medium text-green-700">
+                          Tree Count:
+                        </span>
+                        <span>{e.treeCount}</span>
+                      </div>
+                      <BsDot className="text-gray-400 hidden sm:inline" />
+                      <div className="flex items-center gap-2">
+                        <FiDollarSign className="text-yellow-600" />
+                        <span className="font-medium text-yellow-600">
+                          Per Tree:
+                        </span>
+                        <span>LKR {setFormatAmout(e.pricePerTree)}</span>
+                      </div>
+                      <BsDot className="text-gray-400 hidden sm:inline" />
+                      <div className="flex items-center gap-2 font-bold">
+                        <FiDollarSign className="text-green-600" />
+                        <span className="text-green-600">Total Price:</span>
+                        <span>LKR {setFormatAmout(e.totalAmount)}</span>
+                      </div>
                     </div>
                     <div className="flex flex-row gap-2">
                       {e.jobType === "Direct" ? (

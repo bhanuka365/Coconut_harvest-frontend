@@ -135,7 +135,7 @@ export default function Home() {
           className="flex flex-row w-full justify-left items-center min-h-screen"
           id="home"
         >
-          <div className="flex flex-col md:w-1/2 w-full gap-5">
+          <div className="flex flex-col md:w-1/2 w-full text-center md:text-left gap-5">
             <Typewriter
               options={{
                 strings: [
@@ -146,14 +146,14 @@ export default function Home() {
                 loop: true,
               }}
             />
-            <p className="lg:text-justify text-center">
+            <p className="md:text-justify text-center">
               CocoHarvest modernizes coconut harvesting by digitally connecting
               field owners with trusted harvesters. Our platform streamlines
               hiring, scheduling, and payments delivering a faster, safer, and
               more transparent harvesting experience.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-5">
+            <div className="flex flex-col md:flex-row gap-5">
               <Link
                 href="/harvester/login"
                 className="flex items-center justify-center p-2 rounded-full bg-gradient-to-r from-green-400 to-green-700 text-white cursor-pointer transition duration-300 ease-in-out hover:from-green-500 hover:to-green-800"
@@ -170,11 +170,11 @@ export default function Home() {
           </div>
         </div>
         <div className="flex flex-col gap-5" id="benefits">
-          <h1 className="font-bold text-4xl lg:text-left text-center w-full">
+          <h1 className="font-bold text-4xl md:text-left text-center w-full">
             Benefits
           </h1>
-          <div className="flex lg:flex-row flex-col gap-5 w-full">
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
+          <div className="flex md:flex-row flex-col gap-5 w-full">
+            <div className="flex flex-col gap-5 md:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiUsers />
                 Verified Workers
@@ -185,7 +185,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
+            <div className="flex flex-col gap-5 md:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiClock />
                 Fast Scheduling
@@ -196,7 +196,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
+            <div className="flex flex-col gap-5 md:w-1/4 w-full  p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiShield />
                 Secure Platform
@@ -207,7 +207,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-5 lg:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
+            <div className="flex flex-col gap-5 md:w-1/4 w-full p-5 rounded-lg bg-black/40 backdrop-blur-md hover:bg-white hover:text-gray-900 transition duration-300 ease-in-out">
               <div className="flex flex-row items-start justify-start gap-2 font-bold text-2xl">
                 <FiDollarSign />
                 Fair Pricing
@@ -224,13 +224,13 @@ export default function Home() {
           className="flex flex-col gap-5 justify-center items-center"
           id="about"
         >
-          <h1 className="font-bold text-4xl lg:text-left text-center w-full">
+          <h1 className="font-bold text-4xl md:text-left text-center w-full">
             About Us
           </h1>
 
           <div className="flex flex-row w-full gap-5">
-            <div className="flex flex-col w-full lg:w-1/2 gap-5">
-              <p className="lg:text-justify text-center">
+            <div className="flex flex-col w-full md:w-1/2 gap-5">
+              <p className="md:text-justify text-center">
                 CocoHarvest was built to modernize traditional coconut
                 harvesting by bridging the gap between field owners and skilled
                 harvesters through a secure digital platform. We help field
