@@ -29,25 +29,11 @@ const HarvesterProfile = () => {
     try {
       const token = localStorage.getItem("jwtToken");
 
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${username}`,
-      //   {
-      //     headers: { Authorization: `Bearer ${token}` },
-      //   },
-      // );
-
       const result = await getUserByUserName(username,token)
 
       setUser(result.data.dataBundle);
 
       const result1 = await getReviewsByUserName(username,token)
-
-      // const result1 = await axios.get(
-      //   `http://localhost:8085/api/v1/review/${username}`,
-      //   {
-      //     headers: { Authorization: `Bearer ${token}` },
-      //   },
-      // );
 
       const fetchedReviews = result1.data.dataBundle;
       setReviews(fetchedReviews);

@@ -39,39 +39,12 @@ const Booking = () => {
 
         await addReview(jsonData, token);
 
-        // await axios.post(
-        //   "http://localhost:8085/api/v1/review/add",
-        //   {
-        //     reviewMessage,
-        //     reviewRate,
-        //     bookingId: Number(bookingid),
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
-
         const jsonData1 = {
           bookingId: Number(bookingid),
           rate: true,
         };
 
         await updateBookingById(token, jsonData1);
-
-        // await axios.put(
-        //   "http://localhost:8085/api/v1/bookings/update",
-        //   {
-        //     bookingId: Number(bookingid),
-        //     rate: true,
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   },
-        // );
 
         toast.success("Review submitted successfully");
         setReviewMessage("");

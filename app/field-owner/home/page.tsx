@@ -46,40 +46,15 @@ const Home = () => {
       const userName = localStorage.getItem("userName");
 
       const result = await getUsersByRoleName("Harvester", token);
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/by-role/Harvester`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       setUsers(result.data.dataBundle);
 
       const result1 = await getUserByUserName(userName, token);
 
-      // const result1 = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${userName}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-
       setUser(result1.data.dataBundle);
 
       const result2 = await getAllMyBookingsForFieldOwner(token);
 
-      // const result2 = await axios.get(
-      //   `http://localhost:8085/api/v1/bookings/my`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
       setAllJobCounts(result2.data.dataBundle.length);
       setCompleteJobCounts(
         result2.data.dataBundle.filter((e: any) => {
@@ -93,9 +68,7 @@ const Home = () => {
   };
 
   return (
-    // <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
     <div className="flex min-h-screen bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
-      {/* <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2"> */}
       <div
         className="bg-green-400 w-full md:w-15 text-white flex md:flex-col flex-row md:justify-start justify-evenly items-center p-2 gap-2
             md:fixed md:left-0 md:top-0 md:bottom-0"
@@ -131,7 +104,7 @@ const Home = () => {
         </div>
       </div>
       {/* <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5"> */}
-       <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
+      <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -223,55 +196,50 @@ const Home = () => {
               .map((e, index) => {
                 return (
                   <div
-  key={index}
-  className="shadow-lg rounded-xl bg-white w-full p-5 flex flex-col sm:flex-row gap-4 items-center sm:items-start"
->
-  {/* Avatar */}
-  <Image
-    width={80}
-    height={80}
-    src={`data:image/jpeg;base64,${e.userImage}`}
-    alt="User profile"
-    className="rounded-full h-20 w-20 object-cover"
-  />
+                    key={index}
+                    className="shadow-lg rounded-xl bg-white w-full p-5 flex flex-col sm:flex-row gap-4 items-center sm:items-start"
+                  >
+                    <Image
+                      width={80}
+                      height={80}
+                      src={`data:image/jpeg;base64,${e.userImage}`}
+                      alt="User profile"
+                      className="rounded-full h-20 w-20 object-cover"
+                    />
 
-  {/* Info */}
-  <div className="flex flex-col gap-2 w-full">
-    <h1 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
-      {e.userFirstName} {e.userLastName}
-    </h1>
+                    <div className="flex flex-col gap-2 w-full">
+                      <h1 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
+                        {e.userFirstName} {e.userLastName}
+                      </h1>
 
-    {/* Contact details */}
-    <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-center sm:items-start text-sm">
-      <div className="flex items-center gap-2 text-red-500">
-        <FiMapPin />
-        <span>{e.Address}</span>
-      </div>
+                      <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-center sm:items-start text-sm">
+                        <div className="flex items-center gap-2 text-red-500">
+                          <FiMapPin />
+                          <span>{e.Address}</span>
+                        </div>
 
-      <BsDot className="text-gray-400 hidden sm:inline" />
+                        <BsDot className="text-gray-400 hidden sm:inline" />
 
-      <div className="flex items-center gap-2 text-blue-500">
-        <FiPhoneCall />
-        <span>{e.Telephone}</span>
-      </div>
-    </div>
+                        <div className="flex items-center gap-2 text-blue-500">
+                          <FiPhoneCall />
+                          <span>{e.Telephone}</span>
+                        </div>
+                      </div>
 
-    {/* Action */}
-    <Link
-      href={{
-        pathname: "/field-owner/harvester-profile",
-        query: { username: e.userName },
-      }}
-      className="mt-2 flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+                      <Link
+                        href={{
+                          pathname: "/field-owner/harvester-profile",
+                          query: { username: e.userName },
+                        }}
+                        className="mt-2 flex items-center gap-2 px-4 py-2 rounded-lg font-bold
       bg-gradient-to-r from-green-400 to-green-700 text-white sm:w-fit w-full items-center justify-center
       hover:from-green-500 hover:to-green-800 transition"
-    >
-      <FiEye />
-      View Profile
-    </Link>
-  </div>
-</div>
-
+                      >
+                        <FiEye />
+                        View Profile
+                      </Link>
+                    </div>
+                  </div>
                 );
               })}
           </div>

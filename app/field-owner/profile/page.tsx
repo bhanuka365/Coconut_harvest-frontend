@@ -41,14 +41,6 @@ const Profile = () => {
       const token = localStorage.getItem("jwtToken");
 
       const result = await getUserByUserName(username, token);
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${username}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       setUser(result.data.dataBundle);
       setUpdateUserFirstName(result.data.dataBundle.userFirstName);
@@ -86,22 +78,6 @@ const Profile = () => {
 
         await updateUserByUserName(jsonData, token);
 
-        // await axios.put(
-        //   "http://localhost:8085/api/v1/user-update",
-        //   {
-        //     Address: updateUserAddress,
-        //     Description: updateUserDescription,
-        //     Telephone: updateUserPhoneNumber,
-        //     userFirstName: updateUserFirstName,
-        //     userLastName: updateUserLastName,
-        //     userName: username,
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   },
-        // );
         toast.success("Profile updated");
       } catch (err: any) {
         if (err.response) {

@@ -110,14 +110,6 @@ const Register = () => {
 
         await userRegister(formData);
 
-        // await axios.post(
-        //   "http://localhost:8085/api/v1/registeruser",
-        //   formData,
-        //   {
-        //     headers: { "Content-Type": "multipart/form-data" },
-        //   },
-        // );
-
         toast.success("Registration successful");
       } catch (err: any) {
         if (err.response) {

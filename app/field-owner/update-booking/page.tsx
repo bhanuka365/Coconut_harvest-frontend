@@ -56,14 +56,6 @@ const UpdateBooking = () => {
       const token = localStorage.getItem("jwtToken");
 
       const result = await getBookingById(token, bookingid);
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/bookings/14`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       console.log(result.data.dataBundle.count);
       setUpdateTittle(result.data.dataBundle.title);
@@ -129,30 +121,6 @@ const UpdateBooking = () => {
         };
 
         await updateBookingById(token, jsonData);
-
-        // await axios.put(
-        //   "http://localhost:8085/api/v1/bookings/update",
-        //   {
-        //     bookingId: Number(bookingid),
-        //     landSize: updatelandSize,
-        //     treeCount: updateTreeCount,
-        //     pricePerTree: updatePricePerTree,
-        //     longitude: updatelongitude,
-        //     latitude: updatelatitude,
-        //     address: updateAddress,
-        //     title: updateTittle,
-        //     description: updateDescription,
-        //     duedate: updateDueDate,
-        //     jobType: jobType,
-        //     rate: false,
-        //     count: jobType !== "Direct" ? updateWorkerCount : null,
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   },
-        // );
 
         toast.success("Booking updated");
       } else {

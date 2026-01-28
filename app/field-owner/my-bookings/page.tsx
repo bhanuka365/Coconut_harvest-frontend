@@ -63,30 +63,12 @@ const MyBooking = () => {
 
       const result = await getUserByUserName(userName, token);
 
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${userName}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-
       setUser(result.data.dataBundle);
 
       const result1 = await getAllMyBookingsForFieldOwner(token);
 
-      // const result1 = await axios.get(
-      //   `http://localhost:8085/api/v1/bookings/my`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-
       setBookings(result1.data.dataBundle);
-      console.log(result1.data.dataBundle)
+      console.log(result1.data.dataBundle);
     } catch (error) {
     } finally {
       setLoadingPage(false);
@@ -112,20 +94,6 @@ const MyBooking = () => {
       };
 
       await updateBookingById(token, jsonData);
-
-      // await axios.put(
-      //   "http://localhost:8085/api/v1/bookings/update",
-      //   {
-      //     bookingId: Number(id),
-      //     status: "CANCELLED",
-      //     rate: false,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       toast.success("Booking canceled");
     } catch (err: any) {
@@ -162,14 +130,6 @@ const MyBooking = () => {
 
     try {
       await deleteBookingById(id, token);
-      // await axios.delete(
-      //   `http://localhost:8085/api/v1/bookings/${Number(id)}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       toast.success("Booking deleted");
     } catch (err: any) {
@@ -370,160 +330,174 @@ const MyBooking = () => {
               .map((e, index) => {
                 return (
                   <div
-  key={index}
-  className={`rounded-xl shadow-lg p-5 flex flex-col gap-4 w-full
+                    key={index}
+                    className={`rounded-xl shadow-lg p-5 flex flex-col gap-4 w-full
     ${
       e.status === "PROGRESS"
         ? "bg-yellow-200"
         : e.status === "COMPLETED"
-        ? "bg-green-200"
-        : e.status === "CANCELLED"
-        ? "bg-red-200"
-        : "bg-gray-200"
+          ? "bg-green-200"
+          : e.status === "CANCELLED"
+            ? "bg-red-200"
+            : "bg-gray-200"
     }`}
->
-  {/* Header */}
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-    <h1 className="font-bold text-xl">{e.title}</h1>
+                  >
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <h1 className="font-bold text-xl">{e.title}</h1>
 
-    <span
-      className={`px-3 py-1 rounded-full text-sm font-bold w-fit
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-bold w-fit
         ${
           e.status === "PROGRESS"
             ? "bg-yellow-100 text-yellow-700"
             : e.status === "COMPLETED"
-            ? "bg-green-100 text-green-700"
-            : e.status === "CANCELLED"
-            ? "bg-red-100 text-red-700"
-            : "bg-gray-100 text-gray-700"
+              ? "bg-green-100 text-green-700"
+              : e.status === "CANCELLED"
+                ? "bg-red-100 text-red-700"
+                : "bg-gray-100 text-gray-700"
         }`}
-    >
-      {e.status}
-    </span>
-  </div>
+                      >
+                        {e.status}
+                      </span>
+                    </div>
 
-  {/* Description */}
-  <p className="text-gray-700">{e.description}</p>
+                    {/* Description */}
+                    <p className="text-gray-700">{e.description}</p>
 
-  {/* Details */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
-    {e.harvesterName && (
-      <div className="flex items-center gap-2">
-        <FiUser className="text-blue-600" />
-        <span className="font-medium text-blue-600">Harvester:</span>
-        <span>{e.harvesterName}</span>
-      </div>
-    )}
+                    {/* Details */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+                      {e.harvesterName && (
+                        <div className="flex items-center gap-2">
+                          <FiUser className="text-blue-600" />
+                          <span className="font-medium text-blue-600">
+                            Harvester:
+                          </span>
+                          <span>{e.harvesterName}</span>
+                        </div>
+                      )}
 
-    <div className="flex items-center gap-2">
-      <FiMapPin className="text-red-500" />
-      <span className="font-medium text-red-500">Location:</span>
-      <span>{e.address}</span>
-    </div>
+                      <div className="flex items-center gap-2">
+                        <FiMapPin className="text-red-500" />
+                        <span className="font-medium text-red-500">
+                          Location:
+                        </span>
+                        <span>{e.address}</span>
+                      </div>
 
-    <div className="flex items-center gap-2">
-      <FiCalendar className="text-purple-600" />
-      <span className="font-medium text-purple-600">Date:</span>
-      <span>{e.duedate.split("T")[0]}</span>
-    </div>
+                      <div className="flex items-center gap-2">
+                        <FiCalendar className="text-purple-600" />
+                        <span className="font-medium text-purple-600">
+                          Date:
+                        </span>
+                        <span>{e.duedate.split("T")[0]}</span>
+                      </div>
 
-    <div className="flex items-center gap-2">
-      <FiMaximize2 className="text-orange-600" />
-      <span className="font-medium text-orange-600">Land Size:</span>
-      <span>{e.landSize} acres</span>
-    </div>
+                      <div className="flex items-center gap-2">
+                        <FiMaximize2 className="text-orange-600" />
+                        <span className="font-medium text-orange-600">
+                          Land Size:
+                        </span>
+                        <span>{e.landSize} acres</span>
+                      </div>
 
-    {e.Count && (
-      <div className="flex items-center gap-2">
-        <FiUser className="text-blue-700" />
-        <span className="font-medium text-blue-700">Workers:</span>
-        <span>{e.Count}</span>
-      </div>
-    )}
+                      {e.Count && (
+                        <div className="flex items-center gap-2">
+                          <FiUser className="text-blue-700" />
+                          <span className="font-medium text-blue-700">
+                            Workers:
+                          </span>
+                          <span>{e.Count}</span>
+                        </div>
+                      )}
 
-    <div className="flex items-center gap-2">
-      <GiTreeBranch className="text-green-700" />
-      <span className="font-medium text-green-700">Trees:</span>
-      <span>{e.treeCount}</span>
-    </div>
-  </div>
+                      <div className="flex items-center gap-2">
+                        <GiTreeBranch className="text-green-700" />
+                        <span className="font-medium text-green-700">
+                          Trees:
+                        </span>
+                        <span>{e.treeCount}</span>
+                      </div>
+                    </div>
 
-  {/* Pricing */}
-  <div className="bg-white/60 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
-    <div className="flex items-center gap-2">
-      <FiDollarSign className="text-yellow-600" />
-      <span className="font-medium">Per Tree:</span>
-      <span>LKR {setFormatAmout(e.pricePerTree)}</span>
-    </div>
+                    {/* Pricing */}
+                    <div className="bg-white/60 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <FiDollarSign className="text-yellow-600" />
+                        <span className="font-medium">Per Tree:</span>
+                        <span>LKR {setFormatAmout(e.pricePerTree)}</span>
+                      </div>
 
-    <div className="flex items-center gap-2 font-bold text-green-700">
-      <FiDollarSign />
-      <span>Total:</span>
-      <span>LKR {setFormatAmout(e.totalAmount)}</span>
-    </div>
-  </div>
+                      <div className="flex items-center gap-2 font-bold text-green-700">
+                        <FiDollarSign />
+                        <span>Total:</span>
+                        <span>LKR {setFormatAmout(e.totalAmount)}</span>
+                      </div>
+                    </div>
 
-  {/* Actions */}
-  <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-    <div className="flex flex-wrap gap-2">
-      {e.rate === false && e.status === "COMPLETED" ? (
-        <Link
-          href={{
-            pathname: "/field-owner/add-review",
-            query: { bookingid: e.bookingId },
-          }}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+                    {/* Actions */}
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+                      <div className="flex flex-wrap gap-2">
+                        {e.rate === false && e.status === "COMPLETED" ? (
+                          <Link
+                            href={{
+                              pathname: "/field-owner/add-review",
+                              query: { bookingid: e.bookingId },
+                            }}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
           bg-gradient-to-r from-blue-400 to-blue-700 text-white"
-        >
-          <FiAward /> Rate
-        </Link>
-      ) : (
-        <div className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
-          bg-gray-400 text-white cursor-not-allowed">
-          <FiAward />
-          {e.rate ? "Rated" : "Rate"}
-        </div>
-      )}
+                          >
+                            <FiAward /> Rate
+                          </Link>
+                        ) : (
+                          <div
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+          bg-gray-400 text-white cursor-not-allowed"
+                          >
+                            <FiAward />
+                            {e.rate ? "Rated" : "Rate"}
+                          </div>
+                        )}
 
-      {(e.status === "PENDING" || e.status === "PROGRESS") && (
-        <button
-          onClick={() => handleCancelJob(e.bookingId)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+                        {(e.status === "PENDING" ||
+                          e.status === "PROGRESS") && (
+                          <button
+                            onClick={() => handleCancelJob(e.bookingId)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
           bg-gradient-to-r from-red-400 to-red-700 text-white"
-        >
-          <FiX />
-          {cancelBtnloading && e.bookingId === cancelBtnId
-            ? "Canceling..."
-            : "Cancel"}
-        </button>
-      )}
-    </div>
+                          >
+                            <FiX />
+                            {cancelBtnloading && e.bookingId === cancelBtnId
+                              ? "Canceling..."
+                              : "Cancel"}
+                          </button>
+                        )}
+                      </div>
 
-    {/* Icon actions */}
-    <div className="flex gap-2">
-      <CiTrash
-        size={26}
-        className="text-white bg-red-500 p-1 rounded cursor-pointer"
-        onClick={() => handleDeleteJob(e.bookingId)}
-      />
+                      {/* Icon actions */}
+                      <div className="flex gap-2">
+                        <CiTrash
+                          size={26}
+                          className="text-white bg-red-500 p-1 rounded cursor-pointer"
+                          onClick={() => handleDeleteJob(e.bookingId)}
+                        />
 
-      {e.status === "PENDING" && (
-        <Link
-          href={{
-            pathname: "/field-owner/update-booking",
-            query: { bookingid: e.bookingId },
-          }}
-        >
-          <CiEdit
-            size={26}
-            className="text-white bg-green-500 p-1 rounded"
-          />
-        </Link>
-      )}
-    </div>
-  </div>
-</div>
-
+                        {e.status === "PENDING" && (
+                          <Link
+                            href={{
+                              pathname: "/field-owner/update-booking",
+                              query: { bookingid: e.bookingId },
+                            }}
+                          >
+                            <CiEdit
+                              size={26}
+                              className="text-white bg-green-500 p-1 rounded"
+                            />
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
           </div>

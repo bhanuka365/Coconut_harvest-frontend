@@ -90,29 +90,6 @@ const Booking = () => {
 
         await addBooking(jsonData, token);
 
-        // await axios.post(
-        //   "http://localhost:8085/api/v1/bookings/add",
-        //   {
-        //     landSize: landSize,
-        //     treeCount: treeCount,
-        //     pricePerTree: pricePerTree,
-        //     longitude: longitude,
-        //     latitude: latitude,
-        //     address: address,
-        //     title: title,
-        //     description: description,
-        //     duedate: dueDate,
-        //     jobType: username === null ? "Job_Post" : "Direct",
-        //     rate: false,
-        //     count: workerCount,
-        //     harvesterName: username, // re check this api
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   },
-        // );
         toast.success("Booking submited");
       } else {
         toast.error("Booking submit failed please check the details");

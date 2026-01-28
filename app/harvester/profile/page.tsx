@@ -44,14 +44,6 @@ const Profile = () => {
       const username = localStorage.getItem("userName");
 
       const result = await getUserByUserName(username, token);
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${username}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       setUser(result.data.dataBundle);
       setUpdateUserFirstName(result.data.dataBundle.userFirstName);
@@ -62,15 +54,8 @@ const Profile = () => {
 
       const result1 = await getReviewsByUserName(username, token);
 
-      // const result1 = await axios.get(
-      //   `http://localhost:8085/api/v1/review/${username}`,
-      //   {
-      //     headers: { Authorization: `Bearer ${token}` },
-      //   },
-      // );
-
       const fetchedReviews = result1.data.dataBundle;
-      console.log(result1.data.dataBundle)
+      console.log(result1.data.dataBundle);
       setReviews(fetchedReviews);
 
       const averageRating =
@@ -116,22 +101,6 @@ const Profile = () => {
 
         await updateUserByUserName(jsonData, token);
 
-        // await axios.put(
-        //   "http://localhost:8085/api/v1/user-update",
-        //   {
-        //     Address: updateUserAddress,
-        //     Description: updateUserDescription,
-        //     Telephone: updateUserPhoneNumber,
-        //     userFirstName: updateUserFirstName,
-        //     userLastName: updateUserLastName,
-        //     userName: username,
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   },
-        // );
         toast.success("Profile updated");
       } catch (err: any) {
         if (err.response) {
@@ -293,7 +262,9 @@ const Profile = () => {
             {loading ? "editing..." : "edit"}
           </button>
           <div className="flex flex-col gap-5 items-center w-full">
-            <h1 className="font-bold text-2xl text-left w-full">Rating and Reviews</h1>
+            <h1 className="font-bold text-2xl text-left w-full">
+              Rating and Reviews
+            </h1>
             {reviews.length === 0 ? (
               <EmptyState message="No reviews found." />
             ) : (

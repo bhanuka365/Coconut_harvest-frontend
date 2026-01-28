@@ -41,19 +41,19 @@ export default function Home() {
     const loadData = async () => {
       try {
         const token = localStorage.getItem("jwtToken");
-        const result = await axios.get(
-          `http://localhost:8085/api/v1/bookings/my`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        setStats({
-          owners: result.data.dataBundle.length,
-          workers: result.data.dataBundle.length,
-          tasks: result.data.dataBundle.length,
-        });
+        // const result = await axios.get(
+        //   `http://localhost:8085/api/v1/bookings/my`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
+        // setStats({
+        //   owners: result.data.dataBundle.length,
+        //   workers: result.data.dataBundle.length,
+        //   tasks: result.data.dataBundle.length,
+        // });
       } catch (error) {}
     };
     loadData();

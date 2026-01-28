@@ -73,40 +73,13 @@ const Home = () => {
 
       const result = await getAllPendingBookingsForHarvester(token);
 
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/bookings/my/pending`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-
       setBookings(result.data.dataBundle);
 
       const result1 = await getUserByUserName(userName, token);
 
-      // const result1 = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${userName}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-
       setUser(result1.data.dataBundle);
 
       const result2 = await getAllBookingsByHarvesterName(token, userName);
-
-      // const result2 = await axios.get(
-      //   `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       setCompleteJobCounts(
         result2.data.dataBundle.filter((e: any) => {
@@ -166,19 +139,6 @@ const Home = () => {
       };
 
       await updateBookingById(token, jsonData);
-      // await axios.put(
-      //   "http://localhost:8085/api/v1/bookings/update",
-      //   {
-      //     bookingId: Number(id),
-      //     status: "PROGRESS",
-      //     rate: false,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       toast.success("Job accepted");
     } catch (err: any) {
@@ -214,20 +174,6 @@ const Home = () => {
       };
 
       await updateBookingById(token, jsonData);
-      // await axios.put(
-      //   "http://localhost:8085/api/v1/bookings/update",
-      //   {
-      //     bookingId: Number(id),
-      //     status: "PROGRESS",
-      //     harvesterName: userName,
-      //     rate: false,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       toast.success("Job accepted");
     } catch (err: any) {
@@ -264,20 +210,6 @@ const Home = () => {
       };
 
       await updateBookingById(token, jsonData);
-      // await axios.put(
-      //   "http://localhost:8085/api/v1/bookings/update",
-      //   {
-      //     bookingId: Number(id),
-      //     status: "CANCELLED",
-      //     harvesterName: userName,
-      //     rate: false,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       toast.success("Job canceled");
     } catch (err: any) {
@@ -340,9 +272,7 @@ const Home = () => {
   };
 
   return (
-    // <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
     <div className="flex min-h-screen bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
-      {/* <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2 fixed left-0 bottom-0 top-0"> */}
       <div
         className="bg-green-400 w-full md:w-15 text-white flex md:flex-col flex-row md:justify-start justify-evenly items-center p-2 gap-2
             md:fixed md:left-0 md:top-0 md:bottom-0"
@@ -377,7 +307,6 @@ const Home = () => {
           </span>
         </div>
       </div>
-      {/* <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5"> */}
       <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
@@ -509,7 +438,6 @@ const Home = () => {
                     key={index}
                     className="shadow-lg rounded-xl bg-white w-full p-5 flex flex-col gap-4"
                   >
-                    {/* Header */}
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                       <h1 className="font-bold text-xl">{e.title}</h1>
 
@@ -518,10 +446,8 @@ const Home = () => {
                       </span>
                     </div>
 
-                    {/* Description */}
                     <p className="text-gray-600">{e.description}</p>
 
-                    {/* Details */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
                       <div className="flex items-center gap-2">
                         <FiUser className="text-blue-600" />
@@ -576,7 +502,6 @@ const Home = () => {
                       </div>
                     </div>
 
-                    {/* Pricing */}
                     <div className="bg-gray-50 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <FiDollarSign className="text-yellow-600" />
@@ -591,7 +516,6 @@ const Home = () => {
                       </div>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                       {e.jobType === "Direct" ? (
                         <div className="flex flex-wrap gap-2">

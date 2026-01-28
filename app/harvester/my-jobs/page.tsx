@@ -66,9 +66,11 @@ const MyTasks = () => {
       //   },
       // );
 
-      setBookings(result.data.dataBundle.filter((e: any) => {
-          return e.status === "COMPLETED" ||e.status === "PROGRESS" ;
-        }));
+      setBookings(
+        result.data.dataBundle.filter((e: any) => {
+          return e.status === "COMPLETED" || e.status === "PROGRESS";
+        }),
+      );
 
       const result1 = await getUserByUserName(userName, token);
 
@@ -106,19 +108,6 @@ const MyTasks = () => {
       };
 
       await updateBookingById(token, jsonData);
-      // await axios.put(
-      //   "http://localhost:8085/api/v1/bookings/update",
-      //   {
-      //     bookingId: Number(id),
-      //     status: "COMPLETED",
-      //     rate: false,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       toast.success("Job completed");
     } catch (err: any) {
@@ -136,9 +125,7 @@ const MyTasks = () => {
   };
 
   return (
-    // <div className="flex min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
     <div className="flex min-h-screen bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
-      {/* <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2"> */}
       <div
         className="bg-green-400 w-full md:w-15 text-white flex md:flex-col flex-row md:justify-start justify-evenly items-center p-2 gap-2
             md:fixed md:left-0 md:top-0 md:bottom-0"
@@ -287,7 +274,6 @@ const MyTasks = () => {
                     className={`rounded-xl shadow-lg p-5 w-full flex flex-col gap-4
     ${e.status === "PROGRESS" ? "bg-yellow-200" : "bg-green-200"}`}
                   >
-                    {/* Header */}
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                       <h1 className="font-bold text-xl">{e.title}</h1>
 
@@ -303,10 +289,8 @@ const MyTasks = () => {
                       </span>
                     </div>
 
-                    {/* Description */}
                     <p className="text-gray-700">{e.description}</p>
 
-                    {/* Details */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
                       <div className="flex items-center gap-2">
                         <FiUser className="text-blue-600" />
@@ -361,7 +345,6 @@ const MyTasks = () => {
                       </div>
                     </div>
 
-                    {/* Pricing */}
                     <div className="bg-white/60 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <FiDollarSign className="text-yellow-600" />
@@ -376,7 +359,6 @@ const MyTasks = () => {
                       </div>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                       {e.status === "PROGRESS" ? (
                         <button

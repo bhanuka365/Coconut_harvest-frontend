@@ -28,15 +28,6 @@ const Login = () => {
 
     if (validateName(userName) && validateName(userPassword)) {
       try {
-        // const result = await axios.post(
-        //   "http://localhost:8085/api/v1/authentication",
-        //   { username: userName, password: userPassword },
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   },
-        // );
 
         const result = await userLogin(userName, userPassword);
 
