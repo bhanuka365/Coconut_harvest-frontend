@@ -46,17 +46,17 @@ export const AvatarSkeleton = () => (
 export const WorkerCardSkeleton = () => {
   return (
     <div className="shadow-lg rounded-xl bg-white w-full p-5 flex flex-col sm:flex-row gap-4 items-center sm:items-start animate-pulse">
-      <div className="h-20 w-20 bg-gray-300 rounded-full sm:h-20 sm:w-20" />
+      <div className="h-20 w-20 bg-green-300 rounded-full sm:h-20 sm:w-20" />
 
       <div className="flex flex-col gap-2 w-full">
-        <div className="h-6 w-1/2 bg-gray-300 rounded mt-1 sm:mt-0" />
+        <div className="h-6 w-1/2 bg-green-300 rounded mt-1 sm:mt-0" />
 
         <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-2">
-          <div className="h-4 w-32 bg-gray-300 rounded" />
-          <div className="h-4 w-24 bg-gray-300 rounded" />
+          <div className="h-4 w-32 bg-green-300 rounded" />
+          <div className="h-4 w-24 bg-green-300 rounded" />
         </div>
 
-        <div className="h-10 w-full sm:w-36 bg-gray-300 rounded-lg mt-2" />
+        <div className="h-10 w-full sm:w-36 bg-green-300 rounded-lg mt-2" />
       </div>
     </div>
   );
@@ -211,29 +211,29 @@ export const BookingSkeleton = () => {
 
 export const BookingCardSkeleton = () => {
   return (
-    <div className="rounded-xl shadow-lg p-5 flex flex-col gap-4 w-full bg-gray-100 animate-pulse">
-      <div className="h-6 w-1/3 bg-gray-300 rounded" />
-      <div className="h-4 w-20 bg-gray-300 rounded mt-1" />
+    <div className="rounded-xl shadow-lg p-5 flex flex-col gap-4 w-full bg-green-100 animate-pulse">
+      <div className="h-6 w-1/3 bg-green-300 rounded" />
+      <div className="h-4 w-20 bg-green-300 rounded mt-1" />
 
-      <div className="h-4 w-full bg-gray-300 rounded mt-2" />
-      <div className="h-4 w-5/6 bg-gray-300 rounded" />
+      <div className="h-4 w-full bg-green-300 rounded mt-2" />
+      <div className="h-4 w-5/6 bg-green-300 rounded" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2">
         {Array(6)
           .fill(0)
           .map((_, i) => (
-            <div key={i} className="h-4 w-32 bg-gray-300 rounded" />
+            <div key={i} className="h-4 w-32 bg-green-300 rounded" />
           ))}
       </div>
 
       <div className="flex flex-col sm:flex-row sm:justify-between gap-3 mt-2">
-        <div className="h-6 w-32 bg-gray-300 rounded" />
-        <div className="h-6 w-32 bg-gray-300 rounded" />
+        <div className="h-6 w-32 bg-green-300 rounded" />
+        <div className="h-6 w-32 bg-green-300 rounded" />
       </div>
 
       <div className="flex flex-row gap-3 mt-2">
-        <div className="h-10 w-24 bg-gray-300 rounded-lg" />
-        <div className="h-10 w-24 bg-gray-300 rounded-lg" />
+        <div className="h-10 w-24 bg-green-300 rounded-lg" />
+        <div className="h-10 w-24 bg-green-300 rounded-lg" />
       </div>
     </div>
   );
