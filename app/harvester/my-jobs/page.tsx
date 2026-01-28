@@ -33,7 +33,6 @@ import {
   getAllBookingsByHarvesterName,
   updateBookingById,
 } from "@/api/booking";
-import { BsDot } from "react-icons/bs";
 
 const MyTasks = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -47,7 +46,12 @@ const MyTasks = () => {
   const [completeBtnLoading, setCompleteBtnLoading] = useState(false);
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {
@@ -57,15 +61,6 @@ const MyTasks = () => {
 
       const result = await getAllBookingsByHarvesterName(token, userName);
 
-      // const result = await axios.get(
-      //   `http://localhost:8085/api/v1/bookings/harvester/${userName}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-
       setBookings(
         result.data.dataBundle.filter((e: any) => {
           return e.status === "COMPLETED" || e.status === "PROGRESS";
@@ -73,15 +68,6 @@ const MyTasks = () => {
       );
 
       const result1 = await getUserByUserName(userName, token);
-
-      // const result1 = await axios.get(
-      //   `http://localhost:8085/api/v1/user/${userName}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
 
       setUser(result1.data.dataBundle);
     } catch (error) {

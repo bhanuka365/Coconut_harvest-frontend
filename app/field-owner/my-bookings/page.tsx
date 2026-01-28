@@ -53,7 +53,12 @@ const MyBooking = () => {
   const [cancelBtnId, setCancelBtnId] = useState("");
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {
@@ -342,7 +347,6 @@ const MyBooking = () => {
             : "bg-gray-200"
     }`}
                   >
- 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <h1 className="font-bold text-xl">{e.title}</h1>
 

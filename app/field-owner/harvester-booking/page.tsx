@@ -14,7 +14,7 @@ import {
 } from "react-icons/fi";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
 import { useSearchParams } from "next/navigation";
@@ -43,6 +43,13 @@ const Booking = () => {
   const [dueDateError, setDueDateError] = useState(true);
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    }
+  }, []);
 
   const bookingSubmit = async () => {
     try {

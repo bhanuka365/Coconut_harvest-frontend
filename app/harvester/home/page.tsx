@@ -63,7 +63,12 @@ const Home = () => {
   const [nearbyOnly, setNearbyOnly] = useState(false);
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {

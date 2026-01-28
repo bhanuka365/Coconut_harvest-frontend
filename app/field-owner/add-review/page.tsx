@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
 import { BsStar, BsStarFill } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiFileText, FiSend } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
@@ -20,6 +20,13 @@ const Booking = () => {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const bookingid = searchParams.get("bookingid");
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    }
+  }, []);
 
   const handleReview = async () => {
     try {

@@ -48,7 +48,12 @@ const UpdateBooking = () => {
   const [dueDateError, setDueDateError] = useState(true);
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {

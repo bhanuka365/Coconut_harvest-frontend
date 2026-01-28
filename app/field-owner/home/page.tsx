@@ -37,7 +37,12 @@ const Home = () => {
   const [completeJobCounts, setCompleteJobCounts] = useState("");
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {

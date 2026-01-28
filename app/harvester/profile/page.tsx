@@ -35,7 +35,12 @@ const Profile = () => {
   const [reviews, setReviews] = useState(reviewsjson);
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {

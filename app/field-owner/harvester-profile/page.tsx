@@ -22,18 +22,23 @@ const HarvesterProfile = () => {
   const [averageRate, setAverageRate] = useState("");
 
   useEffect(() => {
-    loadData();
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      window.location.href = "/";
+    } else {
+      loadData();
+    }
   }, []);
 
   const loadData = async () => {
     try {
       const token = localStorage.getItem("jwtToken");
 
-      const result = await getUserByUserName(username,token)
+      const result = await getUserByUserName(username, token);
 
       setUser(result.data.dataBundle);
 
-      const result1 = await getReviewsByUserName(username,token)
+      const result1 = await getReviewsByUserName(username, token);
 
       const fetchedReviews = result1.data.dataBundle;
       setReviews(fetchedReviews);
