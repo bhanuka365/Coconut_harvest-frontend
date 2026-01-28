@@ -173,7 +173,7 @@ const Home = () => {
           <div className="bg-gradient-to-r from-purple-400 to-purple-900 p-5 rounded-lg lg:w-1/3 w-full flex flex-col text-white gap-2">
             <div className="flex flex-row items-center gap-2">
               <LuClipboardPen className="text-2xl" />
-              <label className="font-bold text-2xl">Jobs Posted</label>
+              <label className="font-bold text-2xl">Jobs Post</label>
             </div>
             <label>{allJobCounts}</label>
           </div>
@@ -223,45 +223,55 @@ const Home = () => {
               .map((e, index) => {
                 return (
                   <div
-                    className="shadow-lg rounded-xl bg-white w-full flex flex-row gap-2 p-5 "
-                    key={index}
-                  >
-                    <Image
-                      width={50}
-                      height={50}
-                      src={`data:image/jpeg;base64,${e.userImage}`}
-                      alt=""
-                      className="rounded-full h-20 w-20"
-                    />
-                    <div className="flex flex-col gap-1">
-                      <h1 className="text-2xl font-bold">
-                        {e.userFirstName} {e.userLastName}
-                      </h1>
-                      <div className="flex flex-row flex-wrap gap-2 items-center">
-                      <div className="flex items-center gap-2 text-red-500 ">
-                        <FiMapPin />
-                        <span>{e.Address}</span>
-                      </div>
-                       <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2 text-blue-500">
-                        <FiPhoneCall />
-                        <span>{e.Telephone}</span>
-                      </div>
-                      </div>
-                      <Link
-                        href={{
-                          pathname: "/field-owner/harvester-profile",
-                          query: { username: e.userName },
-                        }}
-                        className="flex items-center gap-2 pl-2 pr-2 rounded-sm font-bold
-      bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                      >
-                        <FiEye />
-                        <span>view</span>
-                      </Link>
-                    </div>
-                  </div>
+  key={index}
+  className="shadow-lg rounded-xl bg-white w-full p-5 flex flex-col sm:flex-row gap-4 items-center sm:items-start"
+>
+  {/* Avatar */}
+  <Image
+    width={80}
+    height={80}
+    src={`data:image/jpeg;base64,${e.userImage}`}
+    alt="User profile"
+    className="rounded-full h-20 w-20 object-cover"
+  />
+
+  {/* Info */}
+  <div className="flex flex-col gap-2 w-full">
+    <h1 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
+      {e.userFirstName} {e.userLastName}
+    </h1>
+
+    {/* Contact details */}
+    <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-center sm:items-start text-sm">
+      <div className="flex items-center gap-2 text-red-500">
+        <FiMapPin />
+        <span>{e.Address}</span>
+      </div>
+
+      <BsDot className="text-gray-400 hidden sm:inline" />
+
+      <div className="flex items-center gap-2 text-blue-500">
+        <FiPhoneCall />
+        <span>{e.Telephone}</span>
+      </div>
+    </div>
+
+    {/* Action */}
+    <Link
+      href={{
+        pathname: "/field-owner/harvester-profile",
+        query: { username: e.userName },
+      }}
+      className="mt-2 flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+      bg-gradient-to-r from-green-400 to-green-700 text-white sm:w-fit w-full items-center justify-center
+      hover:from-green-500 hover:to-green-800 transition"
+    >
+      <FiEye />
+      View Profile
+    </Link>
+  </div>
+</div>
+
                 );
               })}
           </div>

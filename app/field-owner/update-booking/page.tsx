@@ -65,7 +65,7 @@ const UpdateBooking = () => {
       //   },
       // );
 
-      // setBooking(result.data.dataBundle);
+      console.log(result.data.dataBundle.count);
       setUpdateTittle(result.data.dataBundle.title);
       setUpdateDescription(result.data.dataBundle.description);
       const formattedDate = result.data.dataBundle.duedate.split("T")[0];
@@ -76,7 +76,7 @@ const UpdateBooking = () => {
       setUpdateLongitude(result.data.dataBundle.longitude);
       setUpdatePricePerTree(result.data.dataBundle.pricePerTree);
       setUpdateTreeCount(result.data.dataBundle.treeCount);
-      setUpdateWorkerCount(result.data.dataBundle.Count);
+      setUpdateWorkerCount(result.data.dataBundle.count);
       setJobType(result.data.dataBundle.jobType);
     } catch (error) {
     } finally {
@@ -333,6 +333,7 @@ const UpdateBooking = () => {
                 <input
                   type="number"
                   min={0}
+                  value={updateWorkerCount}
                   className="w-full focus:outline-none border-none"
                   onChange={(e) => setUpdateWorkerCount(e.target.value)}
                 />

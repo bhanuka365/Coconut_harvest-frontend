@@ -151,6 +151,7 @@ const Home = () => {
     if (!result) return;
 
     const token = localStorage.getItem("jwtToken");
+    const userName = localStorage.getItem("userName");
     if (!token) {
       toast.error("Authentication required");
       return;
@@ -160,6 +161,7 @@ const Home = () => {
       const jsonData = {
         bookingId: Number(id),
         status: "PROGRESS",
+        harvesterName: userName,
         rate: false,
       };
 
@@ -504,14 +506,23 @@ const Home = () => {
               .map((e, index) => {
                 return (
                   <div
-                    className="shadow-lg rounded-xl bg-white w-full flex flex-col gap-2 p-5 "
                     key={index}
+                    className="shadow-lg rounded-xl bg-white w-full p-5 flex flex-col gap-4"
                   >
-                    <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                      {e.title}
-                    </h1>
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                      <h1 className="font-bold text-xl">{e.title}</h1>
+
+                      <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-bold w-fit">
+                        {e.status}
+                      </span>
+                    </div>
+
+                    {/* Description */}
                     <p className="text-gray-600">{e.description}</p>
-                    <div className="flex flex-row flex-wrap gap-2 items-center">
+
+                    {/* Details */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
                       <div className="flex items-center gap-2">
                         <FiUser className="text-blue-600" />
                         <span className="font-medium text-blue-600">
@@ -521,7 +532,7 @@ const Home = () => {
                           {e.user.userFirstName} {e.user.userLastName}
                         </span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+
                       <div className="flex items-center gap-2">
                         <FiMapPin className="text-red-500" />
                         <span className="font-medium text-red-500">
@@ -529,7 +540,7 @@ const Home = () => {
                         </span>
                         <span>{e.address}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+
                       <div className="flex items-center gap-2">
                         <FiCalendar className="text-purple-600" />
                         <span className="font-medium text-purple-600">
@@ -537,100 +548,81 @@ const Home = () => {
                         </span>
                         <span>{e.duedate.split("T")[0]}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+
                       <div className="flex items-center gap-2">
-                        <FiMaximize2 className="text-red-600" />
-                        <span className="font-medium text-red-600">
-                          Field size (in acres)
+                        <FiMaximize2 className="text-orange-600" />
+                        <span className="font-medium text-orange-600">
+                          Land Size:
                         </span>
-                        <span>{e.landSize}</span>
+                        <span>{e.landSize} acres</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      {e.jobType !== "Direct" ? (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <FiUser className="text-blue-700" />
-                            <span className="font-medium text-blue-700">
-                              Worker Count:
-                            </span>
-                            <span>{e.count}</span>
-                          </div>
-                          <BsDot className="text-gray-400 hidden sm:inline" />
-                        </>
-                      ) : (
-                        ""
+
+                      {e.jobType !== "Direct" && (
+                        <div className="flex items-center gap-2">
+                          <FiUser className="text-blue-700" />
+                          <span className="font-medium text-blue-700">
+                            Workers:
+                          </span>
+                          <span>{e.Count}</span>
+                        </div>
                       )}
 
                       <div className="flex items-center gap-2">
                         <GiTreeBranch className="text-green-700" />
                         <span className="font-medium text-green-700">
-                          Tree Count:
+                          Trees:
                         </span>
                         <span>{e.treeCount}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+                    </div>
+
+                    {/* Pricing */}
+                    <div className="bg-gray-50 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <FiDollarSign className="text-yellow-600" />
-                        <span className="font-medium text-yellow-600">
-                          Per Tree:
-                        </span>
+                        <span className="font-medium">Per Tree:</span>
                         <span>LKR {setFormatAmout(e.pricePerTree)}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2 font-bold">
-                        <FiDollarSign className="text-green-600" />
-                        <span className="text-green-600">Total Price:</span>
+
+                      <div className="flex items-center gap-2 font-bold text-green-700">
+                        <FiDollarSign />
+                        <span>Total:</span>
                         <span>LKR {setFormatAmout(e.totalAmount)}</span>
                       </div>
                     </div>
-                    <div className="flex flex-row gap-2">
+
+                    {/* Actions */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                       {e.jobType === "Direct" ? (
-                        <div className="flex flex-row gap-2">
-                          <div
-                            onClick={() => {
-                              handleConfrimJob(e.bookingId);
-                            }}
-                            className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            onClick={() => handleConfrimJob(e.bookingId)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+          bg-gradient-to-r from-blue-400 to-blue-700 text-white"
                           >
                             <FiCheck />
-                            <span>
-                              {confirmBtnloading ? "Condirming" : "Confirm"}
-                            </span>
-                          </div>
-                          <div
-                            onClick={() => {
-                              handleCancelJob(e.bookingId);
-                            }}
-                            className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-red-400 to-red-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-red-500 hover:to-red-800"
+                            {confirmBtnloading ? "Confirming..." : "Confirm"}
+                          </button>
+
+                          <button
+                            onClick={() => handleCancelJob(e.bookingId)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+          bg-gradient-to-r from-red-400 to-red-700 text-white"
                           >
                             <FiX />
-                            <span>
-                              {cancelBtnloading ? "Canceling" : "Cancel"}
-                            </span>
-                          </div>
+                            {cancelBtnloading ? "Canceling..." : "Cancel"}
+                          </button>
                         </div>
                       ) : (
-                        <div
-                          onClick={async () => {
-                            handleAcceptJob(e.bookingId);
-                          }}
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
+                        <button
+                          onClick={() => handleAcceptJob(e.bookingId)}
+                          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+        bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit"
                         >
                           <MdWork />
-                          <span>
-                            {acceptBtnloading ? "accepting..." : "Accept Job"}
-                          </span>
-                        </div>
+                          {acceptBtnloading ? "Accepting..." : "Accept Job"}
+                        </button>
                       )}
-                      <label className="text-yellow-600 bg-yellow-100 p-2 rounded-lg font-bold">
-                        {e.status}
-                      </label>
                     </div>
                   </div>
                 );

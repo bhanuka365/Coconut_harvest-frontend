@@ -5,7 +5,6 @@ import { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { FiEye, FiEyeOff, FiLock, FiLogIn, FiUser } from "react-icons/fi";
 import Image from "next/image";
-import axios from "axios";
 import { validateName } from "@/utils/validation";
 import { toast, ToastContainer } from "react-toastify";
 import { userLogin } from "@/api/user";

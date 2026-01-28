@@ -263,7 +263,7 @@ const Booking = () => {
             <FiMaximize2 />
             <input
               type="number"
-              min={0}
+              min={1}
               className="w-full focus:outline-none border-none"
               onChange={(e) => setLandSize(e.target.value)}
             />
@@ -283,7 +283,7 @@ const Booking = () => {
             <FiHash />
             <input
               type="number"
-              min={0}
+              min={1}
               className="w-full focus:outline-none border-none"
               onChange={(e) => setTreeCount(e.target.value)}
             />
@@ -302,7 +302,7 @@ const Booking = () => {
               <FiHash />
               <input
                 type="number"
-                min={0}
+                min={1}
                 className="w-full focus:outline-none border-none"
                 onChange={(e) => setWorkerCount(e.target.value)}
               />
@@ -321,7 +321,7 @@ const Booking = () => {
             <FiDollarSign />
             <input
               type="number"
-              min={0}
+              min={1}
               className="w-full focus:outline-none border-none"
               onChange={(e) => setPricePerTree(e.target.value)}
             />

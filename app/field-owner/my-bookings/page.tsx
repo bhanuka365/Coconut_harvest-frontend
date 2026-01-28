@@ -86,6 +86,7 @@ const MyBooking = () => {
       // );
 
       setBookings(result1.data.dataBundle);
+      console.log(result1.data.dataBundle)
     } catch (error) {
     } finally {
       setLoadingPage(false);
@@ -185,9 +186,7 @@ const MyBooking = () => {
   };
 
   return (
-    // <div className="flex flex-col min-h-screen h-dvh bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
     <div className="flex min-h-screen bg-white font-sans text-green-900 text-sm md:flex-row flex-col">
-      {/* <div className="bg-green-400 md:w-15 w-full text-white flex md:flex-col flex-row md:justify-start justify-evenly  items-center p-2 gap-2"> */}
       <div
         className="bg-green-400 w-full md:w-15 text-white flex md:flex-col flex-row md:justify-start justify-evenly items-center p-2 gap-2
             md:fixed md:left-0 md:top-0 md:bottom-0"
@@ -222,7 +221,6 @@ const MyBooking = () => {
           </span>
         </div>
       </div>
-      {/* <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5"> */}
       <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className=" bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
@@ -372,183 +370,160 @@ const MyBooking = () => {
               .map((e, index) => {
                 return (
                   <div
-                    className={`rounded-xl shadow-lg ${
-                      e.status === "PROGRESS"
-                        ? "bg-yellow-200"
-                        : e.status === "COMPLETED"
-                          ? "bg-green-200"
-                          : e.status === "CANCELLED"
-                            ? "bg-red-200"
-                            : "bg-gray-200"
-                    } w-full flex flex-col gap-2 p-5`}
-                    key={index}
-                  >
-                    <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                      {e.title}
-                    </h1>
-                    <p className="text-gray-600">{e.description}</p>
-                    <div className="flex flex-row flex-wrap gap-2 items-center">
-                      {e.status !== "PENDING" && e.jobType !== "Job_Post" ? (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <FiUser className="text-blue-600" />
-                            <span className="font-medium text-blue-600">
-                              Harvester:
-                            </span>
-                            <span>{e.harvesterName}</span>
-                          </div>
-                          <BsDot className="text-gray-400 hidden sm:inline" />
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      <div className="flex items-center gap-2">
-                        <FiMapPin className="text-red-500" />
-                        <span className="font-medium text-red-500">
-                          Field Location:
-                        </span>
-                        <span>{e.address}</span>
-                      </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2">
-                        <FiCalendar className="text-purple-600" />
-                        <span className="font-medium text-purple-600">
-                          Date:
-                        </span>
-                        <span>{e.duedate.split("T")[0]}</span>
-                      </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2">
-                        <FiMaximize2 className="text-red-600" />
-                        <span className="font-medium text-red-600">
-                          Field size (in acres)
-                        </span>
-                        <span>{e.landSize}</span>
-                      </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      {e.jobType !== "Direct" ? (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <FiUser className="text-blue-700" />
-                            <span className="font-medium text-blue-700">
-                              Worker Count:
-                            </span>
-                            <span>{e.count}</span>
-                          </div>
-                          <BsDot className="text-gray-400 hidden sm:inline" />
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      <div className="flex items-center gap-2">
-                        <GiTreeBranch className="text-green-700" />
-                        <span className="font-medium text-green-700">
-                          Tree Count:
-                        </span>
-                        <span>{e.treeCount}</span>
-                      </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2">
-                        <FiDollarSign className="text-yellow-600" />
-                        <span className="font-medium text-yellow-600">
-                          Per Tree:
-                        </span>
-                        <span>LKR {setFormatAmout(e.pricePerTree)}</span>
-                      </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2 font-bold">
-                        <FiDollarSign className="text-green-600" />
-                        <span className="text-green-600">Total Price:</span>
-                        <span>LKR {setFormatAmout(e.totalAmount)}</span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row justify-between gap-2">
-                      <div className="flex flex-row gap-2 items-center">
-                        {e.rate === false && e.status === "COMPLETED" ? (
-                          <Link
-                            href={{
-                              pathname: "/field-owner/add-review",
-                              query: { bookingid: e.bookingId },
-                            }}
-                            className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
-                          >
-                            <FiAward />
-                            <span>Rate</span>
-                          </Link>
-                        ) : (
-                          <div
-                            className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-gray-300 to-gray-400 text-white w-fit cursor-not-allowed"
-                          >
-                            <FiAward />
-                            <span>
-                              {e.rate === true && e.status === "COMPLETED"
-                                ? "Rated"
-                                : "Rate"}
-                            </span>
-                          </div>
-                        )}
-                        {e.status === "PENDING" || e.status === "PROGRESS" ? (
-                          <div
-                            onClick={() => {
-                              handleCancelJob(e.bookingId);
-                            }}
-                            className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-red-400 to-red-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-red-500 hover:to-red-800"
-                          >
-                            <FiX />
-                            <span>
-                              {cancelBtnloading && e.bookingId == cancelBtnId
-                                ? "canceling..."
-                                : "cancel"}
-                            </span>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                        <label
-                          className={`${
-                            e.status === "PROGRESS"
-                              ? "bg-yellow-100 text-yellow-600"
-                              : e.status === "COMPLETED"
-                                ? "text-green-600 bg-green-100"
-                                : e.status === "CANCELLED"
-                                  ? "text-red-600 bg-red-100"
-                                  : "text-gray-600 bg-gray-100"
-                          } p-2 rounded-lg font-bold`}
-                        >
-                          {e.status}
-                        </label>
-                      </div>
-                      <div className="flex flex-row gap-2 items-center cursor-pointer">
-                        <CiTrash
-                          className="text-white bg-red-500 p-1 rounded-sm"
-                          size={25}
-                          onClick={async () => {
-                            handleDeleteJob(e.bookingId);
-                          }}
-                        />
-                        {e.status === "PENDING" ? (
-                          <Link
-                            href={{
-                              pathname: "/field-owner/update-booking",
-                              query: { bookingid: e.bookingId },
-                            }}
-                          >
-                            <CiEdit
-                              className="text-white bg-green-500 p-1 rounded-sm"
-                              size={25}
-                            />
-                          </Link>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </div>
-                  </div>
+  key={index}
+  className={`rounded-xl shadow-lg p-5 flex flex-col gap-4 w-full
+    ${
+      e.status === "PROGRESS"
+        ? "bg-yellow-200"
+        : e.status === "COMPLETED"
+        ? "bg-green-200"
+        : e.status === "CANCELLED"
+        ? "bg-red-200"
+        : "bg-gray-200"
+    }`}
+>
+  {/* Header */}
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+    <h1 className="font-bold text-xl">{e.title}</h1>
+
+    <span
+      className={`px-3 py-1 rounded-full text-sm font-bold w-fit
+        ${
+          e.status === "PROGRESS"
+            ? "bg-yellow-100 text-yellow-700"
+            : e.status === "COMPLETED"
+            ? "bg-green-100 text-green-700"
+            : e.status === "CANCELLED"
+            ? "bg-red-100 text-red-700"
+            : "bg-gray-100 text-gray-700"
+        }`}
+    >
+      {e.status}
+    </span>
+  </div>
+
+  {/* Description */}
+  <p className="text-gray-700">{e.description}</p>
+
+  {/* Details */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+    {e.harvesterName && (
+      <div className="flex items-center gap-2">
+        <FiUser className="text-blue-600" />
+        <span className="font-medium text-blue-600">Harvester:</span>
+        <span>{e.harvesterName}</span>
+      </div>
+    )}
+
+    <div className="flex items-center gap-2">
+      <FiMapPin className="text-red-500" />
+      <span className="font-medium text-red-500">Location:</span>
+      <span>{e.address}</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <FiCalendar className="text-purple-600" />
+      <span className="font-medium text-purple-600">Date:</span>
+      <span>{e.duedate.split("T")[0]}</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <FiMaximize2 className="text-orange-600" />
+      <span className="font-medium text-orange-600">Land Size:</span>
+      <span>{e.landSize} acres</span>
+    </div>
+
+    {e.Count && (
+      <div className="flex items-center gap-2">
+        <FiUser className="text-blue-700" />
+        <span className="font-medium text-blue-700">Workers:</span>
+        <span>{e.Count}</span>
+      </div>
+    )}
+
+    <div className="flex items-center gap-2">
+      <GiTreeBranch className="text-green-700" />
+      <span className="font-medium text-green-700">Trees:</span>
+      <span>{e.treeCount}</span>
+    </div>
+  </div>
+
+  {/* Pricing */}
+  <div className="bg-white/60 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
+    <div className="flex items-center gap-2">
+      <FiDollarSign className="text-yellow-600" />
+      <span className="font-medium">Per Tree:</span>
+      <span>LKR {setFormatAmout(e.pricePerTree)}</span>
+    </div>
+
+    <div className="flex items-center gap-2 font-bold text-green-700">
+      <FiDollarSign />
+      <span>Total:</span>
+      <span>LKR {setFormatAmout(e.totalAmount)}</span>
+    </div>
+  </div>
+
+  {/* Actions */}
+  <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+    <div className="flex flex-wrap gap-2">
+      {e.rate === false && e.status === "COMPLETED" ? (
+        <Link
+          href={{
+            pathname: "/field-owner/add-review",
+            query: { bookingid: e.bookingId },
+          }}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+          bg-gradient-to-r from-blue-400 to-blue-700 text-white"
+        >
+          <FiAward /> Rate
+        </Link>
+      ) : (
+        <div className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+          bg-gray-400 text-white cursor-not-allowed">
+          <FiAward />
+          {e.rate ? "Rated" : "Rate"}
+        </div>
+      )}
+
+      {(e.status === "PENDING" || e.status === "PROGRESS") && (
+        <button
+          onClick={() => handleCancelJob(e.bookingId)}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+          bg-gradient-to-r from-red-400 to-red-700 text-white"
+        >
+          <FiX />
+          {cancelBtnloading && e.bookingId === cancelBtnId
+            ? "Canceling..."
+            : "Cancel"}
+        </button>
+      )}
+    </div>
+
+    {/* Icon actions */}
+    <div className="flex gap-2">
+      <CiTrash
+        size={26}
+        className="text-white bg-red-500 p-1 rounded cursor-pointer"
+        onClick={() => handleDeleteJob(e.bookingId)}
+      />
+
+      {e.status === "PENDING" && (
+        <Link
+          href={{
+            pathname: "/field-owner/update-booking",
+            query: { bookingid: e.bookingId },
+          }}
+        >
+          <CiEdit
+            size={26}
+            className="text-white bg-green-500 p-1 rounded"
+          />
+        </Link>
+      )}
+    </div>
+  </div>
+</div>
+
                 );
               })}
           </div>

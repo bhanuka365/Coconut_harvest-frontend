@@ -66,7 +66,9 @@ const MyTasks = () => {
       //   },
       // );
 
-      setBookings(result.data.dataBundle);
+      setBookings(result.data.dataBundle.filter((e: any) => {
+          return e.status === "COMPLETED" ||e.status === "PROGRESS" ;
+        }));
 
       const result1 = await getUserByUserName(userName, token);
 
@@ -281,16 +283,31 @@ const MyTasks = () => {
               .map((e, index) => {
                 return (
                   <div
-                    className={`rounded-xl shadow-lg ${
-                      e.status === "PROGRESS" ? "bg-blue-200" : "bg-green-200"
-                    } w-full flex flex-col gap-2 p-5`}
                     key={index}
+                    className={`rounded-xl shadow-lg p-5 w-full flex flex-col gap-4
+    ${e.status === "PROGRESS" ? "bg-yellow-200" : "bg-green-200"}`}
                   >
-                    <h1 className="text-lg font-bold flex items-center gap-2 text-2xl">
-                      {e.title}
-                    </h1>
-                    <p className="text-gray-600">{e.description}</p>
-                    <div className="flex flex-row flex-wrap gap-2 items-center">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                      <h1 className="font-bold text-xl">{e.title}</h1>
+
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-bold w-fit
+        ${
+          e.status === "PROGRESS"
+            ? "bg-yellow-100 text-yellow-700"
+            : "bg-green-100 text-green-700"
+        }`}
+                      >
+                        {e.status}
+                      </span>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-gray-700">{e.description}</p>
+
+                    {/* Details */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
                       <div className="flex items-center gap-2">
                         <FiUser className="text-blue-600" />
                         <span className="font-medium text-blue-600">
@@ -300,7 +317,7 @@ const MyTasks = () => {
                           {e.user.userFirstName} {e.user.userLastName}
                         </span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+
                       <div className="flex items-center gap-2">
                         <FiMapPin className="text-red-500" />
                         <span className="font-medium text-red-500">
@@ -308,7 +325,7 @@ const MyTasks = () => {
                         </span>
                         <span>{e.address}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+
                       <div className="flex items-center gap-2">
                         <FiCalendar className="text-purple-600" />
                         <span className="font-medium text-purple-600">
@@ -316,86 +333,71 @@ const MyTasks = () => {
                         </span>
                         <span>{e.duedate.split("T")[0]}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+
                       <div className="flex items-center gap-2">
-                        <FiMaximize2 className="text-red-600" />
-                        <span className="font-medium text-red-600">
-                          Field size (in acres)
+                        <FiMaximize2 className="text-orange-600" />
+                        <span className="font-medium text-orange-600">
+                          Land Size:
                         </span>
-                        <span>{e.landSize}</span>
+                        <span>{e.landSize} acres</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      {e.jobType !== "Direct" ? (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <FiUser className="text-blue-700" />
-                            <span className="font-medium text-blue-700">
-                              Worker Count:
-                            </span>
-                            <span>{e.count}</span>
-                          </div>
-                          <BsDot className="text-gray-400 hidden sm:inline" />
-                        </>
-                      ) : (
-                        ""
+
+                      {e.jobType !== "Direct" && (
+                        <div className="flex items-center gap-2">
+                          <FiUser className="text-blue-700" />
+                          <span className="font-medium text-blue-700">
+                            Workers:
+                          </span>
+                          <span>{e.Count}</span>
+                        </div>
                       )}
+
                       <div className="flex items-center gap-2">
                         <GiTreeBranch className="text-green-700" />
                         <span className="font-medium text-green-700">
-                          Tree Count:
+                          Trees:
                         </span>
                         <span>{e.treeCount}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
+                    </div>
+
+                    {/* Pricing */}
+                    <div className="bg-white/60 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <FiDollarSign className="text-yellow-600" />
-                        <span className="font-medium text-yellow-600">
-                          Per Tree:
-                        </span>
+                        <span className="font-medium">Per Tree:</span>
                         <span>Rs. {setFormatAmout(e.pricePerTree)}</span>
                       </div>
-                      <BsDot className="text-gray-400 hidden sm:inline" />
-                      <div className="flex items-center gap-2 font-bold">
-                        <FiDollarSign className="text-green-600" />
-                        <span className="text-green-600">Total Price:</span>
+
+                      <div className="flex items-center gap-2 font-bold text-green-700">
+                        <FiDollarSign />
+                        <span>Total:</span>
                         <span>Rs. {setFormatAmout(e.totalAmount)}</span>
                       </div>
                     </div>
-                    <div className="flex flex-row gap-2">
+
+                    {/* Actions */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                       {e.status === "PROGRESS" ? (
-                        <div
-                          onClick={() => {
-                            handleComplete(e.bookingId);
-                          }}
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit
-      cursor-pointer transition duration-300 hover:from-blue-500 hover:to-blue-800"
+                        <button
+                          onClick={() => handleComplete(e.bookingId)}
+                          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+        bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit"
                         >
                           <FiCheck />
-                          <span>
-                            {completeBtnLoading
-                              ? "Completing..."
-                              : "Mark as Complete"}
-                          </span>
-                        </div>
+                          {completeBtnLoading
+                            ? "Completing..."
+                            : "Mark as Complete"}
+                        </button>
                       ) : (
                         <div
-                          className="flex items-center gap-2 p-2 rounded-lg font-bold
-      bg-gradient-to-r from-gray-300 to-gray-400 text-white w-fit cursor-not-allowed"
+                          className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
+        bg-gray-400 text-white cursor-not-allowed w-fit"
                         >
                           <FiAward />
-                          <span>Done</span>
+                          Done
                         </div>
                       )}
-                      <label
-                        className={`${
-                          e.status === "PROGRESS"
-                            ? "text-blue-600 bg-blue-100"
-                            : "text-green-600 bg-green-100"
-                        } p-2 rounded-lg font-bold`}
-                      >
-                        {e.status}
-                      </label>
                     </div>
                   </div>
                 );
