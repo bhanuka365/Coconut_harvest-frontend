@@ -342,7 +342,7 @@ const MyBooking = () => {
             : "bg-gray-200"
     }`}
                   >
-                    {/* Header */}
+ 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <h1 className="font-bold text-xl">{e.title}</h1>
 
@@ -362,10 +362,8 @@ const MyBooking = () => {
                       </span>
                     </div>
 
-                    {/* Description */}
                     <p className="text-gray-700">{e.description}</p>
 
-                    {/* Details */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
                       {e.harvesterName && (
                         <div className="flex items-center gap-2">
@@ -420,7 +418,6 @@ const MyBooking = () => {
                       </div>
                     </div>
 
-                    {/* Pricing */}
                     <div className="bg-white/60 rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <FiDollarSign className="text-yellow-600" />
@@ -435,7 +432,6 @@ const MyBooking = () => {
                       </div>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
                       <div className="flex flex-wrap gap-2">
                         {e.rate === false && e.status === "COMPLETED" ? (
@@ -474,7 +470,6 @@ const MyBooking = () => {
                         )}
                       </div>
 
-                      {/* Icon actions */}
                       <div className="flex gap-2">
                         <CiTrash
                           size={26}
