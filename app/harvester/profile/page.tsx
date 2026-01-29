@@ -13,7 +13,7 @@ import { BsFillStarFill } from "react-icons/bs";
 import reviewsjson from "@/json/reviews.json";
 import userjson from "@/json/user.json";
 import { getUserByUserName, updateUserByUserName } from "@/api/user";
-import { getReviewsByUserName } from "@/api/review";
+import { getReviewsByHarvesterName } from "@/api/review";
 
 const Profile = () => {
   const [user, setUser] = useState(userjson);
@@ -57,7 +57,7 @@ const Profile = () => {
       setUpdateUserDescription(result.data.dataBundle.Description);
       setUpdateUserPhoneNumber(result.data.dataBundle.Telephone);
 
-      const result1 = await getReviewsByUserName(username, token);
+      const result1 = await getReviewsByHarvesterName(username, token);
 
       const fetchedReviews = result1.data.dataBundle;
       console.log(result1.data.dataBundle);
@@ -266,7 +266,7 @@ const Profile = () => {
             <FaEdit />
             {loading ? "editing..." : "edit"}
           </button>
-          <div className="flex flex-col gap-5 items-center w-full">
+          <div className="flex flex-col gap-5 w-full">
             <h1 className="font-bold text-2xl text-left w-full">
               Rating and Reviews
             </h1>
