@@ -73,7 +73,6 @@ const MyBooking = () => {
       const result1 = await getAllMyBookingsForFieldOwner(token);
 
       setBookings(result1.data.dataBundle);
-      console.log(result1.data.dataBundle);
     } catch (error) {
     } finally {
       setLoadingPage(false);

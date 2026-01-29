@@ -5,7 +5,6 @@ import {
   FiCalendar,
   FiCheck,
   FiCheckCircle,
-  FiChevronRight,
   FiClipboard,
   FiDollarSign,
   FiHome,
@@ -29,7 +28,6 @@ import {
   NameSkeleton,
 } from "@/components/Components";
 import userjson from "@/json/user.json";
-import axios from "axios";
 import bookingJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 import { setFormatAmout } from "@/utils/formatters";
@@ -40,7 +38,6 @@ import {
   updateBookingById,
 } from "@/api/booking";
 import { getUserByUserName } from "@/api/user";
-import { BsDot } from "react-icons/bs";
 
 const Home = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -54,6 +51,9 @@ const Home = () => {
   const [progressJobCounts, setProgressJobCounts] = useState("");
   const [completeJobCounts, setCompleteJobCounts] = useState("");
   const [allTotalAmount, setAllTotalAmount] = useState("");
+  const [cancelBtnId, setCancelBtnId] = useState("");
+  const [confirmBtnId, setConfirmBtnId] = useState("");
+  const [acceptBtnId, setAcceptBtnId] = useState("");
 
   const [userLocation, setUserLocation] = useState<{
     lat: number;
@@ -117,6 +117,7 @@ const Home = () => {
   };
 
   const handleAcceptJob = async (id: number | string) => {
+    setAcceptBtnId(id.toString());
     setAcceptBtnLoading(true);
     const result = await Dialog(
       "Confirm Accept Job",
@@ -161,6 +162,7 @@ const Home = () => {
   };
 
   const handleConfrimJob = async (id: number | string) => {
+  setConfirmBtnId(id.toString());
     setConfirmBtnLoading(true);
 
     const token = localStorage.getItem("jwtToken");
@@ -196,6 +198,7 @@ const Home = () => {
   };
 
   const handleCancelJob = async (id: number | string) => {
+  setCancelBtnId(id.toString());
     setCancelBtnLoading(true);
 
     const token = localStorage.getItem("jwtToken");
@@ -421,12 +424,6 @@ const Home = () => {
 
                 if (!nearbyOnly || !userLocation) return matchesText;
 
-                // onst distance = getDistanceInKm(
-                console.log(userLocation.lat);
-                console.log(userLocation.lng);
-                console.log(Number(e.latitude));
-                console.log(Number(e.longitude));
-
                 // Nearby filter (within 10km)
                 const distance = getDistanceInKm(
                   userLocation.lat,
@@ -530,7 +527,7 @@ const Home = () => {
           bg-gradient-to-r from-blue-400 to-blue-700 text-white"
                           >
                             <FiCheck />
-                            {confirmBtnloading ? "Confirming..." : "Confirm"}
+                            {confirmBtnloading && e.bookingId === confirmBtnId ? "Confirming..." : "Confirm"}
                           </button>
 
                           <button
@@ -539,7 +536,7 @@ const Home = () => {
           bg-gradient-to-r from-red-400 to-red-700 text-white"
                           >
                             <FiX />
-                            {cancelBtnloading ? "Canceling..." : "Cancel"}
+                            {cancelBtnloading && e.bookingId === cancelBtnId ? "Canceling..." : "Cancel"}
                           </button>
                         </div>
                       ) : (
@@ -549,7 +546,7 @@ const Home = () => {
         bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit"
                         >
                           <MdWork />
-                          {acceptBtnloading ? "Accepting..." : "Accept Job"}
+                          {acceptBtnloading && e.bookingId === acceptBtnId ? "Accepting..." : "Accept Job"}
                         </button>
                       )}
                     </div>

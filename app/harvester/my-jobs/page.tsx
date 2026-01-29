@@ -23,7 +23,6 @@ import {
   EmptyState,
 } from "@/components/Components";
 import userjson from "@/json/user.json";
-import axios from "axios";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
 import { setFormatAmout } from "@/utils/formatters";
@@ -44,6 +43,7 @@ const MyTasks = () => {
   const [bookings, setBookings] = useState(bookingsJson);
   const [loadingPage, setLoadingPage] = useState(true);
   const [completeBtnLoading, setCompleteBtnLoading] = useState(false);
+  const [completeBtnId, setCompleteBtnId] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -77,6 +77,7 @@ const MyTasks = () => {
   };
 
   const handleComplete = async (id: number | string) => {
+    setCompleteBtnId(id.toString());
     setCompleteBtnLoading(true);
 
     const token = localStorage.getItem("jwtToken");
@@ -146,7 +147,6 @@ const MyTasks = () => {
           </span>
         </div>
       </div>
-      {/* <div className="bg-green-100 w-full flex flex-col pt-5 pl-5 pr-5 gap-5"> */}
       <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className=" bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
@@ -353,7 +353,7 @@ const MyTasks = () => {
         bg-gradient-to-r from-blue-400 to-blue-700 text-white w-fit"
                         >
                           <FiCheck />
-                          {completeBtnLoading
+                          {completeBtnLoading && e.bookingId === completeBtnId
                             ? "Completing..."
                             : "Mark as Complete"}
                         </button>
