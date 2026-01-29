@@ -442,7 +442,7 @@ const MyBooking = () => {
                           <Link
                             href={{
                               pathname: "/field-owner/add-review",
-                              query: { bookingid: e.bookingId },
+                              query: { bookingid: e.bookingId,harvesterName:e.harvesterName },
                             }}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg font-bold
           bg-gradient-to-r from-blue-400 to-blue-700 text-white"
@@ -485,7 +485,7 @@ const MyBooking = () => {
                           <Link
                             href={{
                               pathname: "/field-owner/update-booking",
-                              query: { bookingid: e.bookingId },
+                              query: { bookingid: e.bookingId},
                             }}
                           >
                             <CiEdit

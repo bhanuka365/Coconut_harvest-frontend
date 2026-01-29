@@ -11,7 +11,7 @@ import { EmptyState, WorkerProfile } from "@/components/Components";
 import userjson from "@/json/user.json";
 import reviewsjson from "@/json/reviews.json";
 import { getUserByUserName } from "@/api/user";
-import { getReviewsByUserName } from "@/api/review";
+import { getReviewsByHarvesterName} from "@/api/review";
 
 const HarvesterProfile = () => {
   const [user, setUser] = useState(userjson);
@@ -38,7 +38,7 @@ const HarvesterProfile = () => {
 
       setUser(result.data.dataBundle);
 
-      const result1 = await getReviewsByUserName(username, token);
+      const result1 = await getReviewsByHarvesterName(username, token);
 
       const fetchedReviews = result1.data.dataBundle;
       setReviews(fetchedReviews);

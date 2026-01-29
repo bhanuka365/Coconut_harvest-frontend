@@ -35,7 +35,7 @@ export const addBooking = async (jsonData: any, token: any) => {
   });
 };
 
-export const getBookingById = async (token: any,id:any) => {
+export const getBookingById = async (token: any, id: any) => {
   const result = await axios.get(`${API_BASE_URL}/bookings/${Number(id)}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -55,12 +55,26 @@ export const getAllPendingBookingsForHarvester = async (token: any) => {
   return result;
 };
 
-export const getAllBookingsByHarvesterName = async (token: any,userName:any) => {
-  const result = await axios.get(`${API_BASE_URL}/bookings/harvester/${userName}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export const getAllBookingsByHarvesterName = async (
+  token: any,
+  userName: any,
+) => {
+  const result = await axios.get(
+    `${API_BASE_URL}/bookings/harvester/${userName}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
+
+  return result;
+};
+
+export const getAllCompleteBookingCountForDashboard = async () => {
+  const result = await axios.get(
+    `${API_BASE_URL}/dashboard/bookings/completed/count`,
+  );
 
   return result;
 };

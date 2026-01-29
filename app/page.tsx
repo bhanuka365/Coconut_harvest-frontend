@@ -20,6 +20,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Counter } from "@/components/Components";
+import { getAllCompleteBookingCountForDashboard } from "@/api/booking";
+import { getAllUserCountForDashboard } from "@/api/user";
+import { itemCopy } from "@/utils/others";
 
 // JOB TYPE - DIRECT/ JOB_POST
 // STATUS - PENDING/ PROGRESS/ CANCELLED/ COMPLETED
@@ -40,20 +43,14 @@ export default function Home() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const token = localStorage.getItem("jwtToken");
-        // const result = await axios.get(
-        //   `http://localhost:8085/api/v1/bookings/my`,
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   },
-        // );
-        // setStats({
-        //   owners: result.data.dataBundle.length,
-        //   workers: result.data.dataBundle.length,
-        //   tasks: result.data.dataBundle.length,
-        // });
+        const result = await getAllCompleteBookingCountForDashboard()
+
+        const result1 = await getAllUserCountForDashboard()
+        setStats({
+          owners: result1.data.dataBundle.fieldOwners,
+          workers: result1.data.dataBundle.harvesters,
+          tasks: result.data.dataBundle,
+        });
       } catch (error) {}
     };
     loadData();
@@ -79,12 +76,7 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const itemCopy = (val: any) => {
-    navigator.clipboard
-      .writeText(val)
-      .then(() => toast.success("Phone number copied"))
-      .catch(() => toast.error("Phone number copying failed"));
-  };
+  
 
   return (
     <div

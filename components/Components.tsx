@@ -285,5 +285,5 @@ export const Counter: React.FC<CounterProps> = ({ target, start }) => {
     return () => clearInterval(interval);
   }, [start, target]);
 
-  return <span>{count}+</span>;
+  return <span>{count}</span>;
 };

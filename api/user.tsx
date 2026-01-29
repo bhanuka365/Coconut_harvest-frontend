@@ -47,3 +47,9 @@ export const updateUserByUserName = async (jsonData: any, token: any) => {
     },
   });
 };
+
+export const getAllUserCountForDashboard = async () => {
+  const result = await axios.get(`${API_BASE_URL}/dashboard/user-counts`);
+
+  return result;
+};

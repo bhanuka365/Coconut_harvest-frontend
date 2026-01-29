@@ -20,6 +20,7 @@ const Booking = () => {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const bookingid = searchParams.get("bookingid");
+  const harvesterName = searchParams.get("harvesterName");
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -42,6 +43,7 @@ const Booking = () => {
           reviewMessage,
           reviewRate,
           bookingId: Number(bookingid),
+          harvesterName: harvesterName,
         };
 
         await addReview(jsonData, token);
