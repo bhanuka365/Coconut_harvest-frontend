@@ -137,7 +137,7 @@ const Booking = () => {
     setNavButtonLoading(false);
   };
   return (
-    <div className="w-full bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed font-sans text-green-900 text-sm">
+    <div className="w-full bg-[url('/coconut-still-life1.jpg')] bg-cover bg-center bg-fixed font-sans text-green-900 text-sm">
     <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-black/60 font-sans text-green-900 text-sm p-5">
       <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center text-white">
         <Image src="/logo2.png" alt="image" width={50} height={50} />

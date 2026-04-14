@@ -125,7 +125,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed font-sans text-green-900 text-sm">
+    <div className="bg-[url('/coconut-still-life4.jpg')] bg-cover bg-center bg-fixed font-sans text-green-900 text-sm">
       <div className="bg-black/60 flex min-h-screen gap-5 flex-col items-center justify-between p-5">
         <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center text-white">
           <Image src="/logo2.png" alt="image" width={50} height={50} />

@@ -309,7 +309,7 @@ const Home = () => {
           </span>
         </div>
       </div>
-      <div className="bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed w-full">
+      <div className="bg-[url('/coconut-still-life3.jpg')] bg-cover bg-center bg-fixed w-full">
         <div className="bg-black/60 w-full min-h-screen flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
           <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
             <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
