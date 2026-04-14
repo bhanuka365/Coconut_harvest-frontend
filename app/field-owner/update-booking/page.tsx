@@ -14,7 +14,6 @@ import {
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import { checkEmpty } from "@/utils/validation";
@@ -169,7 +168,7 @@ const UpdateBooking = () => {
   };
 
   return (
-    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
+    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-[url('/coconut-still-life.jpg')] bg-cover bg-center font-sans text-green-900 text-sm p-5">
       <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
         <Image src="/logo2.png" alt="image" width={50} height={50} />
         CocoHarvest

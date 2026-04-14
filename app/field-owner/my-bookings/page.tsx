@@ -24,7 +24,6 @@ import {
   Dialog,
   EmptyState,
 } from "@/components/Components";
-import axios from "axios";
 import userjson from "@/json/user.json";
 import bookingsJson from "@/json/bookings.json";
 import { toast, ToastContainer } from "react-toastify";
@@ -36,7 +35,6 @@ import {
   updateBookingById,
 } from "@/api/booking";
 import { setFormatAmout } from "@/utils/formatters";
-import { BsDot } from "react-icons/bs";
 
 const MyBooking = () => {
   const [searchTxt, setSearchTxt] = useState("");
@@ -185,7 +183,8 @@ const MyBooking = () => {
           </span>
         </div>
       </div>
-      <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
+      <div className="bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed w-full">
+      <div className="bg-black/60 flex min-h-screen w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className=" bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -213,7 +212,7 @@ const MyBooking = () => {
           </Link>
         </div>
 
-        <h1 className="text-2xl font-bold">My Booking</h1>
+        <h1 className="text-2xl font-bold text-white">My Booking</h1>
         <div className="flex md:flex-row flex-col gap-5">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white md:w-1/2 w-full">
             <FiSearch size={20} />
@@ -503,6 +502,7 @@ const MyBooking = () => {
               })}
           </div>
         )}
+        </div>
       </div>
       <ToastContainer />
     </div>

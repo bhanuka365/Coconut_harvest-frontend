@@ -137,12 +137,13 @@ const Booking = () => {
     setNavButtonLoading(false);
   };
   return (
-    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-gradient-to-br from-green-100 to-green-600 font-sans text-green-900 text-sm p-5">
-      <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center">
+    <div className="w-full bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed font-sans text-green-900 text-sm">
+    <div className="flex min-h-screen gap-5 flex-col items-center justify-between bg-black/60 font-sans text-green-900 text-sm p-5">
+      <div className="font-bold w-full text-2xl flex flex-row gap-2 justify-start items-center text-white">
         <Image src="/logo2.png" alt="image" width={50} height={50} />
         CocoHarvest
       </div>
-      <div className="flex flex-col justify-center items-center lg:w-2/3 w-full gap-5 bg-white/40 p-5 rounded-xl">
+      <div className="flex flex-col justify-center items-center lg:w-2/3 w-full gap-5 bg-white/60 p-5 rounded-xl">
         <h1 className="font-bold w-full text-left text-2xl flex items-center gap-2">
           <Link href="/field-owner/home" className="cursor-pointer">
             <BiArrowBack />
@@ -325,8 +326,9 @@ const Booking = () => {
         </button>
       </div>
 
-      <label className="w-full text-center">@2026 CocoHarvest Inc.</label>
+      <label className="w-full text-center text-white">@2026 CocoHarvest Inc.</label>
       <ToastContainer />
+      </div>
     </div>
   );
 };

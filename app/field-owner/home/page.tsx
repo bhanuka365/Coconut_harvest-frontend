@@ -108,7 +108,8 @@ const Home = () => {
           </span>
         </div>
       </div>
-      <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
+      <div className="bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed w-full">
+      <div className="bg-black/60  w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className="bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -138,7 +139,7 @@ const Home = () => {
             </span>
           </Link>
         </div>
-        <h1 className="text-6xl font-bold">
+        <h1 className="text-6xl font-bold text-white">
           Hi,{" "}
           {loadingPage ? (
             <NameSkeleton />
@@ -163,7 +164,7 @@ const Home = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold">Find Workers</h1>
+        <h1 className="text-2xl font-bold text-white">Find Workers</h1>
         <div className="flex sm:flex-row flex-col gap-2">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white sm:w-1/2 w-full">
             <FiSearch size={20} />
@@ -248,6 +249,7 @@ const Home = () => {
               })}
           </div>
         )}
+        </div>
       </div>
     </div>
   );

@@ -147,7 +147,8 @@ const MyTasks = () => {
           </span>
         </div>
       </div>
-      <div className="bg-green-100 w-full flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
+      <div className="bg-[url('/coconut-still-life.jpg')] bg-cover bg-center bg-fixed w-full">
+      <div className="bg-black/60 w-full min-h-screen flex flex-col pt-5 pr-5 pl-5 md:pl-20 gap-5 flex-1 overflow-y-auto">
         <div className=" bg-white p-2 rounded-full flex flex-row justify-between items-center">
           <div className="font-bold text-2xl flex flex-row gap-2 justify-start items-center">
             <Image src="/logo2.png" alt="image" width={50} height={50} />
@@ -174,7 +175,7 @@ const MyTasks = () => {
             </span>
           </Link>
         </div>
-        <h1 className="text-2xl font-bold">My tasks</h1>
+        <h1 className="text-2xl font-bold text-white">My tasks</h1>
         <div className="flex md:flex-row flex-col gap-2">
           <div className="flex flex-row gap-2 p-2 rounded-full bg-white md:w-1/2 w-full">
             <FiSearch size={20} />
@@ -372,6 +373,7 @@ const MyTasks = () => {
               })}
           </div>
         )}
+        </div>
       </div>
       <ToastContainer />
     </div>
